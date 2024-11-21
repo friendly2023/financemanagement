@@ -29,6 +29,7 @@ public class Task {
     private TaskStatus status;
 
     public Task() {
+        this.status = TaskStatus.ONGOING;
     }
 
     public Task(String title, String description, LocalDate dueDate, TaskStatus status) {
@@ -75,7 +76,6 @@ public class Task {
     public TaskStatus getStatus() {
         return status;
     }
-
     public void setStatus(TaskStatus status) {
         this.status = status;
     }
