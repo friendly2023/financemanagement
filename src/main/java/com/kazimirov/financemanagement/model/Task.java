@@ -28,7 +28,18 @@ public class Task {
     @Column(name = "status",nullable = false)
     private TaskStatus status;
 
+    @PrePersist
+    public void validate() {
+        if (title == null || title.trim().isEmpty()) {
+            throw new IllegalStateException("Отсутствует заголовок задачи");
+        }
+        if (dueDate == null) {
+            throw new IllegalStateException("Отсутствует дедлайн задачи");
+        }
+    }
+
     public Task() {
+        this.status = TaskStatus.ONGOING;
     }
 
     public Task(String title, String description, LocalDate dueDate, TaskStatus status) {
@@ -75,7 +86,6 @@ public class Task {
     public TaskStatus getStatus() {
         return status;
     }
-
     public void setStatus(TaskStatus status) {
         this.status = status;
     }
