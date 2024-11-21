@@ -84,7 +84,8 @@
         <tr>
             <th>Название</th>
             <th>Описание</th>
-            <th>Дата выполнения</th>
+            <th>Дата оформления заказа </th>
+            <th>Дата выполнения заказа</th>
             <th>Статус</th>
             <th>Действия</th>
         </tr>
@@ -93,6 +94,7 @@
         <tr th:each="task : ${tasks}">
             <td th:text="${task.title}"></td>
             <td th:text="${task.description}"></td>
+            <td th:text="${task.orderDate}"></td>
             <td th:text="${task.dueDate}"></td>
             <td th:text="${task.status}"></td>
             <td>

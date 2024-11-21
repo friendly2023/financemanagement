@@ -21,6 +21,9 @@ public class Task {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "order_date", nullable = false)
+    private LocalDate orderDate;
+
     @Column(name = "due_date", nullable = false)
     private LocalDate dueDate;
 
@@ -40,11 +43,13 @@ public class Task {
 
     public Task() {
         this.status = TaskStatus.ONGOING;
+        this.orderDate = LocalDate.now();
     }
 
-    public Task(String title, String description, LocalDate dueDate, TaskStatus status) {
+    public Task(String title, String description, LocalDate orderDate, LocalDate dueDate, TaskStatus status) {
         this.title = title;
         this.description = description;
+        this.orderDate = orderDate;
         this.dueDate = dueDate;
         this.status = status;
     }
@@ -89,4 +94,9 @@ public class Task {
     public void setStatus(TaskStatus status) {
         this.status = status;
     }
+
+    public LocalDate getOrderDate() {
+        return orderDate;
+    }
+
 }
