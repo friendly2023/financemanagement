@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Создать новую задачу</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select, textarea, button {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Создать новую задачу</h1>
+    <form th:action="@{/tasks/new}" method="post">
+        <label for="title">Название:</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="description">Описание:</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+
+        <label for="dueDate">Дата выполнения:</label>
+        <input type="date" id="dueDate" name="dueDate" required>
+
+        <label for="status">Статус:</label>
+        <select id="status" name="status">
+            <option value="ONGOING">В работе</option>
+            <option value="COMPLETED">Завершено</option>
+            <option value="CANCELLED">Отменено</option>
+            <option value="OVERDUE">Просрочено</option>
+        </select>
+
+        <button type="submit">Создать</button>
+    </form>
+</div>
+</body>
+</html>

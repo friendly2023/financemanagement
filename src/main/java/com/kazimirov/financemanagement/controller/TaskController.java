@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -26,4 +27,17 @@ public class TaskController {
         model.addAttribute("tasks", tasks);
         return "task"; // имя вашего шаблона HTML
     }
+
+    @GetMapping("/tasks/new")
+    public String showNewTaskForm() {
+        return "new-task"; // Имя шаблона для формы создания задачи
+    }
+
+    @PostMapping("/tasks/new")
+    public String createTask(Task task) {
+        taskService.createTask(task); // Сохраняем задачу через сервис
+        return "redirect:/"; // Возвращаемся на главную страницу после создания
+    }
+
+
 }
