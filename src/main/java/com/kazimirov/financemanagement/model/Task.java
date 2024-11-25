@@ -42,7 +42,6 @@ public class Task {
     }
 
     public Task() {
-        this.status = TaskStatus.ONGOING;
         this.orderDate = LocalDate.now();
     }
 

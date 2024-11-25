@@ -13,6 +13,7 @@ import java.util.Optional;
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private Task task;
 
     @Autowired
     public TaskService(TaskRepository taskRepository) {
@@ -20,7 +21,15 @@ public class TaskService {
     }
 
     public Task createTask(Task task) {
+        checkingForOverdue(task);
         return taskRepository.save(task);
+    }
+
+    private void checkingForOverdue(Task task) {
+
+        if (task.getOrderDate().isAfter((task.getDueDate()))) {
+            task.setStatus(TaskStatus.OVERDUE);
+        }
     }
 
     public List<Task> getTaskByTitle(String title) {
