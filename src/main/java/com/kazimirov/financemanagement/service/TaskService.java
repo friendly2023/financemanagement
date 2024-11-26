@@ -14,26 +14,21 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private Task task;
+    private ValidationForOverdueTasks validationForOverdueTasks;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository, ValidationForOverdueTasks validationForOverdueTasks) {
         this.taskRepository = taskRepository;
+        this.validationForOverdueTasks = validationForOverdueTasks;
     }
 
     public Task createTask(Task task) {
-        checkingForOverdue(task);
+        validationForOverdueTasks.validate(task);
         return taskRepository.save(task);
     }
 
-    private void checkingForOverdue(Task task) {
-
-        if (task.getOrderDate().isAfter((task.getDueDate()))) {
-            task.setStatus(TaskStatus.OVERDUE);
-        }
-    }
-
     public List<Task> getAllTasks() {
-        return taskRepository.findAll(); // Возвращает все записи из базы
+        return taskRepository.findAll();
     }
 
     public List<Task> getAllTasksSortedByDueDateDesc() {
