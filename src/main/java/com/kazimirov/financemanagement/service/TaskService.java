@@ -25,13 +25,6 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    private void checkingForOverdue(Task task) {
-
-        if (task.getOrderDate().isAfter((task.getDueDate()))) {
-            task.setStatus(TaskStatus.OVERDUE);
-        }
-    }
-
     public List<Task> getAllTasks() {
         return taskRepository.findAll(); // Возвращает все записи из базы
     }
@@ -57,5 +50,12 @@ public class TaskService {
             throw new IllegalArgumentException("Задача с ID " + id + " не найдена.");
         }
         taskRepository.deleteById(id);
+    }
+
+    private void checkingForOverdue(Task task) {
+        //TODO обработать вывод ошибки на веб страницу
+        if (task.getStatus() == TaskStatus.ONGOING) {
+            throw new IllegalArgumentException("Невозможно данной задаче присвоить статус 'ONGOING'");
+        }
     }
 }
