@@ -32,6 +32,14 @@ public class TaskService {
         }
     }
 
+    public List<Task> getAllTasks() {
+        return taskRepository.findAll(); // Возвращает все записи из базы
+    }
+
+    public List<Task> getAllTasksSortedByDueDateDesc() {
+        return taskRepository.findAllByOrderByDueDateDesc();
+    }
+
     public List<Task> getTaskByTitle(String title) {
         return taskRepository.findByTitleContaining(title);
     }

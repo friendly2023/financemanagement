@@ -23,9 +23,9 @@ public class TaskController {
 
     @GetMapping("/")
     public String showTaskList(Model model) {
-        List<Task> tasks = taskService.getTaskByStatus(TaskStatus.ONGOING); // Пример фильтрации
+        List<Task> tasks = taskService.getAllTasksSortedByDueDateDesc();
         model.addAttribute("tasks", tasks);
-        return "task"; // имя вашего шаблона HTML
+        return "task"; // имя шаблона HTML
     }
 
     @GetMapping("/tasks/new")
