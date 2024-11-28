@@ -32,7 +32,7 @@ public class TaskService {
     }
 
     public List<Task> getAllTasksSortedByDueDateDesc() {
-        return taskRepository.findAllByOrderByDueDateDesc();
+        return taskRepository.findAllByOrderByDueDate();
     }
 
     public List<Task> getTaskByTitle(String title) {
