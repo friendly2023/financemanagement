@@ -15,15 +15,20 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private Task task;
     private ValidationForOverdueTasks validationForOverdueTasks;
+    private ValidationForVerifyDescription validationForVerifyDescription;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository, ValidationForOverdueTasks validationForOverdueTasks) {
+    public TaskService(TaskRepository taskRepository,
+                       ValidationForOverdueTasks validationForOverdueTasks,
+                       ValidationForVerifyDescription validationForVerifyDescription) {
         this.taskRepository = taskRepository;
         this.validationForOverdueTasks = validationForOverdueTasks;
+        this.validationForVerifyDescription = validationForVerifyDescription;
     }
 
     public Task createTask(Task task) {
         validationForOverdueTasks.validate(task);
+        validationForVerifyDescription.validate(task);
         return taskRepository.save(task);
     }
 

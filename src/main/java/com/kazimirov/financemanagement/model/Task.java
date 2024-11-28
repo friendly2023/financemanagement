@@ -30,7 +30,7 @@ public class Task {
     @Enumerated(EnumType.STRING)
     @Column(name = "status",nullable = false)
     private TaskStatus status;
-
+//TODO перенести это в service
     @PrePersist
     public void validate() {
         if (title == null || title.trim().isEmpty()) {
