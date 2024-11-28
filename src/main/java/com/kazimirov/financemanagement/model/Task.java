@@ -53,12 +53,6 @@ public class Task {
         this.status = status;
     }
 
-    @Transient // Поле не сохраняется в базе данных
-    public long getDaysLeft() {
-
-        return ChronoUnit.DAYS.between(LocalDate.now(), dueDate);
-    }
-
     public Long getId() {
         return id;
     }
