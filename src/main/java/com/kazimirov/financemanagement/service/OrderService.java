@@ -13,7 +13,6 @@ import java.util.Optional;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private Order order;
     private ValidationForOverdueOrders validationForOverdueOrders;
     private ValidationForVerifyDescription validationForVerifyDescription;
 

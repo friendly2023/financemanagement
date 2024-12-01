@@ -29,6 +29,11 @@ public class Order {
     @Enumerated(EnumType.STRING)
     @Column(name = "status",nullable = false)
     private OrderStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
+
 //TODO перенести это в service
     @PrePersist
     public void validate() {
