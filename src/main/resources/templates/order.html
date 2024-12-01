@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Список задач</title>
+    <title>Список заказов</title>
     <style>
         /* Центрируем весь контент страницы */
         body {
@@ -64,11 +64,11 @@
 </head>
 <body>
 <div class="container">
-    <h1>Список задач</h1>
-    <a href="/tasks/new">Создать новую задачу</a><br><br>
+    <h1>Список заказов</h1>
+    <a href="/orders/new">Добавить новый заказ</a><br><br>
 
     <!-- Форма для фильтрации задач по статусу -->
-    <form action="/tasks" method="get">
+    <form action="/orders" method="get">
         <label for="status">Выберите статус:</label>
         <select id="status" name="status">
             <option value="ONGOING">В работе</option>
@@ -91,14 +91,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="task : ${tasks}">
-            <td th:text="${task.title}"></td>
-            <td th:text="${task.description}"></td>
-            <td th:text="${task.orderDate}"></td>
-            <td th:text="${task.dueDate}"></td>
-            <td th:text="${task.status}"></td>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.title}"></td>
+            <td th:text="${order.description}"></td>
+            <td th:text="${order.orderDate}"></td>
+            <td th:text="${order.dueDate}"></td>
+            <td th:text="${order.status}"></td>
             <td>
-                <a href="/tasks/more/{task.id}" th:href="@{/tasks/more/{id}(id=${task.id})}">Подробнее</a>
+                <a href="/orders/more/{order.id}" th:href="@{/orders/more/{id}(id=${order.id})}">Подробнее</a>
             </td>
         </tr>
         </tbody>

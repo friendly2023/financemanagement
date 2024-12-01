@@ -4,12 +4,11 @@ package com.kazimirov.financemanagement.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
 
 @Entity
-@Table(name = "tasks")
-public class Task {
+@Table(name = "orders")
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,23 +28,23 @@ public class Task {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status",nullable = false)
-    private TaskStatus status;
+    private OrderStatus status;
 //TODO перенести это в service
     @PrePersist
     public void validate() {
         if (title == null || title.trim().isEmpty()) {
-            throw new IllegalStateException("Отсутствует заголовок задачи");
+            throw new IllegalStateException("Отсутствует заголовок заказа");
         }
         if (dueDate == null) {
-            throw new IllegalStateException("Отсутствует дедлайн задачи");
+            throw new IllegalStateException("Отсутствует дедлайн заказа");
         }
     }
 
-    public Task() {
+    public Order() {
         this.orderDate = LocalDate.now();
     }
 
-    public Task(String title, String description, LocalDate orderDate, LocalDate dueDate, TaskStatus status) {
+    public Order(String title, String description, LocalDate orderDate, LocalDate dueDate, OrderStatus status) {
         this.title = title;
         this.description = description;
         this.orderDate = orderDate;
@@ -81,10 +80,10 @@ public class Task {
         this.dueDate = dueDate;
     }
 
-    public TaskStatus getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
-    public void setStatus(TaskStatus status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
