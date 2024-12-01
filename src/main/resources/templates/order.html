@@ -4,33 +4,49 @@
     <meta charset="UTF-8">
     <title>Список заказов</title>
     <style>
-        /* Центрируем весь контент страницы */
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
             text-align: center;
+            height: 100%; /* Убираем 100vh */
         }
 
-        /* Центрируем форму и таблицу */
-        .container {
-            width: 80%;
-            max-width: 1000px;
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        header {
+            background-color: #fff;
             padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: #f9f9f9;
+            position: sticky;
+            top: 0; /* Закрепляем заголовок и фильтр при прокрутке */
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Добавляем тень для выделения */
         }
 
-        /* Стили для таблицы */
+        .container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 0 20px 20px 20px; /* Убираем верхний отступ и снизу добавляем отступ */
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px; /* Немного увеличиваем промежуток */
+        }
+
+        a {
+            margin-top: 10px; /* Добавляем небольшой отступ между ссылкой и фильтром */
+        }
+
         table {
             width: 100%;
-            border-collapse: collapse;
+            max-width: 1000px; /* Максимальная ширина таблицы */
             margin-top: 20px;
+            border-collapse: collapse;
+            margin: 0 auto; /* Центрируем таблицу */
         }
 
         th, td {
@@ -42,67 +58,64 @@
             background-color: #f2f2f2;
         }
 
-        /* Стили для ссылок */
-        a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
+        td {
+            max-width: 300px; /* Ограничиваем максимальную ширину для ячеек */
+            word-wrap: break-word; /* Разбиваем длинные слова */
         }
 
         form {
-            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px; /* Добавляем отступ сверху */
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>Список заказов</h1>
-    <a href="/orders/new">Добавить новый заказ</a><br><br>
+<div class="wrapper">
+    <header>
+        <h1>Список заказов</h1>
+        <a href="/orders/new">Добавить новый заказ</a><br><br>
 
-    <!-- Форма для фильтрации задач по статусу -->
-    <form action="/orders" method="get">
-        <label for="status">Выберите статус:</label>
-        <select id="status" name="status">
-            <option value="ONGOING">В работе</option>
-            <option value="COMPLETED">Завершено</option>
-            <option value="CANCELLED">Отменено</option>
-            <option value="OVERDUE">Просрочено</option>
-        </select>
-        <button type="submit">Фильтровать</button>
-    </form>
+        <!-- Блок с фильтрацией -->
+        <form action="/orders" method="get">
+            <label for="status">Выберите статус:</label>
+            <select id="status" name="status">
+                <option value="ONGOING">В работе</option>
+                <option value="COMPLETED">Завершено</option>
+                <option value="CANCELLED">Отменено</option>
+                <option value="OVERDUE">Просрочено</option>
+            </select>
+            <button type="submit">Фильтровать</button>
+        </form>
+    </header>
 
-    <table>
-        <thead>
-        <tr>
-            <th>Название</th>
-            <th>Описание</th>
-            <th>Дата оформления заказа </th>
-            <th>Дата выполнения заказа</th>
-            <th>Статус</th>
-            <th>Действия</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="order : ${orders}">
-            <td th:text="${order.title}"></td>
-            <td th:text="${order.description}"></td>
-            <td th:text="${order.orderDate}"></td>
-            <td th:text="${order.dueDate}"></td>
-            <td th:text="${order.status}"></td>
-            <td>
-                <a href="/orders/more/{order.id}" th:href="@{/orders/more/{id}(id=${order.id})}">Подробнее</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="container">
+        <table>
+            <thead>
+            <tr>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Дата оформления заказа </th>
+                <th>Дата выполнения заказа</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.title}"></td>
+                <td th:text="${order.description}"></td>
+                <td th:text="${order.orderDate}"></td>
+                <td th:text="${order.dueDate}"></td>
+                <td th:text="${order.status}"></td>
+                <td>
+                    <a href="/orders/more/{order.id}" th:href="@{/orders/more/{id}(id=${order.id})}">Подробнее</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>
