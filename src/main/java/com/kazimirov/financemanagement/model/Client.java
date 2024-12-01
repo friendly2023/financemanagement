@@ -2,6 +2,7 @@ package com.kazimirov.financemanagement.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,17 +13,17 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "link_to_profile")
+    @Column(name = "link_to_profile", nullable = false)
     private String linkToProfile;
 
-    @Column(name = "note")
+    @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-    private List<Order> orders;
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Order> orders  = new ArrayList<>();;
 
     public Client() {
     }
@@ -59,5 +60,24 @@ public class Client {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public String getLinkToProfile() {
+        return linkToProfile;
+    }
+
+    public void setLinkToProfile(String linkToProfile) {
+        this.linkToProfile = linkToProfile;
+    }
+
+    public void addOrder(Order order) {
+        orders.add(order);
+        order.setClient(this);  // Устанавливаем обратную связь с клиентом
+    }
+
+    // Метод для удаления заказа
+    public void removeOrder(Order order) {
+        orders.remove(order);
+        order.setClient(null);  // Убираем обратную связь с клиентом
     }
 }
