@@ -1,12 +1,15 @@
 package com.kazimirov.financemanagement.controller;
 
+import com.kazimirov.financemanagement.model.Client;
 import com.kazimirov.financemanagement.model.Order;
+import com.kazimirov.financemanagement.service.ClientService;
 import com.kazimirov.financemanagement.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -14,10 +17,12 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final ClientService clientService;
 
     @Autowired
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, ClientService clientService) {
         this.orderService = orderService;
+        this.clientService = clientService;
     }
 
     @GetMapping("/")
@@ -27,16 +32,22 @@ public class OrderController {
         return "order"; // имя шаблона HTML
     }
 
-    //TODO поправить наименование метода в соответствии с его функционалом
     @GetMapping("/orders/new")
-    public String showNewTaskForm() {
+    public String showNewOrderForm(Model model) {
+        List<Client> clients = clientService.getAllClients();
+        model.addAttribute("clients", clients);
+        model.addAttribute("order", new Order());
+
         return "new-order"; // Имя шаблона для формы создания задачи
     }
 
     @PostMapping("/orders/new")
-    public String createOrder(Order order) {
-        orderService.createOrder(order); // Сохраняем задачу через сервис
-        return "redirect:/"; // Возвращаемся на главную страницу после создания
+    public String createOrder(Order order, @RequestParam("clientId") Long clientId) {
+        Client client = clientService.getClientById(clientId);
+        order.setClient(client);
+        orderService.createOrder(order);
+
+        return "redirect:/";
     }
 
 }

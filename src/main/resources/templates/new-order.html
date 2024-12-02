@@ -72,7 +72,6 @@
         <label for="description">Описание:</label>
         <textarea id="description" name="description" rows="6" cols="50"></textarea>
 
-
         <label for="dueDate">Дата выполнения:</label>
         <input type="date" id="dueDate" name="dueDate" required>
 
@@ -84,8 +83,9 @@
             <option value="OVERDUE">Просрочено</option>
         </select>
 
-        <label for="clientLink">Ссылка на клиента:</label>
-        <input type="url" id="clientLink" name="clientLink" placeholder="Введите ссылку на профиль клиента" required>
+        <!-- Поле для ввода ID клиента -->
+        <label for="clientId">Клиент (ID):</label>
+        <input type="text" id="clientId" name="clientId" required placeholder="Введите ID клиента">
 
         <button type="submit">Создать</button>
     </form>

@@ -1,5 +1,6 @@
 package com.kazimirov.financemanagement.service;
 
+import com.kazimirov.financemanagement.model.Client;
 import com.kazimirov.financemanagement.model.Order;
 import com.kazimirov.financemanagement.model.OrderStatus;
 import com.kazimirov.financemanagement.repository.OrderRepository;
@@ -39,6 +40,7 @@ public class OrderService {
         return orderRepository.findAllByOrderByDueDate();
     }
 
+
     public List<Order> getOrdersByTitle(String title) {
         return orderRepository.findByTitleContaining(title);
     }
@@ -51,6 +53,7 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
+    //TODO убрать валидацию при удалении в отдельный класс
     public void deleteOrder(Long id) {
         if (!orderRepository.existsById(id)) {
             throw new IllegalArgumentException("Задача с ID " + id + " не найдена.");
