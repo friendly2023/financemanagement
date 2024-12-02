@@ -14,7 +14,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title",nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
 
     @Column(name = "description", columnDefinition = "TEXT")
@@ -26,15 +26,21 @@ public class Order {
     @Column(name = "due_date", nullable = false)
     private LocalDate dueDate;
 
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "total_order_amount", nullable = false)
+    private int totalOrderAmount;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "status",nullable = false)
+    @Column(name = "status", nullable = false)
     private OrderStatus status;
 
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
-//TODO перенести это в service
+    //TODO перенести это в service
     @PrePersist
     public void validate() {
         if (title == null || title.trim().isEmpty()) {
@@ -88,12 +94,17 @@ public class Order {
     public OrderStatus getStatus() {
         return status;
     }
+
     public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
     public LocalDate getOrderDate() {
         return orderDate;
+    }
+
+    public void setOrderDate(LocalDate orderDate) {
+        this.orderDate = orderDate;
     }
 
     public Client getClient() {
@@ -103,4 +114,21 @@ public class Order {
     public void setClient(Client client) {
         this.client = client;
     }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public int getTotalOrderAmount() {
+        return totalOrderAmount;
+    }
+
+    public void setTotalOrderAmount(int totalOrderAmount) {
+        this.totalOrderAmount = totalOrderAmount;
+    }
+
 }
