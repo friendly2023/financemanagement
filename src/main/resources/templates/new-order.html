@@ -42,6 +42,8 @@
             margin-bottom: 15px;
             padding: 10px;
             font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
 
         button {
@@ -49,11 +51,15 @@
             color: white;
             border: none;
             cursor: pointer;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 4px;
         }
 
         button:hover {
             background-color: #0056b3;
         }
+
     </style>
 </head>
 <body>
@@ -64,7 +70,8 @@
         <input type="text" id="title" name="title" required>
 
         <label for="description">Описание:</label>
-        <textarea id="description" name="description" rows="4"></textarea>
+        <textarea id="description" name="description" rows="6" cols="50"></textarea>
+
 
         <label for="dueDate">Дата выполнения:</label>
         <input type="date" id="dueDate" name="dueDate" required>
@@ -76,6 +83,9 @@
             <option value="CANCELLED">Отменено</option>
             <option value="OVERDUE">Просрочено</option>
         </select>
+
+        <label for="clientLink">Ссылка на клиента:</label>
+        <input type="url" id="clientLink" name="clientLink" placeholder="Введите ссылку на профиль клиента" required>
 
         <button type="submit">Создать</button>
     </form>

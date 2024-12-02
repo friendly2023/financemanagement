@@ -23,7 +23,7 @@ public class Client {
     private String note;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Order> orders  = new ArrayList<>();;
+    private List<Order> orders  = new ArrayList<>();
 
     public Client() {
     }
