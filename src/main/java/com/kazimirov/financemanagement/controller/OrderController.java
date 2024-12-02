@@ -27,6 +27,7 @@ public class OrderController {
         return "order"; // имя шаблона HTML
     }
 
+    //TODO поправить наименование метода в соответствии с его функционалом
     @GetMapping("/orders/new")
     public String showNewTaskForm() {
         return "new-order"; // Имя шаблона для формы создания задачи
@@ -37,6 +38,5 @@ public class OrderController {
         orderService.createOrder(order); // Сохраняем задачу через сервис
         return "redirect:/"; // Возвращаемся на главную страницу после создания
     }
-
 
 }
