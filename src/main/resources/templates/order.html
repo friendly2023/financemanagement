@@ -69,13 +69,23 @@
             gap: 10px;
             margin-top: 20px; /* Добавляем отступ сверху */
         }
+
+        .spaced-links {
+            display: flex; /* Включаем Flexbox */
+            gap: 20px; /* Устанавливаем отступ между элементами */
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
 <div class="wrapper">
     <header>
         <h1>Список заказов</h1>
-        <a href="/orders/new">Добавить новый заказ</a><br><br>
+
+        <div class="spaced-links">
+            <a href="/orders/new">Добавить новый заказ</a>
+            <a href="/clients/new">Добавить нового клиента</a>
+        </div>
 
         <!-- Блок с фильтрацией -->
         <form action="/orders" method="get">
