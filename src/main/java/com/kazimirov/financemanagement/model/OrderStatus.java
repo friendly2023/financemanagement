@@ -1,6 +1,6 @@
 package com.kazimirov.financemanagement.model;
 
-public enum TaskStatus {
+public enum OrderStatus {
     ONGOING,//В работе
     COMPLETED,//Завершено
     CANCELLED,//Отменено
