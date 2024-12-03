@@ -105,20 +105,18 @@
             <thead>
             <tr>
                 <th>Название</th>
-                <th>Описание</th>
-                <th>Дата оформления заказа </th>
-                <th>Дата выполнения заказа</th>
                 <th>Статус</th>
+                <th>Прошло дней</th>
+                <th>Дата выполнения заказа</th>
                 <th>Действия</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="order : ${orders}">
                 <td th:text="${order.title}"></td>
-                <td th:text="${order.description}"></td>
-                <td th:text="${order.orderDate}"></td>
-                <td th:text="${order.dueDate}"></td>
+                <td></td>
                 <td th:text="${order.status}"></td>
+                <td th:text="${order.dueDate}"></td>
                 <td>
                     <a href="/orders/more/{order.id}" th:href="@{/orders/more/{id}(id=${order.id})}">Подробнее</a>
                 </td>

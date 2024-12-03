@@ -16,7 +16,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByStatus(OrderStatus status);
 
     List<Order> findAllByOrderByDueDate();
-
+//todo удалить за ненадобностью
     Client findClientById(Long clientId);
 
 }
