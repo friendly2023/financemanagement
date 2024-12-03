@@ -1,5 +1,6 @@
 package com.kazimirov.financemanagement.service;
 
+import com.kazimirov.financemanagement.dto.OrderDTO;
 import com.kazimirov.financemanagement.model.Client;
 import com.kazimirov.financemanagement.model.Order;
 import com.kazimirov.financemanagement.model.OrderStatus;
@@ -7,8 +8,11 @@ import com.kazimirov.financemanagement.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -36,8 +40,12 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public List<Order> getAllOrdersSortedByDueDateDesc() {
-        return orderRepository.findAllByOrderByDueDate();
+    public List<OrderDTO> getAllOrdersSortedByDueDate() {
+        List<Order> orders = orderRepository.findAllByOrderByDueDate();
+
+        return orders.stream()
+                .map(OrderDTOFactory::mapToOrderDTO)
+                .collect(Collectors.toList());
     }
 
 

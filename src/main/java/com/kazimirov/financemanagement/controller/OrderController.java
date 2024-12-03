@@ -1,5 +1,6 @@
 package com.kazimirov.financemanagement.controller;
 
+import com.kazimirov.financemanagement.dto.OrderDTO;
 import com.kazimirov.financemanagement.model.Client;
 import com.kazimirov.financemanagement.model.Order;
 import com.kazimirov.financemanagement.service.ClientService;
@@ -27,7 +28,7 @@ public class OrderController {
 
     @GetMapping("/")
     public String showOrderList(Model model) {
-        List<Order> orders = orderService.getAllOrdersSortedByDueDateDesc();
+        List<OrderDTO> orders = orderService.getAllOrdersSortedByDueDate();
         model.addAttribute("orders", orders);
         return "order"; // имя шаблона HTML
     }

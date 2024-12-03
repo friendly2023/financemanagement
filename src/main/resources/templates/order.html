@@ -106,7 +106,7 @@
             <tr>
                 <th>Название</th>
                 <th>Статус</th>
-                <th>Прошло дней</th>
+                <th>Прошло/было дней</th>
                 <th>Дата выполнения заказа</th>
                 <th>Действия</th>
             </tr>
@@ -114,8 +114,8 @@
             <tbody>
             <tr th:each="order : ${orders}">
                 <td th:text="${order.title}"></td>
-                <td></td>
                 <td th:text="${order.status}"></td>
+                <td th:text="${order.timeUtilizationRatio}"></td>
                 <td th:text="${order.dueDate}"></td>
                 <td>
                     <a href="/orders/more/{order.id}" th:href="@{/orders/more/{id}(id=${order.id})}">Подробнее</a>
