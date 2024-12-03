@@ -105,6 +105,7 @@
             <thead>
             <tr>
                 <th>Название</th>
+                <th>Общая сумма заказа</th>
                 <th>Статус</th>
                 <th>Прошло/было дней</th>
                 <th>Дата выполнения заказа</th>
@@ -114,6 +115,7 @@
             <tbody>
             <tr th:each="order : ${orders}">
                 <td th:text="${order.title}"></td>
+                <td th:text="${order.totalOrderAmount}"></td>
                 <td th:text="${order.status}"></td>
                 <td th:text="${order.timeUtilizationRatio}"></td>
                 <td th:text="${order.dueDate}"></td>
