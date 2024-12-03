@@ -17,6 +17,7 @@ public class OrderDTOFactory {
         return new OrderDTO(
                 order.getId(),
                 order.getTitle(),
+                order.getTotalOrderAmount(),
                 order.getStatus(),
                 order.getDueDate(),
                 timeUtilizationRatio

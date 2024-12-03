@@ -12,10 +12,12 @@ public class OrderDTO {
     private OrderStatus status;
     private LocalDate dueDate;
     private String timeUtilizationRatio;
+    private int totalOrderAmount;
 
-    public OrderDTO(Long id, String title, OrderStatus status, LocalDate dueDate, String timeUtilizationRatio) {
+    public OrderDTO(Long id, String title, int totalOrderAmount, OrderStatus status, LocalDate dueDate, String timeUtilizationRatio) {
         this.id = id;
         this.title = title;
+        this.totalOrderAmount = totalOrderAmount;
         this.status = status;
         this.dueDate = dueDate;
         this.timeUtilizationRatio = timeUtilizationRatio;
@@ -55,5 +57,13 @@ public class OrderDTO {
 
     public void setTimeUtilizationRatio(String timeUtilizationRatio) {
         this.timeUtilizationRatio = timeUtilizationRatio;
+    }
+
+    public int getTotalOrderAmount() {
+        return totalOrderAmount;
+    }
+
+    public void setTotalOrderAmount(int totalOrderAmount) {
+        this.totalOrderAmount = totalOrderAmount;
     }
 }

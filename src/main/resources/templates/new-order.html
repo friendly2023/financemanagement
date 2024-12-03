@@ -67,10 +67,16 @@
     <h1>Добавить новый заказ</h1>
     <form th:action="@{/orders/new}" method="post">
         <label for="title">Название:</label>
-        <input type="text" id="title" name="title" required>
+        <input type="text" id="title" name="title" placeholder="Введите содержание заказа" required>
 
-        <label for="description">Описание:</label>
-        <textarea id="description" name="description" rows="6" cols="50"></textarea>
+        <label for="title">Общая сумма заказа:</label>
+        <input type="text" id="totalOrderAmount" name="totalOrderAmount" placeholder="Введите общая сумма заказа" required>
+
+        <label for="clientId">Клиент:</label>
+        <input type="text" id="clientId" name="clientId" required placeholder="Введите ID клиента">
+
+        <label for="city">Город:</label>
+        <input type="text" id="city" name="city" required placeholder="Введите город оформления заказа">
 
         <label for="dueDate">Дата выполнения:</label>
         <input type="date" id="dueDate" name="dueDate" required>
@@ -83,9 +89,8 @@
             <option value="OVERDUE">Просрочено</option>
         </select>
 
-        <!-- Поле для ввода ID клиента -->
-        <label for="clientId">Клиент (ID):</label>
-        <input type="text" id="clientId" name="clientId" required placeholder="Введите ID клиента">
+        <label for="note">Примечание:</label>
+        <textarea id="note" name="note" placeholder="Введите примечание (необязательно)" rows="6" cols="50"></textarea>
 
         <button type="submit">Создать</button>
     </form>

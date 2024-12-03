@@ -17,8 +17,8 @@ public class Order {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description", columnDefinition = "TEXT")
-    private String description;
+    @Column(name = "note", columnDefinition = "TEXT")
+    private String note;
 
     @Column(name = "order_date", nullable = false)
     private LocalDate orderDate;
@@ -55,9 +55,9 @@ public class Order {
         this.orderDate = LocalDate.now();
     }
 
-    public Order(String title, String description, LocalDate orderDate, LocalDate dueDate, OrderStatus status) {
+    public Order(String title, String note, LocalDate orderDate, LocalDate dueDate, OrderStatus status) {
         this.title = title;
-        this.description = description;
+        this.note = note;
         this.orderDate = orderDate;
         this.dueDate = dueDate;
         this.status = status;
@@ -75,12 +75,12 @@ public class Order {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getNote() {
+        return note;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setNote(String description) {
+        this.note = description;
     }
 
     public LocalDate getDueDate() {
