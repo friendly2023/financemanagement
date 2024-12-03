@@ -27,7 +27,7 @@ public class OrderRepositoryTest {
         // Создаем новую задачу
         Order order = new Order();
         order.setTitle("Тестовая задача");
-        order.setDescription("Описание тестовой задачи");
+        order.setNote("Описание тестовой задачи");
         order.setDueDate(LocalDate.now().plusDays(5));
         order.setStatus(OrderStatus.ONGOING);
 
@@ -40,7 +40,7 @@ public class OrderRepositoryTest {
         assertNotNull(savedOrder);
         assertNotNull(savedOrder.getId());
         assertEquals("Тестовая задача", savedOrder.getTitle());
-        assertEquals("Описание тестовой задачи", savedOrder.getDescription());
+        assertEquals("Описание тестовой задачи", savedOrder.getNote());
         assertEquals(LocalDate.now().plusDays(5), savedOrder.getDueDate());
         assertEquals(OrderStatus.ONGOING, savedOrder.getStatus());
     }
@@ -49,21 +49,21 @@ public class OrderRepositoryTest {
     public void testRequestByTitleTask() {
         Order order1 = new Order();
         order1.setTitle("Тестовая задача 1");
-        order1.setDescription("Описание задачи 1");
+        order1.setNote("Описание задачи 1");
         order1.setDueDate(LocalDate.now().plusDays(5));
         order1.setStatus(OrderStatus.ONGOING);
         orderRepository.save(order1);
 
         Order order2 = new Order();
         order2.setTitle("Тестовая задача 2");
-        order2.setDescription("Описание задачи 2");
+        order2.setNote("Описание задачи 2");
         order2.setDueDate(LocalDate.now().plusDays(3));
         order2.setStatus(OrderStatus.ONGOING);
         orderRepository.save(order2);
 
         Order order3 = new Order();
         order3.setTitle("Неподходящая задача");
-        order3.setDescription("Описание задачи 3");
+        order3.setNote("Описание задачи 3");
         order3.setDueDate(LocalDate.now().plusDays(10));
         order3.setStatus(OrderStatus.ONGOING);
         orderRepository.save(order3);
@@ -88,21 +88,21 @@ public class OrderRepositoryTest {
     public void testRequestByStatusTask() {
         Order order1 = new Order();
         order1.setTitle("Тестовая задача 1");
-        order1.setDescription("Описание задачи 1");
+        order1.setNote("Описание задачи 1");
         order1.setDueDate(LocalDate.now().plusDays(5));
         order1.setStatus(OrderStatus.ONGOING);
         orderRepository.save(order1);
 
         Order order2 = new Order();
         order2.setTitle("Тестовая задача 2");
-        order2.setDescription("Описание задачи 2");
+        order2.setNote("Описание задачи 2");
         order2.setDueDate(LocalDate.now().plusDays(3));
         order2.setStatus(OrderStatus.OVERDUE);
         orderRepository.save(order2);
 
         Order order3 = new Order();
         order3.setTitle("Неподходящая задача");
-        order3.setDescription("Описание задачи 3");
+        order3.setNote("Описание задачи 3");
         order3.setDueDate(LocalDate.now().plusDays(10));
         order3.setStatus(OrderStatus.ONGOING);
         orderRepository.save(order3);

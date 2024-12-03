@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 public class ValidationForVerifyDescription {
 
     public void validate(Order order) {
-        if (order.getDescription() == null || order.getDescription().trim().isEmpty()) {
-            order.setDescription("*описание отсутствует*");
+        if (order.getNote() == null || order.getNote().trim().isEmpty()) {
+            order.setNote("*примечание отсутствует*");
         }
     }
 }
