@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Детали заказа</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%; /* Фиксированная ширина таблицы */
+            border-collapse: collapse; /* Убирает двойные линии между ячейками */
+        }
+
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            word-wrap: break-word; /* Перенос длинных слов */
+            white-space: normal; /* Разрешить перенос текста */
+            text-align: left; /* По умолчанию выравниваем текст по левому краю */
+        }
+
+        /* Стиль для заголовков таблицы */
+        th {
+            background-color: #f2f2f2;
+            width: 200px; /* Устанавливаем фиксированную ширину для столбцов с заголовками */
+            padding-right: 10px; /* Отступ справа для заголовков */
+            vertical-align: top; /* Выравнивание текста по верхнему краю ячейки */
+        }
+
+        td {
+            padding-left: 10px; /* Сдвигаем содержимое поля от границы */
+        }
+
+        /* Убираем левую границу у первой ячейки и сдвигаем границу во второй столбец */
+        tr td:first-child, tr th:first-child {
+            border-left: none;
+        }
+
+        tr td:nth-child(2), tr th:nth-child(2) {
+            border-left: 2px solid #ddd; /* Добавляем вертикальную границу между столбцами */
+        }
+
+        .button {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .button:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Детали заказа</h1>
+
+    <!-- Таблица для информации о заказе -->
+    <h2>Информация о заказе</h2>
+    <table>
+        <tr>
+            <th>Название:</th>
+            <td th:text="${order.title}"></td>
+        </tr>
+        <tr>
+            <th>Описание:</th>
+            <td th:text="${order.note}"></td>
+        </tr>
+        <tr>
+            <th>Общая сумма:</th>
+            <td th:text="${order.totalOrderAmount}"></td>
+        </tr>
+        <tr>
+            <th>Статус:</th>
+            <td th:text="${order.status}"></td>
+        </tr>
+        <tr>
+            <th>Город оформления:</th>
+            <td th:text="${order.city}"></td>
+        </tr>
+        <tr>
+            <th>Дата оформления:</th>
+            <td th:text="${order.orderDate}"></td>
+        </tr>
+        <tr>
+            <th>Дата выполнения:</th>
+            <td th:text="${order.dueDate}"></td>
+        </tr>
+    </table>
+    <a th:href="@{/orders/edit/{id}(id=${order.id})}" class="button">Редактировать заказ</a>
+
+    <!-- Таблица для информации о клиенте -->
+    <h2>Информация о клиенте</h2>
+    <table>
+        <tr>
+            <th>Имя:</th>
+            <td th:text="${client.name}"></td>
+        </tr>
+        <tr>
+            <th>Ссылка на профиль:</th>
+            <td>
+                <a th:href="${client.linkToProfile}" target="_blank" th:text="${client.linkToProfile}"></a>
+            </td>
+        </tr>
+        <tr>
+            <th>Примечание:</th>
+            <td th:text="${client.note}"></td>
+        </tr>
+    </table>
+    <a th:href="@{/clients/edit/{id}(id=${client.id})}" class="button">Редактировать клиента</a>
+
+    <br><br>
+    <div style="text-align: center;">
+        <a href="/" class="button">Назад к списку</a>
+    </div>
+</div>
+</body>
+</html>
