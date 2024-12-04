@@ -10,7 +10,7 @@
         }
 
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
             border: 1px solid #ccc;
@@ -22,48 +22,112 @@
             text-align: center;
         }
 
-        p {
-            margin: 10px 0;
+        table {
+            width: 100%; /* Фиксированная ширина таблицы */
+            border-collapse: collapse; /* Убирает двойные линии между ячейками */
         }
 
-        .section {
-            margin-bottom: 20px;
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            word-wrap: break-word; /* Перенос длинных слов */
+            white-space: normal; /* Разрешить перенос текста */
+            text-align: left; /* По умолчанию выравниваем текст по левому краю */
         }
 
-        .section h2 {
-            font-size: 20px;
-            margin-bottom: 10px;
+        /* Стиль для заголовков таблицы */
+        th {
+            background-color: #f2f2f2;
+            width: 200px; /* Устанавливаем фиксированную ширину для столбцов с заголовками */
+            padding-right: 10px; /* Отступ справа для заголовков */
+            vertical-align: top; /* Выравнивание текста по верхнему краю ячейки */
+        }
+
+        td {
+            padding-left: 10px; /* Сдвигаем содержимое поля от границы */
+        }
+
+        /* Убираем левую границу у первой ячейки и сдвигаем границу во второй столбец */
+        tr td:first-child, tr th:first-child {
+            border-left: none;
+        }
+
+        tr td:nth-child(2), tr th:nth-child(2) {
+            border-left: 2px solid #ddd; /* Добавляем вертикальную границу между столбцами */
+        }
+
+        .button {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .button:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>Детали заказа</h1>
-    <div class="section">
-        <h2>Информация о заказе</h2>
-        <p><strong>Название:</strong> <span th:text="${order.title}"></span></p>
-        <p><strong>Описание:</strong> <span th:text="${order.description}"></span></p>
-        <p><strong>Общая сумма:</strong> <span th:text="${order.totalOrderAmount}"></span></p>
-        <p><strong>Статус:</strong> <span th:text="${order.status}"></span></p>
-        <p><strong>Город оформления:</strong> <span th:text="${order.city}"></span></p>
-        <p><strong>Дата оформления:</strong>
-            <span th:text="${#dates.format(order.orderDate, 'dd.MM.yyyy')}"></span>
-        </p>
-        <p><strong>Дата выполнения:</strong>
-            <span th:text="${#dates.format(order.dueDate, 'dd.MM.yyyy')}"></span>
-        </p>
-        <a th:href="@{/orders/edit/{id}(id=${order.id})}" class="button" style="text-decoration: none; color: #007bff;">Редактировать заказ</a>
+
+    <!-- Таблица для информации о заказе -->
+    <h2>Информация о заказе</h2>
+    <table>
+        <tr>
+            <th>Название:</th>
+            <td th:text="${order.title}"></td>
+        </tr>
+        <tr>
+            <th>Описание:</th>
+            <td th:text="${order.note}"></td>
+        </tr>
+        <tr>
+            <th>Общая сумма:</th>
+            <td th:text="${order.totalOrderAmount}"></td>
+        </tr>
+        <tr>
+            <th>Статус:</th>
+            <td th:text="${order.status}"></td>
+        </tr>
+        <tr>
+            <th>Город оформления:</th>
+            <td th:text="${order.city}"></td>
+        </tr>
+        <tr>
+            <th>Дата оформления:</th>
+            <td th:text="${order.orderDate}"></td>
+        </tr>
+        <tr>
+            <th>Дата выполнения:</th>
+            <td th:text="${order.dueDate}"></td>
+        </tr>
+    </table>
+    <a th:href="@{/orders/edit/{id}(id=${order.id})}" class="button">Редактировать заказ</a>
+
+    <!-- Таблица для информации о клиенте -->
+    <h2>Информация о клиенте</h2>
+    <table>
+        <tr>
+            <th>Имя:</th>
+            <td th:text="${client.name}"></td>
+        </tr>
+        <tr>
+            <th>Ссылка на профиль:</th>
+            <td>
+                <a th:href="${client.linkToProfile}" target="_blank" th:text="${client.linkToProfile}"></a>
+            </td>
+        </tr>
+        <tr>
+            <th>Примечание:</th>
+            <td th:text="${client.note}"></td>
+        </tr>
+    </table>
+    <a th:href="@{/clients/edit/{id}(id=${client.id})}" class="button">Редактировать клиента</a>
+
+    <br><br>
+    <div style="text-align: center;">
+        <a href="/" class="button">Назад к списку</a>
     </div>
-    <div class="section">
-        <h2>Информация о клиенте</h2>
-        <p><strong>Имя:</strong> <span th:text="${client.name}"></span></p>
-        <p><strong>Ссылка на профиль:</strong>
-            <a th:href="${client.linkToProfile}" target="_blank" th:text="${client.linkToProfile}"></a>
-        </p>
-        <p><strong>Примечание:</strong> <span th:text="${client.note}"></span></p>
-        <a th:href="@{/clients/edit/{id}(id=${client.id})}" class="button" style="text-decoration: none; color: #007bff;">Редактировать клиента</a>
-    </div>
-    <a href="/" style="text-decoration:none; color: #007bff;">Назад к списку</a>
 </div>
 </body>
 </html>
