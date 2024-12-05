@@ -54,7 +54,6 @@ public class OrderController {
 
     @GetMapping("/orders/more/{id}")
     public String getOrderDetails(@PathVariable Long id, Model model) {
-        System.out.println("888888888888888888888888888888888888888888888888888888888888888");
         Order order = orderService.getOrderById(id).get();
         model.addAttribute("order", order);
         model.addAttribute("client", order.getClient());
@@ -63,7 +62,6 @@ public class OrderController {
 
     @PostMapping("/orders/delete/{id}")
     public String deleteOrder(@PathVariable Long id) {
-        System.out.println("77777777777777777777777777777777777777777777777777777777777777777");
         orderService.deleteOrder(id);  // Удаление заказа через сервис
         return "redirect:/";  // Перенаправляем на страницу с заказами
     }
