@@ -22,7 +22,7 @@ public class Client {
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Order> orders  = new ArrayList<>();
 
     public Client() {

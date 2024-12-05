@@ -60,4 +60,10 @@ public class OrderController {
         return "order-details";
     }
 
+    @PostMapping("/orders/delete/{id}")
+    public String deleteOrder(@PathVariable Long id) {
+        orderService.deleteOrder(id);  // Удаление заказа через сервис
+        return "redirect:/";  // Перенаправляем на страницу с заказами
+    }
+
 }
