@@ -121,6 +121,10 @@
                 <td th:text="${order.dueDate}"></td>
                 <td>
                     <a href="/orders/more/{order.id}" th:href="@{/orders/more/{id}(id=${order.id})}">Подробнее</a>
+                    <!-- Форма для удаления -->
+                    <form th:action="@{/orders/delete/{id}(id=${order.id})}" method="post" style="display:inline;">
+                        <button type="submit">Удалить</button>
+                    </form>
                 </td>
             </tr>
             </tbody>
