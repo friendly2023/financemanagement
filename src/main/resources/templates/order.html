@@ -75,6 +75,25 @@
             gap: 20px; /* Устанавливаем отступ между элементами */
             justify-content: center;
         }
+
+        /* Новый стиль только для ссылок "Подробнее" и "Удалить" */
+        .action-links a,
+        .action-links button {
+            text-decoration: none; /* Убираем подчеркивание */
+            color: #007bff; /* Цвет текста для ссылок */
+            font-size: 16px; /* Размер шрифта */
+        }
+
+        .action-links a:hover,
+        .action-links button:hover {
+            text-decoration: underline; /* Подчеркивание при наведении */
+        }
+
+        .action-links button {
+            background: none; /* Убираем фоновый цвет */
+            border: none; /* Убираем границу */
+            cursor: pointer; /* Указатель при наведении */
+        }
     </style>
 </head>
 <body>
@@ -119,7 +138,7 @@
                 <td th:text="${order.status}"></td>
                 <td th:text="${order.timeUtilizationRatio}"></td>
                 <td th:text="${order.dueDate}"></td>
-                <td>
+                <td class="action-links">
                     <a href="/orders/more/{order.id}" th:href="@{/orders/more/{id}(id=${order.id})}">Подробнее</a>
                     <!-- Форма для удаления -->
                     <form th:action="@{/orders/delete/{id}(id=${order.id})}" method="post" style="display:inline;">
