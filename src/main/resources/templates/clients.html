@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Список заказов</title>
+    <title>Список клиентов</title>
     <style>
         body {
             margin: 0;
@@ -99,52 +99,46 @@
 <body>
 <div class="wrapper">
     <header>
-        <h1>Список заказов</h1>
+        <h1>Список клиентов</h1>
 
         <div class="spaced-links">
-            <a href="/orders/new">Добавить новый заказ</a>
-            <a href="/clients">Клиенты</a>
             <a href="/clients/new">Добавить нового клиента</a>
         </div>
 
-        <!-- Блок с фильтрацией -->
-        <form action="/orders" method="get">
-            <label for="status">Выберите статус:</label>
-            <select id="status" name="status">
-                <option value="ONGOING">В работе</option>
-                <option value="COMPLETED">Завершено</option>
-                <option value="CANCELLED">Отменено</option>
-                <option value="OVERDUE">Просрочено</option>
-            </select>
-            <button type="submit">Фильтровать</button>
-        </form>
     </header>
 
     <div class="container">
         <table>
             <thead>
             <tr>
-                <th>Название</th>
-                <th>Общая сумма заказа</th>
-                <th>Статус</th>
-                <th>Прошло/было дней</th>
-                <th>Дата выполнения заказа</th>
+                <th>ID клиента</th>
+                <th>Имя</th>
+                <th>Ссылка на профиль</th>
+                <th>Колличество заказов</th>
+                <th>Суммы заказа</th>
                 <th>Действия</th>
+                <th>Примечание</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="order : ${orders}">
-                <td th:text="${order.title}"></td>
-                <td th:text="${order.totalOrderAmount}"></td>
-                <td th:text="${order.status}"></td>
-                <td th:text="${order.timeUtilizationRatio}"></td>
-                <td th:text="${order.dueDate}"></td>
+            <tr th:each="client : ${clients}">
+                <td th:text="${client.id}"></td>
+                <td th:text="${client.name}"></td>
+                <td>
+                    <a th:href="${client.linkToProfile}" target="_blank">ссылка</a>
+                </td>
+                <td th:text="${client.numberOfOrders}"></td>
+                <td th:text="${client.amountOrders}"></td>
+                <td th:text="${client.note}"></td>
+
                 <td class="action-links">
-                    <a href="/orders/more/{order.id}" th:href="@{/orders/more/{id}(id=${order.id})}">Подробнее</a>
-                    <!-- Форма для удаления -->
-                    <form th:action="@{/orders/delete/{id}(id=${order.id})}" method="post" style="display:inline;">
+
+                    <a href="/clients/edit/{client.id}" th:href="@{/clients/edit/{id}(id=${client.id})}">Редактировать</a>
+
+                    <form th:action="@{/clients/delete/{id}(id=${client.id})}" method="post" style="display:inline;">
                         <button type="submit">Удалить</button>
                     </form>
+
                 </td>
             </tr>
             </tbody>
