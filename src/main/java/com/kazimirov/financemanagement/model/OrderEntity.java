@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "orders")
-public class Order {
+public class OrderEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
-    private Client client;
+    private ClientEntity clientEntity;
 
     //TODO перенести это в service
     @PrePersist
@@ -51,11 +51,11 @@ public class Order {
         }
     }
 
-    public Order() {
+    public OrderEntity() {
         this.orderDate = LocalDate.now();
     }
 
-    public Order(String title, String note, LocalDate orderDate, LocalDate dueDate, OrderStatus status) {
+    public OrderEntity(String title, String note, LocalDate orderDate, LocalDate dueDate, OrderStatus status) {
         this.title = title;
         this.note = note;
         this.orderDate = orderDate;
@@ -107,12 +107,12 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Client getClient() {
-        return client;
+    public ClientEntity getClient() {
+        return clientEntity;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClient(ClientEntity clientEntity) {
+        this.clientEntity = clientEntity;
     }
 
     public String getCity() {

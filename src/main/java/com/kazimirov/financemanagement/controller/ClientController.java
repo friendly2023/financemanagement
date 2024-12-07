@@ -1,8 +1,7 @@
 package com.kazimirov.financemanagement.controller;
 
-import com.kazimirov.financemanagement.dto.ClientDTO;
-import com.kazimirov.financemanagement.dto.OrderDTO;
-import com.kazimirov.financemanagement.model.Client;
+import com.kazimirov.financemanagement.dto.ClientResponse;
+import com.kazimirov.financemanagement.model.ClientEntity;
 import com.kazimirov.financemanagement.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,8 +23,8 @@ public class ClientController {
 
     @GetMapping("/clients")
     public String showClientsList(Model model) {
-        List<ClientDTO> clients = clientService.getAllClientsById();
-        model.addAttribute("clients", clients);
+        List<ClientResponse> clientResponses = clientService.getAllClientsById();
+        model.addAttribute("clients", clientResponses);
         return "clients";
     }
 
@@ -35,8 +34,8 @@ public class ClientController {
     }
 
     @PostMapping("/clients/new")
-    public String createOrder(Client client) {
-        clientService.createClient(client);
+    public String createClient(ClientEntity clientEntity) {
+        clientService.createClient(clientEntity);
         return "redirect:/";
     }
 }

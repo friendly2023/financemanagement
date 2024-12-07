@@ -1,6 +1,6 @@
 package com.kazimirov.financemanagement.dto;
 
-public class ClientDTO {
+public class ClientResponse {
 
     private Long id;
     private String name;
@@ -9,12 +9,12 @@ public class ClientDTO {
     private int numberOfOrders;
     private int amountOrders;
 
-    public ClientDTO(Long id,
-                     String name,
-                     String linkToProfile,
-                     String note,
-                     int numberOfOrders,
-                     int amountOrders) {
+    public ClientResponse(Long id,
+                          String name,
+                          String linkToProfile,
+                          String note,
+                          int numberOfOrders,
+                          int amountOrders) {
         this.id = id;
         this.name = name;
         this.linkToProfile = linkToProfile;

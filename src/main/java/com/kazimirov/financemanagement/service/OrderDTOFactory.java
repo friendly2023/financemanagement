@@ -1,25 +1,25 @@
 package com.kazimirov.financemanagement.service;
 
-import com.kazimirov.financemanagement.dto.OrderDTO;
-import com.kazimirov.financemanagement.model.Order;
+import com.kazimirov.financemanagement.dto.OrderResponse;
+import com.kazimirov.financemanagement.model.OrderEntity;
 
 import java.time.LocalDate;
 import java.time.Period;
 
 public class OrderDTOFactory {
 
-    static public OrderDTO mapToOrderDTO(Order order) {
-        int daysLeftFromNow = Period.between(order.getOrderDate(), LocalDate.now()).getDays();
-        int daysLeftFromOrderDate = Period.between(order.getOrderDate(), order.getDueDate()).getDays();
+    static public OrderResponse mapToOrderDTO(OrderEntity orderEntity) {
+        int daysLeftFromNow = Period.between(orderEntity.getOrderDate(), LocalDate.now()).getDays();
+        int daysLeftFromOrderDate = Period.between(orderEntity.getOrderDate(), orderEntity.getDueDate()).getDays();
         //todo изменить подсчет timeUtilizationRatio для корректного тображения, избегать 10/2
         String timeUtilizationRatio = daysLeftFromNow + "/" + daysLeftFromOrderDate;
 
-        return new OrderDTO(
-                order.getId(),
-                order.getTitle(),
-                order.getTotalOrderAmount(),
-                order.getStatus(),
-                order.getDueDate(),
+        return new OrderResponse(
+                orderEntity.getId(),
+                orderEntity.getTitle(),
+                orderEntity.getTotalOrderAmount(),
+                orderEntity.getStatus(),
+                orderEntity.getDueDate(),
                 timeUtilizationRatio
         );
     }
