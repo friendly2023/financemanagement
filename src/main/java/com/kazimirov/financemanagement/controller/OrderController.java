@@ -31,7 +31,7 @@ public class OrderController {
     public String showOrderList(Model model) {
         List<OrderDTO> orders = orderService.getAllOrdersSortedByDueDate();
         model.addAttribute("orders", orders);
-        return "order"; // имя шаблона HTML
+        return "orders"; // имя шаблона HTML
     }
 
     @GetMapping("/orders/new")

@@ -11,7 +11,7 @@ public class OrderDTOFactory {
     static public OrderDTO mapToOrderDTO(Order order) {
         int daysLeftFromNow = Period.between(order.getOrderDate(), LocalDate.now()).getDays();
         int daysLeftFromOrderDate = Period.between(order.getOrderDate(), order.getDueDate()).getDays();
-
+        //todo изменить подсчет timeUtilizationRatio для корректного тображения, избегать 10/2
         String timeUtilizationRatio = daysLeftFromNow + "/" + daysLeftFromOrderDate;
 
         return new OrderDTO(
