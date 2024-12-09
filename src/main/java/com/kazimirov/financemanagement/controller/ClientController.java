@@ -37,7 +37,7 @@ public class ClientController {
     @PostMapping("/clients/new")
     public String createClient(ClientEntity clientEntity) {
         clientService.createClient(clientEntity);
-        return "redirect:/";
+        return "redirect:/clients";
     }
 
     @PostMapping("/clients/delete/{id}")
