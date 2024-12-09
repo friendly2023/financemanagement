@@ -76,7 +76,13 @@
         <textarea id="note" name="note" rows="6" cols="50" placeholder="Введите примечание (необязательно)"></textarea>
 
         <button type="submit">Создать</button>
+
     </form>
+
+    <form th:action="@{/}" method="get" style="margin-top: -10px;">
+        <button type="submit">На главную</button>
+    </form>
+
 </div>
 </body>
 </html>
