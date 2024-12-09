@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -37,5 +38,11 @@ public class ClientController {
     public String createClient(ClientEntity clientEntity) {
         clientService.createClient(clientEntity);
         return "redirect:/";
+    }
+
+    @PostMapping("/clients/delete/{id}")
+    public String deleteClient(@PathVariable Long id) {
+        clientService.deleteClient(id);
+        return "redirect:/clients";
     }
 }
