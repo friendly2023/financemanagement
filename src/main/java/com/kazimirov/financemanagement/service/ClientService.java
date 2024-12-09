@@ -40,4 +40,12 @@ public class ClientService {
         return clientRepository.findById(clientId)
                 .orElseThrow(() -> new IllegalArgumentException("Клиент с ID = " + clientId + " не найден"));
     }
+
+    //TODO обработать вывод ошибки на веб-страницу
+    public void deleteClient(Long id) {
+        if (!clientRepository.existsById(id)) {
+            throw new IllegalArgumentException("Клиент с ID " + id + " не найден.");
+        }
+        clientRepository.deleteById(id);
+    }
 }
