@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "clients")
-public class Client {
+public class ClientEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,16 +22,16 @@ public class Client {
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Order> orders  = new ArrayList<>();
+    @OneToMany(mappedBy = "clientEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<OrderEntity> orderEntities = new ArrayList<>();
 
-    public Client() {
+    public ClientEntity() {
     }
 
-    public Client(String name, String note, List<Order> orders) {
+    public ClientEntity(String name, String note, List<OrderEntity> orderEntities) {
         this.name = name;
         this.note = note;
-        this.orders = orders;
+        this.orderEntities = orderEntities;
     }
 
     public Long getId() {
@@ -54,12 +54,12 @@ public class Client {
         this.note = note;
     }
 
-    public List<Order> getOrders() {
-        return orders;
+    public List<OrderEntity> getOrders() {
+        return orderEntities;
     }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public void setOrders(List<OrderEntity> orderEntities) {
+        this.orderEntities = orderEntities;
     }
 
     public String getLinkToProfile() {
@@ -70,14 +70,14 @@ public class Client {
         this.linkToProfile = linkToProfile;
     }
 
-    public void addOrder(Order order) {
-        orders.add(order);
-        order.setClient(this);  // Устанавливаем обратную связь с клиентом
+    public void addOrder(OrderEntity orderEntity) {
+        orderEntities.add(orderEntity);
+        orderEntity.setClient(this);  // Устанавливаем обратную связь с клиентом
     }
 
     // Метод для удаления заказа
-    public void removeOrder(Order order) {
-        orders.remove(order);
-        order.setClient(null);  // Убираем обратную связь с клиентом
+    public void removeOrder(OrderEntity orderEntity) {
+        orderEntities.remove(orderEntity);
+        orderEntity.setClient(null);  // Убираем обратную связь с клиентом
     }
 }

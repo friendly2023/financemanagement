@@ -1,14 +1,14 @@
 package com.kazimirov.financemanagement.service;
 
-import com.kazimirov.financemanagement.model.Order;
+import com.kazimirov.financemanagement.model.OrderEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ValidationForVerifyDescription {
 
-    public void validate(Order order) {
-        if (order.getNote() == null || order.getNote().trim().isEmpty()) {
-            order.setNote("*примечание отсутствует*");
+    public void validate(OrderEntity orderEntity) {
+        if (orderEntity.getNote() == null || orderEntity.getNote().trim().isEmpty()) {
+            orderEntity.setNote("*примечание отсутствует*");
         }
     }
 }

@@ -1,8 +1,8 @@
 package com.kazimirov.financemanagement.controller;
 
-import com.kazimirov.financemanagement.dto.OrderDTO;
-import com.kazimirov.financemanagement.model.Client;
-import com.kazimirov.financemanagement.model.Order;
+import com.kazimirov.financemanagement.dto.OrderResponse;
+import com.kazimirov.financemanagement.model.ClientEntity;
+import com.kazimirov.financemanagement.model.OrderEntity;
 import com.kazimirov.financemanagement.service.ClientService;
 import com.kazimirov.financemanagement.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,34 +29,34 @@ public class OrderController {
 
     @GetMapping("/")
     public String showOrderList(Model model) {
-        List<OrderDTO> orders = orderService.getAllOrdersSortedByDueDate();
+        List<OrderResponse> orders = orderService.getAllOrdersSortedByDueDate();
         model.addAttribute("orders", orders);
-        return "order"; // имя шаблона HTML
+        return "orders"; // имя шаблона HTML
     }
 
     @GetMapping("/orders/new")
     public String showNewOrderForm(Model model) {
-        List<Client> clients = clientService.getAllClients();
-        model.addAttribute("clients", clients);
-        model.addAttribute("order", new Order());
+        List<ClientEntity> clientEntities = clientService.getAllClients();
+        model.addAttribute("clients", clientEntities);
+        model.addAttribute("order", new OrderEntity());
 
         return "new-order"; // Имя шаблона для формы создания задачи
     }
 
     @PostMapping("/orders/new")
-    public String createOrder(Order order, @RequestParam("clientId") Long clientId) {
-        Client client = clientService.getClientById(clientId);
-        order.setClient(client);
-        orderService.createOrder(order);
+    public String createOrder(OrderEntity orderEntity, @RequestParam("clientId") Long clientId) {
+        ClientEntity clientEntity = clientService.getClientById(clientId);
+        orderEntity.setClient(clientEntity);
+        orderService.createOrder(orderEntity);
 
         return "redirect:/";
     }
 
     @GetMapping("/orders/more/{id}")
     public String getOrderDetails(@PathVariable Long id, Model model) {
-        Order order = orderService.getOrderById(id).get();
-        model.addAttribute("order", order);
-        model.addAttribute("client", order.getClient());
+        OrderEntity orderEntity = orderService.getOrderById(id).get();
+        model.addAttribute("order", orderEntity);
+        model.addAttribute("client", orderEntity.getClient());
         return "order-details";
     }
 

@@ -1,11 +1,10 @@
 package com.kazimirov.financemanagement.dto;
 
-import com.kazimirov.financemanagement.model.Order;
 import com.kazimirov.financemanagement.model.OrderStatus;
 
 import java.time.LocalDate;
 
-public class OrderDTO {
+public class OrderResponse {
 
     private Long id;
     private String title;
@@ -14,7 +13,7 @@ public class OrderDTO {
     private String timeUtilizationRatio;
     private int totalOrderAmount;
 
-    public OrderDTO(Long id, String title, int totalOrderAmount, OrderStatus status, LocalDate dueDate, String timeUtilizationRatio) {
+    public OrderResponse(Long id, String title, int totalOrderAmount, OrderStatus status, LocalDate dueDate, String timeUtilizationRatio) {
         this.id = id;
         this.title = title;
         this.totalOrderAmount = totalOrderAmount;

@@ -1,23 +1,21 @@
 package com.kazimirov.financemanagement.repository;
 
-import com.kazimirov.financemanagement.model.Client;
-import com.kazimirov.financemanagement.model.Order;
-import com.kazimirov.financemanagement.model.OrderStatus;
+import com.kazimirov.financemanagement.model.ClientEntity;
+import com.kazimirov.financemanagement.model.OrderEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-public class ClientRepositoryTest {
+public class ClientResponseEntityRepositoryTest {
 
     @Autowired
     private ClientRepository clientRepository;
 
-    private List<Client> createdClients = new ArrayList<>();
+    private List<ClientEntity> createdClientEntities = new ArrayList<>();
 
     @Test
     public void testSaveClient() {
@@ -43,9 +41,9 @@ public class ClientRepositoryTest {
 //// Сохраняем клиента, каскадно сохранятся и заказы
 //        clientRepository.save(client);
 
-        Client client = clientRepository.findById(1L).orElseThrow();
-        Order order = client.getOrders().get(0);
-        client.getOrders().remove(order);
-        clientRepository.save(client);
+        ClientEntity clientEntity = clientRepository.findById(1L).orElseThrow();
+        OrderEntity orderEntity = clientEntity.getOrders().get(0);
+        clientEntity.getOrders().remove(orderEntity);
+        clientRepository.save(clientEntity);
     }
 }

@@ -1,15 +1,12 @@
 package com.kazimirov.financemanagement.service;
 
-import com.kazimirov.financemanagement.dto.OrderDTO;
-import com.kazimirov.financemanagement.model.Client;
-import com.kazimirov.financemanagement.model.Order;
+import com.kazimirov.financemanagement.dto.OrderResponse;
+import com.kazimirov.financemanagement.model.OrderEntity;
 import com.kazimirov.financemanagement.model.OrderStatus;
 import com.kazimirov.financemanagement.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,34 +27,34 @@ public class OrderService {
         this.validationForVerifyDescription = validationForVerifyDescription;
     }
 
-    public Order createOrder(Order order) {
-        validationForOverdueOrders.validate(order);
-        validationForVerifyDescription.validate(order);
-        return orderRepository.save(order);
+    public OrderEntity createOrder(OrderEntity orderEntity) {
+        validationForOverdueOrders.validate(orderEntity);
+        validationForVerifyDescription.validate(orderEntity);
+        return orderRepository.save(orderEntity);
     }
 
-    public List<Order> getAllOrders() {
+    public List<OrderEntity> getAllOrders() {
         return orderRepository.findAll();
     }
 
-    public List<OrderDTO> getAllOrdersSortedByDueDate() {
-        List<Order> orders = orderRepository.findAllByOrderByDueDate();
+    public List<OrderResponse> getAllOrdersSortedByDueDate() {
+        List<OrderEntity> orderEntities = orderRepository.findAllByOrderByDueDate();
 
-        return orders.stream()
+        return orderEntities.stream()
                 .map(OrderDTOFactory::mapToOrderDTO)
                 .collect(Collectors.toList());
     }
 
 
-    public List<Order> getOrdersByTitle(String title) {
+    public List<OrderEntity> getOrdersByTitle(String title) {
         return orderRepository.findByTitleContaining(title);
     }
 
-    public List<Order> getOrdersByStatus(OrderStatus status) {
+    public List<OrderEntity> getOrdersByStatus(OrderStatus status) {
         return orderRepository.findByStatus(status);
     }
 
-    public Optional<Order> getOrderById(Long id) {
+    public Optional<OrderEntity> getOrderById(Long id) {
         return orderRepository.findById(id);
     }
 

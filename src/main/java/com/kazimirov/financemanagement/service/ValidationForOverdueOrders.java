@@ -1,25 +1,25 @@
 package com.kazimirov.financemanagement.service;
 
-import com.kazimirov.financemanagement.model.Order;
+import com.kazimirov.financemanagement.model.OrderEntity;
 import com.kazimirov.financemanagement.model.OrderStatus;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ValidationForOverdueOrders {
 
-    public void validate(Order order) {
-        if (isOrderOverdue(order)) {
-            handleOverdueTask(order);
+    public void validate(OrderEntity orderEntity) {
+        if (isOrderOverdue(orderEntity)) {
+            handleOverdueTask(orderEntity);
         }
     }
 
-    private boolean isOrderOverdue(Order order) {
-        return order.getOrderDate().isAfter(order.getDueDate());
+    private boolean isOrderOverdue(OrderEntity orderEntity) {
+        return orderEntity.getOrderDate().isAfter(orderEntity.getDueDate());
     }
 
-    private void handleOverdueTask(Order order) {
+    private void handleOverdueTask(OrderEntity orderEntity) {
         // TODO обработать вывод ошибки на веб-страницу
-        if (order.getStatus() == OrderStatus.ONGOING) {
+        if (orderEntity.getStatus() == OrderStatus.ONGOING) {
             throw new IllegalArgumentException("Невозможно данной задаче присвоить статус 'ONGOING'");
         }
     }
