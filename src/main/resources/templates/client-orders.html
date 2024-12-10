@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Список заказов</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      height: 100%; /* Убираем 100vh */
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    header {
+      background-color: #fff;
+      padding: 20px;
+      position: sticky;
+      top: 0; /* Закрепляем заголовок и фильтр при прокрутке */
+      z-index: 10;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Добавляем тень для выделения */
+    }
+
+    .container {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 0 20px 20px 20px; /* Убираем верхний отступ и снизу добавляем отступ */
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px; /* Немного увеличиваем промежуток */
+    }
+
+    a {
+      margin-top: 10px; /* Добавляем небольшой отступ между ссылкой и фильтром */
+    }
+
+    table {
+      width: 100%;
+      max-width: 1000px; /* Максимальная ширина таблицы */
+      margin-top: 20px;
+      border-collapse: collapse;
+      margin: 0 auto; /* Центрируем таблицу */
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    td {
+      max-width: 300px; /* Ограничиваем максимальную ширину для ячеек */
+      word-wrap: break-word; /* Разбиваем длинные слова */
+    }
+
+    form {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px; /* Добавляем отступ сверху */
+    }
+
+    .spaced-links {
+      display: flex; /* Включаем Flexbox */
+      gap: 20px; /* Устанавливаем отступ между элементами */
+      justify-content: center;
+    }
+
+    /* Новый стиль только для ссылок "Подробнее" и "Удалить" */
+    .action-links a,
+    .action-links button {
+      text-decoration: none; /* Убираем подчеркивание */
+      color: #007bff; /* Цвет текста для ссылок */
+      font-size: 16px; /* Размер шрифта */
+    }
+
+    .action-links a:hover,
+    .action-links button:hover {
+      text-decoration: underline; /* Подчеркивание при наведении */
+    }
+
+    .action-links button {
+      background: none; /* Убираем фоновый цвет */
+      border: none; /* Убираем границу */
+      cursor: pointer; /* Указатель при наведении */
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <header>
+    <h1 th:text="'Список заказов клиента - ' + ${client.name} + ' с id='+ ${client.id}">Список заказов клиента</h1>
+
+    <div class="spaced-links">
+      <a href="/orders/new">Добавить новый заказ</a>
+      <a href="/orders">Назад</a>
+      <a href="/">На главную</a>
+    </div>
+
+
+  </header>
+
+  <div class="container">
+    <table>
+      <thead>
+      <tr>
+        <th>Название</th>
+        <th>Общая сумма заказа</th>
+        <th>Статус</th>
+        <th>Прошло/было дней</th>
+        <th>Дата выполнения заказа</th>
+        <th>Действия</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="order : ${orders}">
+        <td th:text="${order.title}"></td>
+        <td th:text="${order.totalOrderAmount}"></td>
+        <td th:text="${order.status}"></td>
+        <td th:text="${order.timeUtilizationRatio}"></td>
+        <td th:text="${order.dueDate}"></td>
+        <td class="action-links">
+          <a href="/orders/more/{order.id}" th:href="@{/orders/more/{id}(id=${order.id})}">Подробнее</a>
+          <!-- Форма для удаления -->
+          <form th:action="@{/orders/delete/{id}(id=${order.id})}" method="post" style="display:inline;">
+            <button type="submit">Удалить</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>
