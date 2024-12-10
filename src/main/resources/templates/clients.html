@@ -134,11 +134,11 @@
 
                 <td class="action-links">
 
-                    <a href="/" >Заказы</a>
+                    <a href="/client/orders/{client.id}" th:href="@{/client/orders/{id}(id=${client.id})}" >Заказы</a>
 
                     <a href="/clients/edit/{client.id}" th:href="@{/clients/edit/{id}(id=${client.id})}">Редактировать</a>
 
-                    <form th:action="@{/clients/delete/{id}(id=${client.id})}" method="post" style="display:inline;" onsubmit="return confirmDeletion();">
+                    <form th:action="@{/clients/delete/{id}(id=${client.id})}" method="post" style="display:inline;" onsubmit="return confirmDeletion();"><br>
                         <button type="submit">Удалить</button>
                     </form>
 

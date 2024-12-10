@@ -45,6 +45,14 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    public List<OrderResponse> getForClientOrdersByIdSortedByDueDate(Long clientId) {
+        List<OrderEntity> orderEntities = orderRepository.findByClientEntity_Id(clientId);
+
+        return orderEntities.stream()
+                .map(OrderDTOFactory::mapToOrderDTO)
+                .collect(Collectors.toList());
+    }
+
 
     public List<OrderEntity> getOrdersByTitle(String title) {
         return orderRepository.findByTitleContaining(title);
