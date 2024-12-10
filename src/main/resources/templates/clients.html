@@ -117,8 +117,8 @@
                 <th>Ссылка на профиль</th>
                 <th>Колличество заказов</th>
                 <th>Суммы заказа</th>
-                <th>Действия</th>
                 <th>Примечание</th>
+                <th>Действия</th>
             </tr>
             </thead>
             <tbody>
@@ -133,6 +133,8 @@
                 <td th:text="${client.note}"></td>
 
                 <td class="action-links">
+
+                    <a href="/" >Заказы</a>
 
                     <a href="/clients/edit/{client.id}" th:href="@{/clients/edit/{id}(id=${client.id})}">Редактировать</a>
 
