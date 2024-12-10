@@ -16,7 +16,7 @@ public class ClientEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "link_to_profile", nullable = false)
+    @Column(name = "link_to_profile")
     private String linkToProfile;
 
     @Column(name = "note", columnDefinition = "TEXT")
