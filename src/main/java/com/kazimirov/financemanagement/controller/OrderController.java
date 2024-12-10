@@ -69,7 +69,9 @@ public class OrderController {
     @GetMapping("/client/orders/{id}")
     public String displayingClientOrders(@PathVariable Long id, Model model) {
         List<OrderResponse> orders = orderService.getForClientOrdersByIdSortedByDueDate(id);
+        ClientEntity clientEntity = clientService.getClientById(id);
         model.addAttribute("orders", orders);
+        model.addAttribute("client", clientEntity);
         return "client-orders";
     }
 

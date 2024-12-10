@@ -99,7 +99,7 @@
 <body>
 <div class="wrapper">
   <header>
-    <h1>Список заказов клиента ${client.id} </h1>
+    <h1 th:text="'Список заказов клиента - ' + ${client.name} + ' с id='+ ${client.id}">Список заказов клиента</h1>
 
     <div class="spaced-links">
       <a href="/orders/new">Добавить новый заказ</a>
