@@ -1,6 +1,6 @@
 package com.kazimirov.financemanagement.service;
 
-import com.kazimirov.financemanagement.model.OrderEntity;
+import com.kazimirov.financemanagement.entity.OrderEntity;
 import org.springframework.stereotype.Component;
 
 @Component

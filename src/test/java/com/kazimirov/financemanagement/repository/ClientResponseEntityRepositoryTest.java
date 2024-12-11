@@ -1,7 +1,7 @@
 package com.kazimirov.financemanagement.repository;
 
-import com.kazimirov.financemanagement.model.ClientEntity;
-import com.kazimirov.financemanagement.model.OrderEntity;
+import com.kazimirov.financemanagement.entity.ClientEntity;
+import com.kazimirov.financemanagement.entity.OrderEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

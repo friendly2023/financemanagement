@@ -1,7 +1,7 @@
 package com.kazimirov.financemanagement.service;
 
 import com.kazimirov.financemanagement.dto.ClientResponse;
-import com.kazimirov.financemanagement.model.ClientEntity;
+import com.kazimirov.financemanagement.entity.ClientEntity;
 import com.kazimirov.financemanagement.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

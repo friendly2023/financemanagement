@@ -1,4 +1,4 @@
-package com.kazimirov.financemanagement.model;
+package com.kazimirov.financemanagement.entity;
 
 import jakarta.persistence.*;
 
@@ -67,7 +67,9 @@ public class ClientEntity {
     }
 
     public void setLinkToProfile(String linkToProfile) {
-        this.linkToProfile = linkToProfile;
+        if (UrlValidator.validator(linkToProfile)) {
+            this.linkToProfile = linkToProfile;
+        }
     }
 
     public void addOrder(OrderEntity orderEntity) {

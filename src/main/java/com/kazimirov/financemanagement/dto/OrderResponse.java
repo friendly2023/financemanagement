@@ -1,6 +1,6 @@
 package com.kazimirov.financemanagement.dto;
 
-import com.kazimirov.financemanagement.model.OrderStatus;
+import com.kazimirov.financemanagement.entity.OrderStatus;
 
 import java.time.LocalDate;
 

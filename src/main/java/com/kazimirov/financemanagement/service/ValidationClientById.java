@@ -1,6 +1,6 @@
 package com.kazimirov.financemanagement.service;
 
-import com.kazimirov.financemanagement.model.ClientEntity;
+import com.kazimirov.financemanagement.entity.ClientEntity;
 
 public class ValidationClientById {
 

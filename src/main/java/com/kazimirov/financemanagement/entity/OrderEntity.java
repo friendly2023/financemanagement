@@ -1,4 +1,4 @@
-package com.kazimirov.financemanagement.model;
+package com.kazimirov.financemanagement.entity;
 
 
 import jakarta.persistence.*;
