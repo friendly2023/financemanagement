@@ -8,7 +8,7 @@ public class ValidationForVerifyDescription {
 
     public void validate(OrderEntity orderEntity) {
         if (orderEntity.getNote() == null || orderEntity.getNote().trim().isEmpty()) {
-            orderEntity.setNote("*примечание отсутствует*");
+            orderEntity.setNote(null);
         }
     }
 }

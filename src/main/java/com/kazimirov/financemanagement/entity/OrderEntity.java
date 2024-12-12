@@ -40,17 +40,6 @@ public class OrderEntity {
     @JoinColumn(name = "client_id", nullable = false)
     private ClientEntity clientEntity;
 
-    //TODO перенести это в service
-    @PrePersist
-    public void validate() {
-        if (title == null || title.trim().isEmpty()) {
-            throw new IllegalStateException("Отсутствует заголовок заказа");
-        }
-        if (dueDate == null) {
-            throw new IllegalStateException("Отсутствует дедлайн заказа");
-        }
-    }
-
     public OrderEntity() {
         this.orderDate = LocalDate.now();
     }
