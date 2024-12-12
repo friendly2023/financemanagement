@@ -1,12 +1,22 @@
 package com.kazimirov.financemanagement.service;
 
-import com.kazimirov.financemanagement.model.ClientEntity;
+import com.kazimirov.financemanagement.entity.ClientEntity;
+import com.kazimirov.financemanagement.repository.ClientRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ValidationClientById {
 
-    static public void validator(ClientEntity clientEntity, Long clientId) {
-        if (clientEntity == null) {
-            throw new IllegalArgumentException("Клиент с ID " + clientId + " не найден");
+    ClientRepository clientRepository;
+
+    public ValidationClientById(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
+
+    public void checkClientExists(Long clientId) {
+        if (!clientRepository.existsById(clientId)) {
+            //TODO обработать вывод ошибки на веб-страницу
+            throw new IllegalArgumentException("Клиент с ID = " + clientId + " не найден.");
         }
     }
 }

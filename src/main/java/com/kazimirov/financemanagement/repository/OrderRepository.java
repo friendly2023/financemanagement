@@ -1,11 +1,8 @@
 package com.kazimirov.financemanagement.repository;
 
-import com.kazimirov.financemanagement.model.ClientEntity;
-import com.kazimirov.financemanagement.model.OrderEntity;
-import com.kazimirov.financemanagement.model.OrderStatus;
+import com.kazimirov.financemanagement.entity.OrderEntity;
+import com.kazimirov.financemanagement.entity.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

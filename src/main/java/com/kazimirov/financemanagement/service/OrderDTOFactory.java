@@ -1,7 +1,7 @@
 package com.kazimirov.financemanagement.service;
 
 import com.kazimirov.financemanagement.dto.OrderResponse;
-import com.kazimirov.financemanagement.model.OrderEntity;
+import com.kazimirov.financemanagement.entity.OrderEntity;
 
 import java.time.LocalDate;
 import java.time.Period;

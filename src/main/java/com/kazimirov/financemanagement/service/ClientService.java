@@ -1,7 +1,7 @@
 package com.kazimirov.financemanagement.service;
 
 import com.kazimirov.financemanagement.dto.ClientResponse;
-import com.kazimirov.financemanagement.model.ClientEntity;
+import com.kazimirov.financemanagement.entity.ClientEntity;
 import com.kazimirov.financemanagement.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,13 +13,16 @@ import java.util.stream.Collectors;
 public class ClientService {
 
     private final ClientRepository clientRepository;
+    private final ValidationClientById validationClientById;
 
     @Autowired
-    public ClientService(ClientRepository clientRepository) {
+    public ClientService(ClientRepository clientRepository, ValidationClientById validationClientById) {
         this.clientRepository = clientRepository;
+        this.validationClientById = validationClientById;
     }
 
     public ClientEntity createClient(ClientEntity clientEntity) {
+        clientEntity.setLinkToProfile(ValidatorUrl.validatorURI(clientEntity.getLinkToProfile()));
         return clientRepository.save(clientEntity);
     }
 
@@ -35,17 +38,15 @@ public class ClientService {
                 .collect(Collectors.toList());
     }
 
-//TODO обработать вывод ошибки на веб-страницу
     public ClientEntity getClientById(Long clientId) {
+        validationClientById.checkClientExists(clientId);
         return clientRepository.findById(clientId)
-                .orElseThrow(() -> new IllegalArgumentException("Клиент с ID = " + clientId + " не найден"));
+                .get();
     }
 
-    //TODO обработать вывод ошибки на веб-страницу
-    public void deleteClient(Long id) {
-        if (!clientRepository.existsById(id)) {
-            throw new IllegalArgumentException("Клиент с ID " + id + " не найден.");
-        }
-        clientRepository.deleteById(id);
+    public void deleteClient(Long clientId) {
+        validationClientById.checkClientExists(clientId);
+        clientRepository.deleteById(clientId);
     }
+
 }

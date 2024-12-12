@@ -1,8 +1,8 @@
 package com.kazimirov.financemanagement.service;
 
 import com.kazimirov.financemanagement.dto.OrderResponse;
-import com.kazimirov.financemanagement.model.OrderEntity;
-import com.kazimirov.financemanagement.model.OrderStatus;
+import com.kazimirov.financemanagement.entity.OrderEntity;
+import com.kazimirov.financemanagement.entity.OrderStatus;
 import com.kazimirov.financemanagement.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,20 +16,20 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private ValidationForOverdueOrders validationForOverdueOrders;
-    private ValidationForVerifyDescription validationForVerifyDescription;
+    private ValidationForVerifyNote validationForVerifyNote;
 
     @Autowired
     public OrderService(OrderRepository orderRepository,
                         ValidationForOverdueOrders validationForOverdueOrders,
-                        ValidationForVerifyDescription validationForVerifyDescription) {
+                        ValidationForVerifyNote validationForVerifyNote) {
         this.orderRepository = orderRepository;
         this.validationForOverdueOrders = validationForOverdueOrders;
-        this.validationForVerifyDescription = validationForVerifyDescription;
+        this.validationForVerifyNote = validationForVerifyNote;
     }
 
     public OrderEntity createOrder(OrderEntity orderEntity) {
         validationForOverdueOrders.validate(orderEntity);
-        validationForVerifyDescription.validate(orderEntity);
+        validationForVerifyNote.validate(orderEntity);
         return orderRepository.save(orderEntity);
     }
 
