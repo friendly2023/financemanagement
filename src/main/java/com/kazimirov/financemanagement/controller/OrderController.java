@@ -75,4 +75,10 @@ public class OrderController {
         return "client-orders";
     }
 
+    @GetMapping("/orders/edit/{id}")
+    public String editOrder(@PathVariable Long id, Model model) {
+        OrderEntity order = orderService.searchOrderById(id);
+        model.addAttribute("order", order);
+        return "order-editing";
+    }
 }

@@ -37,6 +37,12 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public OrderEntity searchOrderById(Long id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Заказ не найден с id: " + id));
+    }
+
+
     public List<OrderResponse> getAllOrdersSortedByDueDate() {
         List<OrderEntity> orderEntities = orderRepository.findAllByOrderByDueDate();
 
