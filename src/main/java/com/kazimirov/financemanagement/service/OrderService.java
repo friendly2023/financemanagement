@@ -16,20 +16,20 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private ValidationForOverdueOrders validationForOverdueOrders;
-    private ValidationForVerifyDescription validationForVerifyDescription;
+    private ValidationForVerifyNote validationForVerifyNote;
 
     @Autowired
     public OrderService(OrderRepository orderRepository,
                         ValidationForOverdueOrders validationForOverdueOrders,
-                        ValidationForVerifyDescription validationForVerifyDescription) {
+                        ValidationForVerifyNote validationForVerifyNote) {
         this.orderRepository = orderRepository;
         this.validationForOverdueOrders = validationForOverdueOrders;
-        this.validationForVerifyDescription = validationForVerifyDescription;
+        this.validationForVerifyNote = validationForVerifyNote;
     }
 
     public OrderEntity createOrder(OrderEntity orderEntity) {
         validationForOverdueOrders.validate(orderEntity);
-        validationForVerifyDescription.validate(orderEntity);
+        validationForVerifyNote.validate(orderEntity);
         return orderRepository.save(orderEntity);
     }
 

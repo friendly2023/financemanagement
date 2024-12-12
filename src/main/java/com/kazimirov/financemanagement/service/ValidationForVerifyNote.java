@@ -4,7 +4,7 @@ import com.kazimirov.financemanagement.entity.OrderEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ValidationForVerifyDescription {
+public class ValidationForVerifyNote {
 
     public void validate(OrderEntity orderEntity) {
         if (orderEntity.getNote() == null || orderEntity.getNote().trim().isEmpty()) {
