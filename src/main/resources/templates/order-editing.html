@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать заказ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 16px; /* Устанавливаем тот же размер шрифта, что и в таблице второго шаблона */
+        }
+
+        textarea {
+            height: 100px; /* Увеличена высота для большего объема текста */
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 15px;
+            font-size: 14px; /* Устанавливаем такой же размер шрифта, как у кнопки "Создать" */
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .button {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .button:hover {
+            text-decoration: underline;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Редактировать заказ</h1>
+    <form th:action="@{/orders/edit/{id}(id=${order.id})}" th:object="${order}" method="post">
+        <div>
+            <label for="title">Название:</label>
+            <input type="text" id="title" name="title" th:value="*{title}" required>
+        </div>
+
+        <div>
+            <label for="note">Описание:</label>
+            <textarea id="note" name="note" rows="4" th:text="*{note}"></textarea>
+        </div>
+
+        <div>
+            <label for="totalOrderAmount">Общая сумма:</label>
+            <input type="text" id="totalOrderAmount" name="totalOrderAmount" th:value="*{totalOrderAmount}" required>
+        </div>
+
+        <div>
+            <label for="status">Статус:</label>
+            <select id="status" name="status">
+                <option value="ONGOING">В работе</option>
+                <option value="COMPLETED">Завершено</option>
+                <option value="CANCELLED">Отменено</option>
+                <option value="OVERDUE">Просрочено</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="city">Город оформления:</label>
+            <input type="text" id="city" name="city" th:value="*{city}">
+        </div>
+
+        <div>
+            <label for="orderDate">Дата оформления:</label>
+            <input type="date" id="orderDate" name="orderDate" th:value="*{orderDate}" required>
+        </div>
+
+        <div>
+            <label for="dueDate">Дата выполнения:</label>
+            <input type="date" id="dueDate" name="dueDate" th:value="*{dueDate}" required>
+        </div>
+
+        <div class="actions">
+            <button type="submit">Сохранить изменения</button>
+        </div>
+    </form>
+
+    <div class="actions">
+        <a th:href="@{/orders/more/{id}(id=${order.id})}" class="button">Назад к заказу</a>
+    </div>
+</div>
+</body>
+</html>
