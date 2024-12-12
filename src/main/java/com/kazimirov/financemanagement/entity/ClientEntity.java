@@ -67,9 +67,7 @@ public class ClientEntity {
     }
 
     public void setLinkToProfile(String linkToProfile) {
-        if (UrlValidator.validator(linkToProfile)) {
-            this.linkToProfile = linkToProfile;
-        }
+        this.linkToProfile = linkToProfile;
     }
 
     public void addOrder(OrderEntity orderEntity) {

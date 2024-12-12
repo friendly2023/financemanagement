@@ -20,6 +20,7 @@ public class ClientService {
     }
 
     public ClientEntity createClient(ClientEntity clientEntity) {
+        clientEntity.setLinkToProfile(ValidatorUrl.validatorURI(clientEntity.getLinkToProfile()));
         return clientRepository.save(clientEntity);
     }
 
