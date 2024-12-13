@@ -45,4 +45,9 @@ public class ProductService {
 
         productRepository.deleteById(productId);
     }
+
+    public ProductEntity getByName(String productName) {
+        return productRepository.findByProductName(productName)
+                .orElseThrow(() -> new IllegalArgumentException("Товар с именем '" + productName + "' не найден"));
+    }
 }

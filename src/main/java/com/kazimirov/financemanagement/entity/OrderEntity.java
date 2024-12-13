@@ -125,4 +125,11 @@ public class OrderEntity {
         this.totalProductPrice = totalOrderAmount;
     }
 
+    public List<ProductEntity> getProductEntities() {
+        return productEntities;
+    }
+
+    public void setProductEntities(List<ProductEntity> productEntities) {
+        this.productEntities = productEntities;
+    }
 }
