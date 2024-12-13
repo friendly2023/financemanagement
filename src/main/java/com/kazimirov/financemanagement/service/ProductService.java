@@ -40,4 +40,9 @@ public class ProductService {
     public List<ProductEntity> getProductsWithoutOrder() {
         return productRepository.findByOrderEntityIsNull();
     }
+
+    public void deleteProduct(Long productId) {
+
+        productRepository.deleteById(productId);
+    }
 }
