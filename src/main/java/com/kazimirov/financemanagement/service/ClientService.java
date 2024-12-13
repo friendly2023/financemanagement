@@ -34,7 +34,7 @@ public class ClientService {
         List<ClientEntity> clientEntity = clientRepository.findAllByOrderByIdDesc();
 
         return clientEntity.stream()
-                .map(ClientDTOFactory::mapClientDTO)
+                .map(ClientResponseFactory::mapClientDTO)
                 .collect(Collectors.toList());
     }
 

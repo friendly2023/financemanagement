@@ -47,7 +47,7 @@ public class OrderService {
         List<OrderEntity> orderEntities = orderRepository.findAllByOrderByDueDate();
 
         return orderEntities.stream()
-                .map(OrderDTOFactory::mapToOrderDTO)
+                .map(OrderResponseFactory::mapToOrderResponse)
                 .collect(Collectors.toList());
     }
 
@@ -55,7 +55,7 @@ public class OrderService {
         List<OrderEntity> orderEntities = orderRepository.findByClientEntity_Id(clientId);
 
         return orderEntities.stream()
-                .map(OrderDTOFactory::mapToOrderDTO)
+                .map(OrderResponseFactory::mapToOrderResponse)
                 .collect(Collectors.toList());
     }
 

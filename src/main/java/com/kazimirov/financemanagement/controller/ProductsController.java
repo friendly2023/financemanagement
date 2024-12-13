@@ -1,6 +1,7 @@
 package com.kazimirov.financemanagement.controller;
 
 import com.kazimirov.financemanagement.dto.OrderResponse;
+import com.kazimirov.financemanagement.dto.ProductResponse;
 import com.kazimirov.financemanagement.entity.OrderEntity;
 import com.kazimirov.financemanagement.entity.ProductEntity;
 import com.kazimirov.financemanagement.service.OrderService;
@@ -41,6 +42,15 @@ public class ProductsController {
     public String createProduct(ProductEntity productEntity) {
         productService.createProduct(productEntity);
 
-        return "redirect:/";
+        return "redirect:/products";
     }
+
+    @GetMapping("/products")
+    public String showProductsList(Model model) {
+        List<ProductResponse> productResponses = productService.getProducts();
+        model.addAttribute("products", productResponses);
+
+        return "products";
+    }
+
 }

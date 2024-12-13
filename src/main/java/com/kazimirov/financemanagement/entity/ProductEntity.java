@@ -37,6 +37,10 @@ public class ProductEntity {
         this.orderEntity = orderEntity;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getProductName() {
         return productName;
     }

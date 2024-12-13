@@ -1,11 +1,13 @@
 package com.kazimirov.financemanagement.service;
 
+import com.kazimirov.financemanagement.dto.ProductResponse;
 import com.kazimirov.financemanagement.entity.ProductEntity;
 import com.kazimirov.financemanagement.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -26,6 +28,13 @@ public class ProductService {
             //todo вывести сообщение об ошибке
             throw new IllegalArgumentException("Err: Товар уже в списке");
         }
+    }
+
+    public List<ProductResponse> getProducts() {
+
+        return getProductsWithoutOrder().stream()
+                .map(ProductResponseFactory::mapToProductResponse)
+                .collect(Collectors.toList());
     }
 
     public List<ProductEntity> getProductsWithoutOrder() {
