@@ -15,21 +15,21 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private ValidationForOverdueOrders validationForOverdueOrders;
-    private ValidationForVerifyNote validationForVerifyNote;
+    private ValidatorForOverdueOrders validatorForOverdueOrders;
+    private ValidatorForVerifyNote validatorForVerifyNote;
 
     @Autowired
     public OrderService(OrderRepository orderRepository,
-                        ValidationForOverdueOrders validationForOverdueOrders,
-                        ValidationForVerifyNote validationForVerifyNote) {
+                        ValidatorForOverdueOrders validatorForOverdueOrders,
+                        ValidatorForVerifyNote validatorForVerifyNote) {
         this.orderRepository = orderRepository;
-        this.validationForOverdueOrders = validationForOverdueOrders;
-        this.validationForVerifyNote = validationForVerifyNote;
+        this.validatorForOverdueOrders = validatorForOverdueOrders;
+        this.validatorForVerifyNote = validatorForVerifyNote;
     }
 
     public OrderEntity createOrder(OrderEntity orderEntity) {
-        validationForOverdueOrders.validate(orderEntity);
-        validationForVerifyNote.validate(orderEntity);
+        validatorForOverdueOrders.validate(orderEntity);
+        validatorForVerifyNote.validate(orderEntity);
         return orderRepository.save(orderEntity);
     }
 
