@@ -92,7 +92,7 @@ public class OrderController {
         existingOrder.setOrderDate(orderEntity.getOrderDate());
         existingOrder.setDueDate(orderEntity.getDueDate());
         existingOrder.setCity(orderEntity.getCity());
-        existingOrder.setTotalOrderAmount(orderEntity.getTotalOrderAmount());
+        existingOrder.setTotalProductPrice(orderEntity.getTotalProductPrice());
         existingOrder.setStatus(orderEntity.getStatus());
 
         orderService.createOrder(existingOrder);

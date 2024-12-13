@@ -4,6 +4,8 @@ package com.kazimirov.financemanagement.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -29,8 +31,8 @@ public class OrderEntity {
     @Column(name = "city")
     private String city;
 
-    @Column(name = "total_order_amount", nullable = false)
-    private int totalOrderAmount;
+    @Column(name = "total_product_price", nullable = false)
+    private int totalProductPrice;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -39,6 +41,9 @@ public class OrderEntity {
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private ClientEntity clientEntity;
+
+    @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductEntity> productEntities = new ArrayList<>();
 
     public OrderEntity() {
         this.orderDate = LocalDate.now();
@@ -112,12 +117,12 @@ public class OrderEntity {
         this.city = city;
     }
 
-    public int getTotalOrderAmount() {
-        return totalOrderAmount;
+    public int getTotalProductPrice() {
+        return totalProductPrice;
     }
 
-    public void setTotalOrderAmount(int totalOrderAmount) {
-        this.totalOrderAmount = totalOrderAmount;
+    public void setTotalProductPrice(int totalOrderAmount) {
+        this.totalProductPrice = totalOrderAmount;
     }
 
 }
