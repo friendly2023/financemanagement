@@ -122,7 +122,7 @@
             <td th:text="${client.note}"></td>
         </tr>
     </table>
-    <a th:href="@{/clients/edit/{id}(id=${client.id})}" class="button">Редактировать клиента</a>
+    <a th:href="@{/clients/edit/client={clientId}_order={orderId}(clientId=${client.id}, orderId=${order.id})}" class="button">Редактировать клиента</a>
 
     <br><br>
     <div style="text-align: center;">
