@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать клиента</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 16px; /* Устанавливаем тот же размер шрифта, что и в таблице */
+        }
+
+        textarea {
+            height: 100px; /* Увеличена высота для большего объема текста */
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 15px;
+            font-size: 14px; /* Устанавливаем такой же размер шрифта, как у кнопки "Создать" */
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .button {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .button:hover {
+            text-decoration: underline;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Редактировать клиента</h1>
+    <form th:action="@{/clients/edit/{clientId}/order/{orderId}(clientId=${client.id}, orderId=${orderId})}"
+          th:object="${client}"
+          method="post">
+        <input type="hidden" name="clientId" th:value="${client.id}">
+        <input type="hidden" name="orderId" th:value="${orderId}">
+
+        <label for="name">Имя:</label>
+        <input type="text" id="name" name="name" th:value="*{name}" required>
+
+        <label for="linkToProfile">Ссылка на профиль:</label>
+        <input type="url" id="linkToProfile" name="linkToProfile" th:value="*{linkToProfile}">
+
+        <label for="note">Примечание:</label>
+        <textarea id="note" name="note" rows="4" th:text="*{note}"></textarea>
+
+        <button type="submit">Сохранить изменения</button>
+    </form>
+
+    <div class="actions">
+        <a th:href="@{/orders/more/{id}(id=${orderId})}" class="button">Назад к заказу</a>
+    </div>
+</div>
+</body>
+</html>

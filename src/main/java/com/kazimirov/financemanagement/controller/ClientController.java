@@ -45,4 +45,58 @@ public class ClientController {
         clientService.deleteClient(id);
         return "redirect:/clients";
     }
+
+    @GetMapping("/clients/edit/{clientId}/order/{orderId}")
+    public String editClient(
+            @PathVariable Long clientId,
+            @PathVariable Long orderId,
+            Model model) {
+
+        ClientEntity client = clientService.getClientById(clientId);
+
+        model.addAttribute("client", client);
+        model.addAttribute("orderId", orderId);
+
+        return "client-editing";
+    }
+
+    @PostMapping("/clients/edit/{clientId}/order/{orderId}")
+    public String saveEditOrder(@PathVariable Long clientId,
+                                @PathVariable Long orderId,
+                                ClientEntity clientEntity) {
+
+        ClientEntity existingClient = clientService.getClientById(clientId);
+
+        existingClient.setName(clientEntity.getName());
+        existingClient.setLinkToProfile(clientEntity.getLinkToProfile());
+        existingClient.setNote(clientEntity.getNote());
+
+        clientService.createClient(existingClient);
+
+        return "redirect:/orders/more/" + orderId;
+    }
+
+    @GetMapping("/clients/edit/{clientId}")
+    public String editClient(@PathVariable Long clientId, Model model) {
+
+        ClientEntity client = clientService.getClientById(clientId);
+
+        model.addAttribute("client", client);
+
+        return "client-editing2";
+    }
+
+    @PostMapping("/clients/edit/{clientId}")
+    public String saveEditOrder(@PathVariable Long clientId, ClientEntity clientEntity) {
+
+        ClientEntity existingClient = clientService.getClientById(clientId);
+
+        existingClient.setName(clientEntity.getName());
+        existingClient.setLinkToProfile(clientEntity.getLinkToProfile());
+        existingClient.setNote(clientEntity.getNote());
+
+        clientService.createClient(existingClient);
+
+        return "redirect:/clients";
+    }
 }
