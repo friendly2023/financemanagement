@@ -77,7 +77,7 @@
 <body>
 <div class="container">
     <h1>Редактировать клиента</h1>
-    <form th:action="@{/clients/edit/{clientId}/order/{orderId}(clientId=${client.id}, orderId=${orderId})}"
+    <form th:action="@{/clients/edit/{clientId}(clientId=${client.id})}"
           th:object="${client}"
           method="post">
         <input type="hidden" name="clientId" th:value="${client.id}">
@@ -96,7 +96,7 @@
     </form>
 
     <div class="actions">
-        <a th:href="@{/clients/more/{id}(id=${client.id})}" class="button">Назад к клиенту</a>
+        <a th:href="@{/clients}" class="button">Назад к клиенту</a>
     </div>
 </div>
 </body>
