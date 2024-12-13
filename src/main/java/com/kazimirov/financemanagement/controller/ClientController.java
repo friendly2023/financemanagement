@@ -2,6 +2,7 @@ package com.kazimirov.financemanagement.controller;
 
 import com.kazimirov.financemanagement.dto.ClientResponse;
 import com.kazimirov.financemanagement.entity.ClientEntity;
+import com.kazimirov.financemanagement.entity.OrderEntity;
 import com.kazimirov.financemanagement.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,5 +45,12 @@ public class ClientController {
     public String deleteClient(@PathVariable Long id) {
         clientService.deleteClient(id);
         return "redirect:/clients";
+    }
+
+    @GetMapping("/clients/edit/{id}")
+    public String editClient(@PathVariable Long id, Model model) {
+        ClientEntity client = clientService.getClientById(id);
+        model.addAttribute("client", client);
+        return "client-editing";
     }
 }
