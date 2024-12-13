@@ -65,18 +65,15 @@
 <body>
 <div class="container">
   <h1>Добавить новый товар</h1>
-  <form th:action="@{/products/new}" method="post">
+  <form th:action="@{/product/new}" method="post">
     <label for="productName">Название товара:</label>
     <input type="text" id="productName" name="productName" placeholder="Введите название товара" required>
 
-    <label for="quantity">Количество:</label>
-    <input type="number" id="quantity" name="quantity" placeholder="Введите количество" required>
-
     <label for="price">Цена за единицу:</label>
-    <input type="number" id="price" name="price" step="0.01" placeholder="Введите цену за единицу" required>
+    <input type="number" id="price" name="price" step="1" placeholder="Введите цену за единицу" required>
 
-    <label for="orderId">ID заказа:</label>
-    <input type="text" id="orderId" name="orderId" placeholder="Введите ID заказа(не обязательно)">
+    <label for="note">Примечание:</label>
+    <input type="text" id="note" name="note" placeholder="Введите примечание(не обязательно)">
 
     <button type="submit">Добавить</button>
   </form>

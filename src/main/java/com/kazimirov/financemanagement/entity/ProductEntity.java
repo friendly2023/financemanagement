@@ -13,13 +13,13 @@ public class ProductEntity {
     @Column(name = "product_name", nullable = false)
     private String productName;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "quantity")
     private int quantity;
 
     @Column(name = "price", nullable = false)
     private double price;
 
-    @Column(name = "note", nullable = false)
+    @Column(name = "note")
     private String note;
 
     @ManyToOne
@@ -67,5 +67,13 @@ public class ProductEntity {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public OrderEntity getOrderEntity() {
+        return orderEntity;
+    }
+
+    public void setOrderEntity(OrderEntity orderEntity) {
+        this.orderEntity = orderEntity;
     }
 }
