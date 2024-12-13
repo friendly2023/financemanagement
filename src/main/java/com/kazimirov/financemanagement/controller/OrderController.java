@@ -28,7 +28,7 @@ public class OrderController {
     }
 
     @GetMapping("/")
-    public String showOrderList(Model model) {
+    public String showOrdersList(Model model) {
         List<OrderResponse> orders = orderService.getAllOrdersSortedByDueDate();
         model.addAttribute("orders", orders);
         return "orders"; // имя шаблона HTML

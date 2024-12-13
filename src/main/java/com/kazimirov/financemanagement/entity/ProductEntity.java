@@ -20,16 +20,16 @@ public class ProductEntity {
     private double price;
 
     @Column(name = "note", nullable = false)
-    private double note;
+    private String note;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id", nullable = true)
     private OrderEntity orderEntity;
 
     public ProductEntity() {
     }
 
-    public ProductEntity(String productName, int quantity, double price, double note, OrderEntity orderEntity) {
+    public ProductEntity(String productName, int quantity, double price, String note, OrderEntity orderEntity) {
         this.productName = productName;
         this.quantity = quantity;
         this.price = price;
@@ -61,11 +61,11 @@ public class ProductEntity {
         this.price = price;
     }
 
-    public double getNote() {
+    public String getNote() {
         return note;
     }
 
-    public void setNote(double note) {
+    public void setNote(String note) {
         this.note = note;
     }
 }
