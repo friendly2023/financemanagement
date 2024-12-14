@@ -17,14 +17,17 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private ValidatorForOverdueOrders validatorForOverdueOrders;
     private ValidatorForVerifyNote validatorForVerifyNote;
+    private OrderResponseFactory orderResponseFactory;
 
     @Autowired
     public OrderService(OrderRepository orderRepository,
                         ValidatorForOverdueOrders validatorForOverdueOrders,
-                        ValidatorForVerifyNote validatorForVerifyNote) {
+                        ValidatorForVerifyNote validatorForVerifyNote,
+                        OrderResponseFactory orderResponseFactory) {
         this.orderRepository = orderRepository;
         this.validatorForOverdueOrders = validatorForOverdueOrders;
         this.validatorForVerifyNote = validatorForVerifyNote;
+        this.orderResponseFactory = orderResponseFactory;
     }
 
     public OrderEntity createOrder(OrderEntity orderEntity) {
@@ -38,8 +41,7 @@ public class OrderService {
     }
 
     public OrderEntity searchOrderById(Long id) {
-        return orderRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Заказ не найден с id: " + id));
+        return orderRepository.findById(id).get();
     }
 
 
@@ -47,7 +49,7 @@ public class OrderService {
         List<OrderEntity> orderEntities = orderRepository.findAllByOrderByDueDate();
 
         return orderEntities.stream()
-                .map(OrderResponseFactory::mapToOrderResponse)
+                .map(orderResponseFactory::mapToOrderResponse)
                 .collect(Collectors.toList());
     }
 
@@ -55,7 +57,7 @@ public class OrderService {
         List<OrderEntity> orderEntities = orderRepository.findByClientEntity_Id(clientId);
 
         return orderEntities.stream()
-                .map(OrderResponseFactory::mapToOrderResponse)
+                .map(orderResponseFactory::mapToOrderResponse)
                 .collect(Collectors.toList());
     }
 

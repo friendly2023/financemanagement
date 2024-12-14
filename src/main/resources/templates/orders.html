@@ -136,7 +136,7 @@
             <tbody>
             <tr th:each="order : ${orders}">
                 <td th:text="${order.totalOrderAmount}"></td>
-                <td th:text="${order.status}"></td>
+                <td th:text="${order.status.getDescription()}"></td>
                 <td th:text="${order.timeUtilizationRatio}"></td>
                 <td th:text="${order.dueDate}"></td>
                 <td class="action-links">
