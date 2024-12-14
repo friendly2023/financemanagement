@@ -109,7 +109,6 @@ public class OrderController {
 
         OrderEntity existingOrder = orderService.searchOrderById(id);
 
-        existingOrder.setTitle(orderEntity.getTitle());
         existingOrder.setNote(orderEntity.getNote());
         existingOrder.setOrderDate(orderEntity.getOrderDate());
         existingOrder.setDueDate(orderEntity.getDueDate());

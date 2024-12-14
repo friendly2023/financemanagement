@@ -16,7 +16,6 @@ public class OrderResponseFactory {
 
         return new OrderResponse(
                 orderEntity.getId(),
-                orderEntity.getTitle(),
                 orderEntity.getTotalProductPrice(),
                 orderEntity.getStatus(),
                 orderEntity.getDueDate(),

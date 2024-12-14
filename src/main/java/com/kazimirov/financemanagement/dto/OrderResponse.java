@@ -7,15 +7,13 @@ import java.time.LocalDate;
 public class OrderResponse {
 
     private Long id;
-    private String title;
     private OrderStatus status;
     private LocalDate dueDate;
     private String timeUtilizationRatio;
     private int totalOrderAmount;
 
-    public OrderResponse(Long id, String title, int totalOrderAmount, OrderStatus status, LocalDate dueDate, String timeUtilizationRatio) {
+    public OrderResponse(Long id, int totalOrderAmount, OrderStatus status, LocalDate dueDate, String timeUtilizationRatio) {
         this.id = id;
-        this.title = title;
         this.totalOrderAmount = totalOrderAmount;
         this.status = status;
         this.dueDate = dueDate;
@@ -24,14 +22,6 @@ public class OrderResponse {
 
     public Long getId() {
         return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public OrderStatus getStatus() {

@@ -59,11 +59,6 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-
-    public List<OrderEntity> getOrdersByTitle(String title) {
-        return orderRepository.findByTitleContaining(title);
-    }
-
     public List<OrderEntity> getOrdersByStatus(OrderStatus status) {
         return orderRepository.findByStatus(status);
     }

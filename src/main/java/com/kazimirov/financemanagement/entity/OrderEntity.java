@@ -16,9 +16,6 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title", nullable = false)
-    private String title;
-
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
@@ -50,7 +47,6 @@ public class OrderEntity {
     }
 
     public OrderEntity(String title, String note, LocalDate orderDate, LocalDate dueDate, OrderStatus status) {
-        this.title = title;
         this.note = note;
         this.orderDate = orderDate;
         this.dueDate = dueDate;
@@ -59,14 +55,6 @@ public class OrderEntity {
 
     public Long getId() {
         return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getNote() {
