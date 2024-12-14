@@ -53,24 +53,31 @@ public class OrderController {
 
         return "new-order";
     }
-
     @PostMapping("/orders/new")
     public String createOrder(OrderEntity orderEntity,
                               @RequestParam("clientId") Long clientId,
-                              @RequestParam("products[]") List<String> productNames) {
+                              @RequestParam("products[]") List<String> productNames,
+                              @RequestParam("quantities[]") List<Integer> quantities) {
 
         ClientEntity clientEntity = clientService.getClientById(clientId);
         orderEntity.setClient(clientEntity);
 
-        List<ProductEntity> products = new ArrayList<>();
-        for (String productName : productNames) {
-            ProductEntity product = productService.getByName(productName);
-            products.add(product);
-        }
-
-        orderEntity.setProductEntities(products);
         orderService.createOrder(orderEntity);
 
+        List<ProductEntity> products = new ArrayList<>();
+        for (int i = 0; i < productNames.size(); i++) {
+            ProductEntity product = productService.getByName(productNames.get(i));
+            ProductEntity newProduct = new ProductEntity();
+
+            newProduct.setProductName(productNames.get(i));
+            newProduct.setQuantity(quantities.get(i));
+            newProduct.setPrice(product.getPrice());
+            newProduct.setOrderEntity(orderEntity);
+            products.add(newProduct);
+            productService.addProduct(newProduct);
+        }
+
+        orderEntity.setProductEntities(products); // Присваиваем товары заказу
         return "redirect:/";
     }
 

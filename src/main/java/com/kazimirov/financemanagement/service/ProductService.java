@@ -30,6 +30,10 @@ public class ProductService {
         }
     }
 
+    public ProductEntity addProduct(ProductEntity productEntity) {
+        return productRepository.save(productEntity);
+    }
+
     public List<ProductResponse> getProducts() {
 
         return getProductsWithoutOrder().stream()
@@ -47,7 +51,11 @@ public class ProductService {
     }
 
     public ProductEntity getByName(String productName) {
-        return productRepository.findByProductName(productName)
-                .orElseThrow(() -> new IllegalArgumentException("Товар с именем '" + productName + "' не найден"));
+        List<ProductEntity> productEntityList = getProductsWithoutOrder();
+
+        return productEntityList.stream()
+                .filter(product -> product.getProductName().equals(productName))
+                .findFirst()
+                .get();
     }
 }

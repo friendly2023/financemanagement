@@ -79,6 +79,9 @@
                         <option th:value="${product.productName}" th:text="${product.productName}"></option>
                     </th:block>
                 </select>
+
+                <label for="quantity-1">Количество товара:</label>
+                <input type="number" id="quantity-1" name="quantities[]" value="1" min="1">
             </div>
         </div>
         <button type="button" onclick="addProductField()">Добавить еще товар</button>
@@ -112,34 +115,34 @@
 
 </div>
 
-
 <script th:inline="javascript">
-
     var products = [[${products}]];
 </script>
 
 <script>
     function addProductField() {
         const container = document.getElementById('productsContainer');
-        const fieldCount = container.querySelectorAll('.product-field').length + 1;
+        const quantity = container.querySelectorAll('.product-field').length + 1;
 
         const fieldWrapper = document.createElement('div');
         fieldWrapper.classList.add('product-field');
 
-        // Генерируем новый элемент с товарами
         let optionsHTML = '<option value="" disabled selected>Выберите товар</option>';
         products.forEach(product => {
             optionsHTML += `<option value="${product.productName}">${product.productName}</option>`;
         });
 
         fieldWrapper.innerHTML = `
-            <label for="product-${fieldCount}">Товар:</label>
-            <select id="product-${fieldCount}" name="products[]">
+            <label for="product-${quantity}">Товар:</label>
+            <select id="product-${quantity}" name="products[]">
                 ${optionsHTML}
             </select>
+            <label for="quantity-${quantity}">Количество товара:</label>
+            <input type="number" id="quantity-${quantity}" name="quantities[]" value="1" min="1">
         `;
         container.appendChild(fieldWrapper);
     }
 </script>
+
 </body>
 </html>
