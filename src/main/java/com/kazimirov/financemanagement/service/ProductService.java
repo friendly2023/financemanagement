@@ -58,4 +58,9 @@ public class ProductService {
                 .findFirst()
                 .get();
     }
+
+    public ProductEntity getProductById(Long productId) {
+        return productRepository.findById(productId)
+                .get();
+    }
 }

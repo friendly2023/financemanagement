@@ -2,6 +2,7 @@ package com.kazimirov.financemanagement.controller;
 
 import com.kazimirov.financemanagement.dto.OrderResponse;
 import com.kazimirov.financemanagement.dto.ProductResponse;
+import com.kazimirov.financemanagement.entity.ClientEntity;
 import com.kazimirov.financemanagement.entity.OrderEntity;
 import com.kazimirov.financemanagement.entity.ProductEntity;
 import com.kazimirov.financemanagement.service.OrderService;
@@ -60,4 +61,29 @@ public class ProductsController {
         return "redirect:/products";
     }
 
+    @GetMapping("/products/edit/{id}")
+    public String editProduct(
+            @PathVariable Long id,
+            Model model) {
+
+        ProductEntity productEntity = productService.getProductById(id);
+
+        model.addAttribute("product", productEntity);
+
+        return "product-editing";
+    }
+
+    @PostMapping("/products/edit/{id}")
+    public String saveEditProduct(ProductEntity productEntity, @PathVariable Long id) {
+
+        ProductEntity existingProduct = productService.getProductById(id);
+
+        existingProduct.setProductName(productEntity.getProductName());
+        existingProduct.setPrice(productEntity.getPrice());
+        existingProduct.setNote(productEntity.getNote());
+
+        productService.addProduct(existingProduct);
+
+        return "redirect:/products";
+    }
 }
