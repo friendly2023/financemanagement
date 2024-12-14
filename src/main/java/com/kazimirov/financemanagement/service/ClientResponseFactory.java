@@ -3,7 +3,7 @@ package com.kazimirov.financemanagement.service;
 import com.kazimirov.financemanagement.dto.ClientResponse;
 import com.kazimirov.financemanagement.entity.ClientEntity;
 
-public class ClientDTOFactory {
+public class ClientResponseFactory {
 
     static public ClientResponse mapClientDTO(ClientEntity clientEntity) {
         //todo прописать подсчет колличества заказов клиента

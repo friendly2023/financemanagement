@@ -3,13 +3,10 @@ package com.kazimirov.financemanagement.service;
 import com.kazimirov.financemanagement.entity.OrderEntity;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class ValidationForVerifyNoteTest {
+public class ValidatorForVerifyNoteTest {
 
     @Test
     void testValidateForVerifyDescription_withNull() {
@@ -18,7 +15,7 @@ public class ValidationForVerifyNoteTest {
 
         when(orderEntity.getNote()).thenReturn(null);
 
-        ValidationForVerifyNote validator = new ValidationForVerifyNote();
+        ValidatorForVerifyNote validator = new ValidatorForVerifyNote();
 
         validator.validate(orderEntity);
 
@@ -32,7 +29,7 @@ public class ValidationForVerifyNoteTest {
 
         when(orderEntity.getNote()).thenReturn("");
 
-        ValidationForVerifyNote validator = new ValidationForVerifyNote();
+        ValidatorForVerifyNote validator = new ValidatorForVerifyNote();
 
         validator.validate(orderEntity);
 
@@ -46,7 +43,7 @@ public class ValidationForVerifyNoteTest {
 
         when(orderEntity.getNote()).thenReturn("  ");
 
-        ValidationForVerifyNote validator = new ValidationForVerifyNote();
+        ValidatorForVerifyNote validator = new ValidatorForVerifyNote();
 
         validator.validate(orderEntity);
 
@@ -61,7 +58,7 @@ public class ValidationForVerifyNoteTest {
         String textNote= "Заметка";
         when(orderEntity.getNote()).thenReturn(textNote);
 
-        ValidationForVerifyNote validator = new ValidationForVerifyNote();
+        ValidatorForVerifyNote validator = new ValidatorForVerifyNote();
 
         validator.validate(orderEntity);
 

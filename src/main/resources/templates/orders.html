@@ -103,8 +103,10 @@
 
         <div class="spaced-links">
             <a href="/orders/new">Добавить новый заказ</a>
+            <a href="/products">Товары</a>
+
             <a href="/clients">Клиенты</a>
-            <a href="/clients/new">Добавить нового клиента</a>
+
         </div>
 
         <!-- Блок с фильтрацией -->
@@ -124,7 +126,6 @@
         <table>
             <thead>
             <tr>
-                <th>Название</th>
                 <th>Общая сумма заказа</th>
                 <th>Статус</th>
                 <th>Прошло/было дней</th>
@@ -134,7 +135,6 @@
             </thead>
             <tbody>
             <tr th:each="order : ${orders}">
-                <td th:text="${order.title}"></td>
                 <td th:text="${order.totalOrderAmount}"></td>
                 <td th:text="${order.status}"></td>
                 <td th:text="${order.timeUtilizationRatio}"></td>

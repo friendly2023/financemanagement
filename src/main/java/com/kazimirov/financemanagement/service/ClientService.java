@@ -13,12 +13,12 @@ import java.util.stream.Collectors;
 public class ClientService {
 
     private final ClientRepository clientRepository;
-    private final ValidationClientById validationClientById;
+    private final ValidatorClientById validatorClientById;
 
     @Autowired
-    public ClientService(ClientRepository clientRepository, ValidationClientById validationClientById) {
+    public ClientService(ClientRepository clientRepository, ValidatorClientById validatorClientById) {
         this.clientRepository = clientRepository;
-        this.validationClientById = validationClientById;
+        this.validatorClientById = validatorClientById;
     }
 
     public ClientEntity createClient(ClientEntity clientEntity) {
@@ -34,18 +34,18 @@ public class ClientService {
         List<ClientEntity> clientEntity = clientRepository.findAllByOrderByIdDesc();
 
         return clientEntity.stream()
-                .map(ClientDTOFactory::mapClientDTO)
+                .map(ClientResponseFactory::mapClientDTO)
                 .collect(Collectors.toList());
     }
 
     public ClientEntity getClientById(Long clientId) {
-        validationClientById.checkClientExists(clientId);
+        validatorClientById.checkClientExists(clientId);
         return clientRepository.findById(clientId)
                 .get();
     }
 
     public void deleteClient(Long clientId) {
-        validationClientById.checkClientExists(clientId);
+        validatorClientById.checkClientExists(clientId);
         clientRepository.deleteById(clientId);
     }
 

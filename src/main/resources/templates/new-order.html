@@ -7,10 +7,11 @@
         body {
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
+            align-items: flex-start;
+            min-height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
         }
 
         .container {
@@ -20,6 +21,7 @@
             border-radius: 8px;
             background-color: #f9f9f9;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
         }
 
         h1 {
@@ -39,11 +41,13 @@
         }
 
         input, select, textarea, button {
+            width: 100%;
             margin-bottom: 15px;
             padding: 10px;
             font-size: 14px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            box-sizing: border-box;
         }
 
         button {
@@ -59,18 +63,28 @@
         button:hover {
             background-color: #0056b3;
         }
-
     </style>
 </head>
 <body>
 <div class="container">
     <h1>Добавить новый заказ</h1>
-    <form th:action="@{/orders/new}" method="post">
-        <label for="title">Название:</label>
-        <input type="text" id="title" name="title" placeholder="Введите содержание заказа" required>
+    <form id="orderForm" th:action="@{/orders/new}" method="post">
+        <div id="productsContainer">
+            <div class="product-field">
+                <label for="product-1">Товар:</label>
+                <select id="product-1" name="products[]">
+                    <option value="" disabled selected>Выберите товар</option>
+                    <!-- Перебор списка товаров с использованием Thymeleaf -->
+                    <th:block th:each="product : ${products}">
+                        <option th:value="${product.productName}" th:text="${product.productName}"></option>
+                    </th:block>
+                </select>
 
-        <label for="title">Общая сумма заказа:</label>
-        <input type="text" id="totalOrderAmount" name="totalOrderAmount" placeholder="Введите общая сумма заказа" required>
+                <label for="quantity-1">Количество товара:</label>
+                <input type="number" id="quantity-1" name="quantities[]" value="1" min="1">
+            </div>
+        </div>
+        <button type="button" onclick="addProductField()">Добавить еще товар</button>
 
         <label for="clientId">Клиент:</label>
         <input type="text" id="clientId" name="clientId" required placeholder="Введите ID клиента">
@@ -100,5 +114,35 @@
     </form>
 
 </div>
+
+<script th:inline="javascript">
+    var products = [[${products}]];
+</script>
+
+<script>
+    function addProductField() {
+        const container = document.getElementById('productsContainer');
+        const quantity = container.querySelectorAll('.product-field').length + 1;
+
+        const fieldWrapper = document.createElement('div');
+        fieldWrapper.classList.add('product-field');
+
+        let optionsHTML = '<option value="" disabled selected>Выберите товар</option>';
+        products.forEach(product => {
+            optionsHTML += `<option value="${product.productName}">${product.productName}</option>`;
+        });
+
+        fieldWrapper.innerHTML = `
+            <label for="product-${quantity}">Товар:</label>
+            <select id="product-${quantity}" name="products[]">
+                ${optionsHTML}
+            </select>
+            <label for="quantity-${quantity}">Количество товара:</label>
+            <input type="number" id="quantity-${quantity}" name="quantities[]" value="1" min="1">
+        `;
+        container.appendChild(fieldWrapper);
+    }
+</script>
+
 </body>
 </html>

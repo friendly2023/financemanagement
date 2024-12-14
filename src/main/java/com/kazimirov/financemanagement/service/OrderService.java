@@ -15,21 +15,21 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private ValidationForOverdueOrders validationForOverdueOrders;
-    private ValidationForVerifyNote validationForVerifyNote;
+    private ValidatorForOverdueOrders validatorForOverdueOrders;
+    private ValidatorForVerifyNote validatorForVerifyNote;
 
     @Autowired
     public OrderService(OrderRepository orderRepository,
-                        ValidationForOverdueOrders validationForOverdueOrders,
-                        ValidationForVerifyNote validationForVerifyNote) {
+                        ValidatorForOverdueOrders validatorForOverdueOrders,
+                        ValidatorForVerifyNote validatorForVerifyNote) {
         this.orderRepository = orderRepository;
-        this.validationForOverdueOrders = validationForOverdueOrders;
-        this.validationForVerifyNote = validationForVerifyNote;
+        this.validatorForOverdueOrders = validatorForOverdueOrders;
+        this.validatorForVerifyNote = validatorForVerifyNote;
     }
 
     public OrderEntity createOrder(OrderEntity orderEntity) {
-        validationForOverdueOrders.validate(orderEntity);
-        validationForVerifyNote.validate(orderEntity);
+        validatorForOverdueOrders.validate(orderEntity);
+        validatorForVerifyNote.validate(orderEntity);
         return orderRepository.save(orderEntity);
     }
 
@@ -47,7 +47,7 @@ public class OrderService {
         List<OrderEntity> orderEntities = orderRepository.findAllByOrderByDueDate();
 
         return orderEntities.stream()
-                .map(OrderDTOFactory::mapToOrderDTO)
+                .map(OrderResponseFactory::mapToOrderResponse)
                 .collect(Collectors.toList());
     }
 
@@ -55,13 +55,8 @@ public class OrderService {
         List<OrderEntity> orderEntities = orderRepository.findByClientEntity_Id(clientId);
 
         return orderEntities.stream()
-                .map(OrderDTOFactory::mapToOrderDTO)
+                .map(OrderResponseFactory::mapToOrderResponse)
                 .collect(Collectors.toList());
-    }
-
-
-    public List<OrderEntity> getOrdersByTitle(String title) {
-        return orderRepository.findByTitleContaining(title);
     }
 
     public List<OrderEntity> getOrdersByStatus(OrderStatus status) {

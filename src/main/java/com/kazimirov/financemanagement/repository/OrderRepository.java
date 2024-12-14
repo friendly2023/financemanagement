@@ -12,8 +12,6 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
-    List<OrderEntity> findByTitleContaining(String title);
-
     List<OrderEntity> findByStatus(OrderStatus status);
 
     List<OrderEntity> findAllByOrderByDueDate();

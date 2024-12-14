@@ -4,6 +4,8 @@ package com.kazimirov.financemanagement.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -13,9 +15,6 @@ public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "title", nullable = false)
-    private String title;
 
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
@@ -29,8 +28,8 @@ public class OrderEntity {
     @Column(name = "city")
     private String city;
 
-    @Column(name = "total_order_amount", nullable = false)
-    private int totalOrderAmount;
+    @Column(name = "total_product_price", nullable = false)
+    private int totalProductPrice;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -40,12 +39,14 @@ public class OrderEntity {
     @JoinColumn(name = "client_id", nullable = false)
     private ClientEntity clientEntity;
 
+    @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductEntity> productEntities = new ArrayList<>();
+
     public OrderEntity() {
         this.orderDate = LocalDate.now();
     }
 
     public OrderEntity(String title, String note, LocalDate orderDate, LocalDate dueDate, OrderStatus status) {
-        this.title = title;
         this.note = note;
         this.orderDate = orderDate;
         this.dueDate = dueDate;
@@ -54,14 +55,6 @@ public class OrderEntity {
 
     public Long getId() {
         return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getNote() {
@@ -112,12 +105,19 @@ public class OrderEntity {
         this.city = city;
     }
 
-    public int getTotalOrderAmount() {
-        return totalOrderAmount;
+    public int getTotalProductPrice() {
+        return totalProductPrice;
     }
 
-    public void setTotalOrderAmount(int totalOrderAmount) {
-        this.totalOrderAmount = totalOrderAmount;
+    public void setTotalProductPrice(int totalOrderAmount) {
+        this.totalProductPrice = totalOrderAmount;
     }
 
+    public List<ProductEntity> getProductEntities() {
+        return productEntities;
+    }
+
+    public void setProductEntities(List<ProductEntity> productEntities) {
+        this.productEntities = productEntities;
+    }
 }

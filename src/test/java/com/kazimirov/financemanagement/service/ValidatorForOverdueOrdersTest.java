@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class ValidationForOverdueOrdersTest {
+public class ValidatorForOverdueOrdersTest {
 
     @Test
     void testValidate_withOverdueOrder_shouldThrowException() {
@@ -21,7 +21,7 @@ public class ValidationForOverdueOrdersTest {
         when(orderEntity.getOrderDate()).thenReturn(orderDate);
         when(orderEntity.getDueDate()).thenReturn(dueDate);
 
-        ValidationForOverdueOrders validator = new ValidationForOverdueOrders();
+        ValidatorForOverdueOrders validator = new ValidatorForOverdueOrders();
 
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -42,7 +42,7 @@ public class ValidationForOverdueOrdersTest {
         when(orderEntity.getOrderDate()).thenReturn(orderDate);
         when(orderEntity.getDueDate()).thenReturn(dueDate);
 
-        ValidationForOverdueOrders validator = new ValidationForOverdueOrders();
+        ValidatorForOverdueOrders validator = new ValidatorForOverdueOrders();
 
         assertDoesNotThrow(() -> validator.validate(orderEntity));
     }
@@ -58,7 +58,7 @@ public class ValidationForOverdueOrdersTest {
         when(orderEntity.getOrderDate()).thenReturn(orderDate);
         when(orderEntity.getDueDate()).thenReturn(dueDate);
 
-        ValidationForOverdueOrders validator = new ValidationForOverdueOrders();
+        ValidatorForOverdueOrders validator = new ValidatorForOverdueOrders();
 
         assertDoesNotThrow(() -> validator.validate(orderEntity));
     }

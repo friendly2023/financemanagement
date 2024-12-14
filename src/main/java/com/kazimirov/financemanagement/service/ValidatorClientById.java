@@ -1,15 +1,14 @@
 package com.kazimirov.financemanagement.service;
 
-import com.kazimirov.financemanagement.entity.ClientEntity;
 import com.kazimirov.financemanagement.repository.ClientRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ValidationClientById {
+public class ValidatorClientById {
 
     ClientRepository clientRepository;
 
-    public ValidationClientById(ClientRepository clientRepository) {
+    public ValidatorClientById(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 

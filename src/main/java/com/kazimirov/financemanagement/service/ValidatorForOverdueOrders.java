@@ -1,11 +1,10 @@
 package com.kazimirov.financemanagement.service;
 
 import com.kazimirov.financemanagement.entity.OrderEntity;
-import com.kazimirov.financemanagement.entity.OrderStatus;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ValidationForOverdueOrders {
+public class ValidatorForOverdueOrders {
 
     public void validate(OrderEntity orderEntity) {
         if (isOrderOverdue(orderEntity)) {

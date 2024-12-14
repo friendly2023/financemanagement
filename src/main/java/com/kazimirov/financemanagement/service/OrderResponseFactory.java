@@ -6,9 +6,9 @@ import com.kazimirov.financemanagement.entity.OrderEntity;
 import java.time.LocalDate;
 import java.time.Period;
 
-public class OrderDTOFactory {
+public class OrderResponseFactory {
 
-    static public OrderResponse mapToOrderDTO(OrderEntity orderEntity) {
+    static public OrderResponse mapToOrderResponse(OrderEntity orderEntity) {
         int daysLeftFromNow = Period.between(orderEntity.getOrderDate(), LocalDate.now()).getDays();
         int daysLeftFromOrderDate = Period.between(orderEntity.getOrderDate(), orderEntity.getDueDate()).getDays();
         //todo изменить подсчет timeUtilizationRatio для корректного тображения, избегать 10/2
@@ -16,8 +16,7 @@ public class OrderDTOFactory {
 
         return new OrderResponse(
                 orderEntity.getId(),
-                orderEntity.getTitle(),
-                orderEntity.getTotalOrderAmount(),
+                orderEntity.getTotalProductPrice(),
                 orderEntity.getStatus(),
                 orderEntity.getDueDate(),
                 timeUtilizationRatio
