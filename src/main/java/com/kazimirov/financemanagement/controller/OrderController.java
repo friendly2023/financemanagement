@@ -1,5 +1,6 @@
 package com.kazimirov.financemanagement.controller;
 
+import com.kazimirov.financemanagement.dto.OrderDetailsResponse;
 import com.kazimirov.financemanagement.dto.OrderResponse;
 import com.kazimirov.financemanagement.dto.ProductResponse;
 import com.kazimirov.financemanagement.entity.ClientEntity;
@@ -90,9 +91,9 @@ public class OrderController {
 
     @GetMapping("/orders/more/{id}")
     public String getOrderDetails(@PathVariable Long id, Model model) {
-        OrderEntity orderEntity = orderService.getOrderById(id).get();
+        OrderDetailsResponse orderEntity = orderService.getOrderDetailsById(id);
         model.addAttribute("order", orderEntity);
-        model.addAttribute("client", orderEntity.getClient());
+        model.addAttribute("client", orderEntity.getClientEntity());
         return "order-details";
     }
 

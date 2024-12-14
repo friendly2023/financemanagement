@@ -1,5 +1,6 @@
 package com.kazimirov.financemanagement.service;
 
+import com.kazimirov.financemanagement.dto.OrderDetailsResponse;
 import com.kazimirov.financemanagement.dto.OrderResponse;
 import com.kazimirov.financemanagement.entity.OrderEntity;
 import com.kazimirov.financemanagement.entity.OrderStatus;
@@ -18,16 +19,19 @@ public class OrderService {
     private ValidatorForOverdueOrders validatorForOverdueOrders;
     private ValidatorForVerifyNote validatorForVerifyNote;
     private OrderResponseFactory orderResponseFactory;
+    private OrderDetailsResponseFactory orderDetailsResponseFactory;
 
     @Autowired
     public OrderService(OrderRepository orderRepository,
                         ValidatorForOverdueOrders validatorForOverdueOrders,
                         ValidatorForVerifyNote validatorForVerifyNote,
-                        OrderResponseFactory orderResponseFactory) {
+                        OrderResponseFactory orderResponseFactory,
+                        OrderDetailsResponseFactory orderDetailsResponseFactory) {
         this.orderRepository = orderRepository;
         this.validatorForOverdueOrders = validatorForOverdueOrders;
         this.validatorForVerifyNote = validatorForVerifyNote;
         this.orderResponseFactory = orderResponseFactory;
+        this.orderDetailsResponseFactory = orderDetailsResponseFactory;
     }
 
     public OrderEntity createOrder(OrderEntity orderEntity) {
@@ -67,6 +71,10 @@ public class OrderService {
 
     public Optional<OrderEntity> getOrderById(Long id) {
         return orderRepository.findById(id);
+    }
+
+    public OrderDetailsResponse getOrderDetailsById(Long id) {
+        return orderDetailsResponseFactory.mapToOrderDetailsResponse(orderRepository.findById(id).get());
     }
 
     //TODO убрать валидацию при удалении в отдельный класс
