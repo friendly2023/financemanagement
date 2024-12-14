@@ -78,19 +78,10 @@
 <div class="container">
     <h1>Редактировать заказ</h1>
     <form th:action="@{/orders/edit/{id}(id=${order.id})}" th:object="${order}" method="post">
-        <div>
-            <label for="title">Название:</label>
-            <input type="text" id="title" name="title" th:value="*{title}" required>
-        </div>
 
         <div>
             <label for="note">Описание:</label>
             <textarea id="note" name="note" rows="4" th:text="*{note}"></textarea>
-        </div>
-
-        <div>
-            <label for="totalOrderAmount">Общая сумма:</label>
-            <input type="text" id="totalOrderAmount" name="totalOrderAmount" th:value="*{totalOrderAmount}" required>
         </div>
 
         <div>
