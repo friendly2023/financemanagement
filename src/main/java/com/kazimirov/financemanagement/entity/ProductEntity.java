@@ -17,7 +17,7 @@ public class ProductEntity {
     private int quantity;
 
     @Column(name = "price", nullable = false)
-    private double price;
+    private int price;
 
     @Column(name = "note")
     private String note;
@@ -29,7 +29,7 @@ public class ProductEntity {
     public ProductEntity() {
     }
 
-    public ProductEntity(String productName, int quantity, double price, String note, OrderEntity orderEntity) {
+    public ProductEntity(String productName, int quantity, int price, String note, OrderEntity orderEntity) {
         this.productName = productName;
         this.quantity = quantity;
         this.price = price;
@@ -57,11 +57,11 @@ public class ProductEntity {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

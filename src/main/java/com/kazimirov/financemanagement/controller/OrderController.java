@@ -25,14 +25,17 @@ public class OrderController {
     private final OrderService orderService;
     private final ClientService clientService;
     private final ProductService productService;
+    private OrderTotalCalculator orderTotalCalculator;
 
     @Autowired
     public OrderController(OrderService orderService,
                            ClientService clientService,
-                           ProductService productService) {
+                           ProductService productService,
+                           OrderTotalCalculator orderTotalCalculator) {
         this.orderService = orderService;
         this.clientService = clientService;
         this.productService = productService;
+        this.orderTotalCalculator = orderTotalCalculator;
     }
 
     @GetMapping("/")
@@ -53,18 +56,22 @@ public class OrderController {
 
         return "new-order";
     }
+
     @PostMapping("/orders/new")
     public String createOrder(OrderEntity orderEntity,
                               @RequestParam("clientId") Long clientId,
                               @RequestParam("products[]") List<String> productNames,
                               @RequestParam("quantities[]") List<Integer> quantities) {
 
+        int totalProductPrice = orderTotalCalculator.calculateTotal(productNames, quantities);
         ClientEntity clientEntity = clientService.getClientById(clientId);
-        orderEntity.setClient(clientEntity);
 
+        orderEntity.setClient(clientEntity);
+        orderEntity.setTotalProductPrice(totalProductPrice);
         orderService.createOrder(orderEntity);
 
         List<ProductEntity> products = new ArrayList<>();
+
         for (int i = 0; i < productNames.size(); i++) {
             ProductEntity product = productService.getByName(productNames.get(i));
             ProductEntity newProduct = new ProductEntity();
@@ -77,7 +84,7 @@ public class OrderController {
             productService.addProduct(newProduct);
         }
 
-        orderEntity.setProductEntities(products); // Присваиваем товары заказу
+        orderEntity.setProductEntities(products);
         return "redirect:/";
     }
 
