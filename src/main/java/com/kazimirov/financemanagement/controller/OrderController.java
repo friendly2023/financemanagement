@@ -161,13 +161,15 @@ public class OrderController {
         }
 
         // === Добавление новых товаров ===
-        List<String> newProductNames = new ArrayList<>();
+        if (newProductIds != null && newQuantities != null) {
+            List<String> newProductNames = new ArrayList<>();
 
-        for (Long id:newProductIds) {
-            newProductNames.add(productService.getProductById(id).getProductName()) ;
+            for (Long id : newProductIds) {
+                newProductNames.add(productService.getProductById(id).getProductName());
+            }
+
+            productService.addNewProductInOrder(orderEntity, newProductNames, newQuantities);
         }
-
-        productService.addNewProductInOrder(orderEntity, newProductNames, newQuantities);
 
         // === Обработка удаления продуктов ===
         if (deleteProductIds != null && !deleteProductIds.isEmpty()) {
