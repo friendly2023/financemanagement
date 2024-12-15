@@ -17,7 +17,7 @@ public class OrderTotalCalculator {
         this.productService = productService;
     }
 
-    public int calculateTotal(List<String> productNames, List<Integer> quantities) {
+    public int calculateTotalNewOrder(List<String> productNames, List<Integer> quantities) {
         int totalProductPrice = 0;
 
         for (int i = 0; i < productNames.size(); i++) {

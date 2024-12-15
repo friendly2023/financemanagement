@@ -2,8 +2,6 @@ package com.kazimirov.financemanagement.controller;
 
 import com.kazimirov.financemanagement.dto.OrderResponse;
 import com.kazimirov.financemanagement.dto.ProductResponse;
-import com.kazimirov.financemanagement.entity.ClientEntity;
-import com.kazimirov.financemanagement.entity.OrderEntity;
 import com.kazimirov.financemanagement.entity.ProductEntity;
 import com.kazimirov.financemanagement.service.OrderService;
 import com.kazimirov.financemanagement.service.ProductService;
@@ -13,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 import java.util.List;
@@ -76,13 +73,7 @@ public class ProductsController {
     @PostMapping("/products/edit/{id}")
     public String saveEditProduct(ProductEntity productEntity, @PathVariable Long id) {
 
-        ProductEntity existingProduct = productService.getProductById(id);
-
-        existingProduct.setProductName(productEntity.getProductName());
-        existingProduct.setPrice(productEntity.getPrice());
-        existingProduct.setNote(productEntity.getNote());
-
-        productService.addProduct(existingProduct);
+        productService.editProduct(productEntity, id);
 
         return "redirect:/products";
     }

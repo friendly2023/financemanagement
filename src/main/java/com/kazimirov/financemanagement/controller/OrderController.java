@@ -64,28 +64,14 @@ public class OrderController {
                               @RequestParam("products[]") List<String> productNames,
                               @RequestParam("quantities[]") List<Integer> quantities) {
 
-        int totalProductPrice = orderTotalCalculator.calculateTotal(productNames, quantities);
+        int totalProductPrice = orderTotalCalculator.calculateTotalNewOrder(productNames, quantities);
         ClientEntity clientEntity = clientService.getClientById(clientId);
 
         orderEntity.setClient(clientEntity);
         orderEntity.setTotalProductPrice(totalProductPrice);
         orderService.createOrder(orderEntity);
+        productService.addNewProductInOrder(orderEntity, productNames, quantities);
 
-        List<ProductEntity> products = new ArrayList<>();
-
-        for (int i = 0; i < productNames.size(); i++) {
-            ProductEntity product = productService.getByName(productNames.get(i));
-            ProductEntity newProduct = new ProductEntity();
-
-            newProduct.setProductName(productNames.get(i));
-            newProduct.setQuantity(quantities.get(i));
-            newProduct.setPrice(product.getPrice());
-            newProduct.setOrderEntity(orderEntity);
-            products.add(newProduct);
-            productService.addProduct(newProduct);
-        }
-
-        orderEntity.setProductEntities(products);
         return "redirect:/";
     }
 
@@ -159,7 +145,7 @@ public class OrderController {
         // Получаем заказ по ID
         OrderEntity orderEntity = orderService.getOrderById(orderId).get();
 
-        // === Обработка добавления новых продуктов ===
+        // === Обработка изменения продуктов ===
         if (existingProductIds != null && existingQuantities != null) {
             for (int i = 0; i < existingProductIds.size(); i++) {
                 Long productId = existingProductIds.get(i);
@@ -175,26 +161,13 @@ public class OrderController {
         }
 
         // === Добавление новых товаров ===
-        if (newProductIds != null && newQuantities != null) {
-            for (int i = 0; i < newProductIds.size(); i++) {
-                Long productId = newProductIds.get(i);
-                Integer quantity = newQuantities.get(i);
+        List<String> newProductNames = new ArrayList<>();
 
-                // Получаем информацию о новом продукте
-                ProductEntity productEntity = productService.getProductById(productId);
-
-                // Создаём новый объект продукта для заказа
-                ProductEntity newProduct = new ProductEntity();
-                newProduct.setProductName(productEntity.getProductName());
-                newProduct.setQuantity(quantity);
-                newProduct.setPrice(productEntity.getPrice());
-                newProduct.setOrderEntity(orderEntity);
-
-                // Добавляем новый продукт в заказ
-                productService.addProduct(newProduct);
-                orderEntity.getProductEntities().add(newProduct);
-            }
+        for (Long id:newProductIds) {
+            newProductNames.add(productService.getProductById(id).getProductName()) ;
         }
+
+        productService.addNewProductInOrder(orderEntity, newProductNames, newQuantities);
 
         // === Обработка удаления продуктов ===
         if (deleteProductIds != null && !deleteProductIds.isEmpty()) {
