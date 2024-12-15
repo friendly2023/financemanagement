@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование состава заказа</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+        }
+
+        .container {
+            width: 600px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        table {
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 20px;
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        td {
+            max-width: 300px;
+            word-wrap: break-word;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select, button {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .product-field {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .product-field label {
+            margin-right: 10px;
+        }
+
+        .product-field select,
+        .product-field input {
+            margin-right: 10px;
+        }
+
+        .remove-product {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            border-radius: 4px;
+            padding: 5px 10px;
+        }
+
+        .remove-product:hover {
+            background-color: #d32f2f;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Редактирование состава заказа</h1>
+
+    <form th:action="@{/orders/update/composition}" method="post">
+        <input type="hidden" name="orderId" th:value="${orderId}"/> <!-- Передаем orderId -->
+        <!-- Состав заказа -->
+        <h2>Состав заказа</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Товар</th>
+                <th>Цена</th>
+                <th>Количество</th>
+                <th>Удалить</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${productEntityList}">
+                <td th:text="${product.productName}"></td>
+                <td th:text="${product.price}"></td>
+                <td>
+                    <!-- Скрытое поле для передачи идентификатора товара (для изменения количества) -->
+                    <input type="hidden" name="existingProducts[]" th:value="${product.id}">
+                    <input type="number" name="existingQuantities[]" th:value="${product.quantity}" min="1">
+                </td>
+                <td>
+                    <input type="checkbox" name="deleteProducts" th:value="${product.id}">
+                </td>
+            </tr>
+            </tbody>
+
+
+        </table>
+
+        <!-- Добавление новых товаров -->
+        <h2>Добавить товары</h2>
+        <div id="productsContainer">
+            <div class="product-field">
+                <label for="product-1">Товар:</label>
+                <select id="product-1" name="products[]">
+                    <option value="" disabled selected>Выберите товар</option>
+                    <!-- Генерация списка товаров с помощью Thymeleaf -->
+                    <th:block th:each="product : ${availableProducts}">
+                        <option th:value="${product.id}" th:text="${product.productName}"></option>
+                    </th:block>
+                </select>
+
+                <label for="quantity-1">Количество:</label>
+                <input type="number" id="quantity-1" name="quantities[]" value="1" min="1">
+
+                <!-- Кнопка для удаления товара -->
+                <button type="button" class="remove-product" onclick="removeProductField(this)">Удалить</button>
+            </div>
+        </div>
+
+        <button type="button" onclick="addProductField()">Добавить еще товар</button>
+
+        <!-- Сохранение изменений -->
+        <button type="submit">Сохранить изменения</button>
+    </form>
+
+    <form th:action="@{/orders/more/{id}(id=${orderId})}" method="get" style="margin-top: 10px;">
+        <button type="submit">Назад к заказу</button>
+    </form>
+</div>
+
+<script th:inline="javascript">
+    // Генерация списка доступных товаров на основе серверных данных
+    var availableProducts = /*[[${availableProducts}]]*/ [];
+</script>
+
+<script>
+    // Функция для добавления нового поля для товара
+    function addProductField() {
+        const container = document.getElementById('productsContainer');
+        const quantity = container.querySelectorAll('.product-field').length + 1;
+
+        const fieldWrapper = document.createElement('div');
+        fieldWrapper.classList.add('product-field');
+
+        let optionsHTML = '<option value="" disabled selected>Выберите товар</option>';
+        availableProducts.forEach(product => {
+            optionsHTML += '<option value="' + product.id + '">' + product.productName + '</option>';
+        });
+
+        fieldWrapper.innerHTML =
+            '<label for="product-' + quantity + '">Товар:</label>' +
+            '<select id="product-' + quantity + '" name="products[]">' +
+            optionsHTML +
+            '</select>' +
+            '<label for="quantity-' + quantity + '">Количество:</label>' +
+            '<input type="number" id="quantity-' + quantity + '" name="quantities[]" value="1" min="1">' +
+            '<button type="button" class="remove-product" onclick="removeProductField(this)">Удалить</button>';
+
+        container.appendChild(fieldWrapper);
+    }
+
+    // Функция для удаления поля товара
+    function removeProductField(button) {
+        const fieldWrapper = button.closest('.product-field');
+        fieldWrapper.remove();
+    }
+
+    // Проверка перед отправкой формы
+    document.querySelector('form').addEventListener('submit', function (e) {
+        const products = Array.from(document.querySelectorAll('select[name="products[]"]')).map(s => s.value);
+        const quantities = Array.from(document.querySelectorAll('input[name="quantities[]"]')).map(q => q.value);
+
+        console.log("Selected products:", products);
+        console.log("Quantities:", quantities);
+
+        if (products.some(p => !p)) {
+            alert("Не выбраны все товары.");
+            e.preventDefault(); // Отменить отправку формы
+        }
+    });
+</script>
+
+</body>
+</html>

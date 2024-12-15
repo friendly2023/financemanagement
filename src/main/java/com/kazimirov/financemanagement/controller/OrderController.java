@@ -134,4 +134,77 @@ public class OrderController {
 
         return "redirect:/orders/more/{id}";
     }
+
+    @GetMapping("/orders/edit/composition/{id}")
+    public String editCompositionOfOrder(@PathVariable Long id, Model model) {
+        List<ProductEntity> productEntityList = orderService.findAllProductsByOrderId(id);
+        List<ProductResponse> availableProducts = productService.getProducts(); // Все товары
+        model.addAttribute("productEntityList", productEntityList);
+        model.addAttribute("availableProducts", availableProducts);
+        model.addAttribute("orderId", id); // передаем id заказа в модель
+        return "сompositionOfOrder-editing";
+    }
+
+
+
+    @PostMapping("/orders/update/composition")
+    public String updateCompositionOfOrder(
+            @RequestParam(value = "existingProducts[]", required = false) List<Long> existingProductIds,
+            @RequestParam(value = "existingQuantities[]", required = false) List<Integer> existingQuantities,
+            @RequestParam(value = "products[]", required = false) List<Long> newProductIds,
+            @RequestParam(value = "quantities[]", required = false) List<Integer> newQuantities,
+            @RequestParam(value = "deleteProducts", required = false) List<Long> deleteProductIds,
+            @RequestParam Long orderId) {
+
+        // Получаем заказ по ID
+        OrderEntity orderEntity = orderService.getOrderById(orderId).get();
+
+        // === Обработка добавления новых продуктов ===
+        if (existingProductIds != null && existingQuantities != null) {
+            for (int i = 0; i < existingProductIds.size(); i++) {
+                Long productId = existingProductIds.get(i);
+                Integer quantity = existingQuantities.get(i);
+
+                // Получаем информацию о продукте
+                ProductEntity productEntity = productService.getProductById(productId);
+
+                // Обновляем количество
+                productEntity.setQuantity(quantity);
+                productService.addProduct(productEntity);
+            }
+        }
+
+        // === Добавление новых товаров ===
+        if (newProductIds != null && newQuantities != null) {
+            for (int i = 0; i < newProductIds.size(); i++) {
+                Long productId = newProductIds.get(i);
+                Integer quantity = newQuantities.get(i);
+
+                // Получаем информацию о новом продукте
+                ProductEntity productEntity = productService.getProductById(productId);
+
+                // Создаём новый объект продукта для заказа
+                ProductEntity newProduct = new ProductEntity();
+                newProduct.setProductName(productEntity.getProductName());
+                newProduct.setQuantity(quantity);
+                newProduct.setPrice(productEntity.getPrice());
+                newProduct.setOrderEntity(orderEntity);
+
+                // Добавляем новый продукт в заказ
+                productService.addProduct(newProduct);
+                orderEntity.getProductEntities().add(newProduct);
+            }
+        }
+
+        // === Обработка удаления продуктов ===
+        if (deleteProductIds != null && !deleteProductIds.isEmpty()) {
+            for (Long productId : deleteProductIds) {
+                productService.deleteProduct(productId);
+            }
+        }
+
+        orderService.createOrder(orderEntity);
+
+        return "redirect:/orders/more/" + orderId;
+    }
 }

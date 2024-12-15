@@ -46,9 +46,16 @@ public class OrderDetailsResponseFactory {
         StringBuilder сompositionOfOrder = new StringBuilder();
 
         for (int i = 0; i < productEntities.size(); i++) {
-            сompositionOfOrder.append(productEntities.get(i).getProductName())
+            сompositionOfOrder
+                    .append(i+1 + ". ")
+                    .append(productEntities.get(i).getProductName())
                     .append(" - ")
                     .append(productEntities.get(i).getPrice())
+                    .append(" р/шт. - ")
+                    .append(productEntities.get(i).getQuantity())
+                    .append(" шт. - Итого: ")
+                    .append(productEntities.get(i).getPrice()*productEntities.get(i).getQuantity())
+                    .append(" р")
                     .append("\n");
         }
 

@@ -4,6 +4,7 @@ import com.kazimirov.financemanagement.dto.OrderDetailsResponse;
 import com.kazimirov.financemanagement.dto.OrderResponse;
 import com.kazimirov.financemanagement.entity.OrderEntity;
 import com.kazimirov.financemanagement.entity.OrderStatus;
+import com.kazimirov.financemanagement.entity.ProductEntity;
 import com.kazimirov.financemanagement.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,6 +76,10 @@ public class OrderService {
 
     public OrderDetailsResponse getOrderDetailsById(Long id) {
         return orderDetailsResponseFactory.mapToOrderDetailsResponse(orderRepository.findById(id).get());
+    }
+
+    public List<ProductEntity> findAllProductsByOrderId(Long orderId) {
+        return orderRepository.findAllProductsByOrderId(orderId);
     }
 
     //TODO убрать валидацию при удалении в отдельный класс

@@ -109,7 +109,7 @@
             <td th:text="${order.compositionOfOrder}" style="white-space: pre-line;"></td>
         </tr>
     </table>
-    <a th:href="@{/orders/edit/compositionOfOrder/ordreId={ordreId}(ordreId=${order.id})}" class="button">Редактировать состав заказа</a>
+    <a th:href="@{/orders/edit/composition/{id}(id=${order.id})}" class="button">Редактировать состав заказа</a>
 
     <!-- Таблица для информации о клиенте -->
     <h2>Информация о клиенте</h2>
