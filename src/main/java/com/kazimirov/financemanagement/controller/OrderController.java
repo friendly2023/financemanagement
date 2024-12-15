@@ -158,6 +158,8 @@ public class OrderController {
                 productEntity.setQuantity(quantity);
                 productService.addProduct(productEntity);
             }
+
+            orderEntity.setTotalProductPrice(productService.calculateTotalOldOrder(existingProductIds));
         }
 
         // === Добавление новых товаров ===
@@ -173,6 +175,13 @@ public class OrderController {
 
         // === Обработка удаления продуктов ===
         if (deleteProductIds != null && !deleteProductIds.isEmpty()) {
+
+            int oldOrderAmount = orderEntity.getTotalProductPrice();
+            int deductionAmount = productService.calculateTotalOldOrder(deleteProductIds);
+            int totalProductPrice = oldOrderAmount - deductionAmount;
+
+            orderEntity.setTotalProductPrice(totalProductPrice);
+
             for (Long productId : deleteProductIds) {
                 productService.deleteProduct(productId);
             }

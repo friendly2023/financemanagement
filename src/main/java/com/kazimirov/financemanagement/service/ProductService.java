@@ -89,11 +89,35 @@ public class ProductService {
         for (ProductEntity productEntity : existingProducts) {
             addProduct(productEntity);
         }
+
+        List<Long> idProducts = new ArrayList<>();
+
+        for (ProductEntity productEntity:orderEntity.getProductEntities()){
+            idProducts.add(productEntity.getId());
+        }
+
+        orderEntity.setTotalProductPrice(calculateTotalOldOrder(idProducts));
     }
 
 
     private String generateKey(String productName, int price) {
         return productName + "|" + price;
+    }
+
+    public int calculateTotalOldOrder(List<Long> idProducts) {
+
+        List<ProductEntity> existingProducts = new ArrayList<>();
+
+        for (Long id : idProducts) {
+            existingProducts.add(getProductById(id));
+        }
+
+        int total = 0;
+        for (ProductEntity product : existingProducts) {
+            total += product.getPrice()*product.getQuantity();
+        }
+
+       return total;
     }
 
     public List<ProductResponse> getProducts() {
