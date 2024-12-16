@@ -137,6 +137,7 @@ public class OrderController {
     public String updateCompositionOfOrder(
             @RequestParam(value = "existingProducts[]", required = false) List<Long> existingProductIds,
             @RequestParam(value = "existingQuantities[]", required = false) List<Integer> existingQuantities,
+            @RequestParam(value = "existingPrices[]", required = false) List<Integer> existingPrices,
             @RequestParam(value = "products[]", required = false) List<Long> newProductIds,
             @RequestParam(value = "quantities[]", required = false) List<Integer> newQuantities,
             @RequestParam(value = "deleteProducts", required = false) List<Long> deleteProductIds,
@@ -150,12 +151,14 @@ public class OrderController {
             for (int i = 0; i < existingProductIds.size(); i++) {
                 Long productId = existingProductIds.get(i);
                 Integer quantity = existingQuantities.get(i);
+                Integer price = existingPrices.get(i);
 
                 // Получаем информацию о продукте
                 ProductEntity productEntity = productService.getProductById(productId);
 
                 // Обновляем количество
                 productEntity.setQuantity(quantity);
+                productEntity.setPrice(price);
                 productService.addProduct(productEntity);
             }
 

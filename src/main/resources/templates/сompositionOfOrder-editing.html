@@ -137,16 +137,18 @@
             <tbody>
             <tr th:each="product : ${productEntityList}">
                 <td th:text="${product.productName}"></td>
-                <td th:text="${product.price}"></td>
                 <td>
-                    <!-- Скрытое поле для передачи идентификатора товара (для изменения количества) -->
                     <input type="hidden" name="existingProducts[]" th:value="${product.id}">
+                    <input type="number" name="existingPrices[]" th:value="${product.price}" step="0.01" min="0">
+                </td>
+                <td>
                     <input type="number" name="existingQuantities[]" th:value="${product.quantity}" min="1">
                 </td>
                 <td>
                     <input type="checkbox" name="deleteProducts" th:value="${product.id}">
                 </td>
             </tr>
+
             </tbody>
 
 
