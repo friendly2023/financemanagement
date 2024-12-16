@@ -14,11 +14,15 @@ public class ClientService {
 
     private final ClientRepository clientRepository;
     private final ValidatorClientById validatorClientById;
+    private  ClientResponseFactory clientResponseFactory;
 
     @Autowired
-    public ClientService(ClientRepository clientRepository, ValidatorClientById validatorClientById) {
+    public ClientService(ClientRepository clientRepository,
+                         ValidatorClientById validatorClientById,
+                         ClientResponseFactory clientResponseFactory) {
         this.clientRepository = clientRepository;
         this.validatorClientById = validatorClientById;
+        this.clientResponseFactory = clientResponseFactory;
     }
 
     public ClientEntity createClient(ClientEntity clientEntity) {
@@ -34,7 +38,7 @@ public class ClientService {
         List<ClientEntity> clientEntity = clientRepository.findAllByOrderByIdDesc();
 
         return clientEntity.stream()
-                .map(ClientResponseFactory::mapClientDTO)
+                .map(clientResponseFactory::mapClientDTO)
                 .collect(Collectors.toList());
     }
 
