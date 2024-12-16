@@ -89,6 +89,12 @@ public class OrderController {
         return "redirect:/";
     }
 
+    @PostMapping("/client/order/delete/orderId={orderId}_clientId={clientId}")
+    public String deleteOrderAtClient(@PathVariable Long orderId, @PathVariable Long clientId) {
+        orderService.deleteOrder(orderId);
+        return "redirect:/client/orders/{clientId}";
+    }
+
     @GetMapping("/client/orders/{id}")
     public String displayingClientOrders(@PathVariable Long id, Model model) {
         List<OrderResponse> orders = orderService.getForClientOrdersByIdSortedByDueDate(id);

@@ -126,6 +126,7 @@
         <table>
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Статус</th>
                 <th>Прошло/было дней</th>
                 <th>Срок выполнения заказа</th>
@@ -134,6 +135,7 @@
             </thead>
             <tbody>
             <tr th:each="order : ${orders}">
+                <td th:text="${order.id}"></td>
                 <td th:text="${order.status.getDescription()}"></td>
                 <td th:text="${order.timeUtilizationRatio}"></td>
                 <td th:text="${order.dueDate}"></td>
