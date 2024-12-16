@@ -40,7 +40,8 @@ public class OrderResponseFactory {
                 orderEntity.getId(),
                 orderEntity.getStatus(),
                 orderEntity.getDueDate(),
-                timeUtilizationRatio
+                timeUtilizationRatio,
+                orderEntity.getTotalProductPrice()
         );
     }
 }

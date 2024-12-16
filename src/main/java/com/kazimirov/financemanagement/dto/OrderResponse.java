@@ -10,12 +10,13 @@ public class OrderResponse {
     private OrderStatus status;
     private LocalDate dueDate;
     private String timeUtilizationRatio;
-
-    public OrderResponse(Long id, OrderStatus status, LocalDate dueDate, String timeUtilizationRatio) {
+    private int totalProductPrice;
+    public OrderResponse(Long id, OrderStatus status, LocalDate dueDate, String timeUtilizationRatio, int totalProductPrice) {
         this.id = id;
         this.status = status;
         this.dueDate = dueDate;
         this.timeUtilizationRatio = timeUtilizationRatio;
+        this.totalProductPrice = totalProductPrice;
     }
 
     public Long getId() {
@@ -44,5 +45,9 @@ public class OrderResponse {
 
     public void setTimeUtilizationRatio(String timeUtilizationRatio) {
         this.timeUtilizationRatio = timeUtilizationRatio;
+    }
+
+    public int getTotalProductPrice() {
+        return totalProductPrice;
     }
 }
