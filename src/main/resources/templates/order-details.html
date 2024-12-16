@@ -23,37 +23,34 @@
         }
 
         table {
-            width: 100%; /* Фиксированная ширина таблицы */
-            border-collapse: collapse; /* Убирает двойные линии между ячейками */
+            width: 100%;
+            border-collapse: collapse;
         }
 
         th, td {
             padding: 8px;
             border: 1px solid #ddd;
-            word-wrap: break-word; /* Перенос длинных слов */
-            white-space: normal; /* Разрешить перенос текста */
-            text-align: left; /* По умолчанию выравниваем текст по левому краю */
+            word-wrap: break-word;
+            white-space: normal;
+            text-align: left;
         }
 
-        /* Стиль для заголовков таблицы */
         th {
             background-color: #f2f2f2;
-            width: 200px; /* Устанавливаем фиксированную ширину для столбцов с заголовками */
-            padding-right: 10px; /* Отступ справа для заголовков */
-            vertical-align: top; /* Выравнивание текста по верхнему краю ячейки */
+            width: 200px;
+            vertical-align: top;
         }
 
         td {
-            padding-left: 10px; /* Сдвигаем содержимое поля от границы */
+            padding-left: 10px;
         }
 
-        /* Убираем левую границу у первой ячейки и сдвигаем границу во второй столбец */
         tr td:first-child, tr th:first-child {
             border-left: none;
         }
 
         tr td:nth-child(2), tr th:nth-child(2) {
-            border-left: 2px solid #ddd; /* Добавляем вертикальную границу между столбцами */
+            border-left: 2px solid #ddd;
         }
 
         .button {
@@ -74,20 +71,12 @@
     <h2>Информация о заказе</h2>
     <table>
         <tr>
-            <th>Название:</th>
-            <td th:text="${order.title}"></td>
-        </tr>
-        <tr>
             <th>Описание:</th>
             <td th:text="${order.note}"></td>
         </tr>
         <tr>
-            <th>Общая сумма:</th>
-            <td th:text="${order.totalOrderAmount}"></td>
-        </tr>
-        <tr>
             <th>Статус:</th>
-            <td th:text="${order.status}"></td>
+            <td th:text="${order.status.getDescription()}"></td>
         </tr>
         <tr>
             <th>Город оформления:</th>
@@ -98,11 +87,30 @@
             <td th:text="${order.orderDate}"></td>
         </tr>
         <tr>
-            <th>Дата выполнения:</th>
+            <th>Срок выполнения:</th>
             <td th:text="${order.dueDate}"></td>
         </tr>
+        <tr>
+            <th>Коэффициент использования времени:</th>
+            <td th:text="${order.timeUtilizationRatio}"></td>
+        </tr>
+
     </table>
     <a th:href="@{/orders/edit/{id}(id=${order.id})}" class="button">Редактировать заказ</a>
+
+    <!-- Таблица для информации о составе заказа -->
+    <h2>Информация о составе</h2>
+    <table>
+        <tr>
+            <th>Состав заказа:</th>
+            <td th:text="${order.compositionOfOrder}" style="white-space: pre-line;"></td>
+        </tr>
+        <tr>
+            <th>Общая сумма, р:</th>
+            <td th:text="${order.totalProductPrice}"></td>
+        </tr>
+    </table>
+    <a th:href="@{/orders/edit/composition/{id}(id=${order.id})}" class="button">Редактировать состав заказа</a>
 
     <!-- Таблица для информации о клиенте -->
     <h2>Информация о клиенте</h2>

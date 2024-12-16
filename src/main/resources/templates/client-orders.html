@@ -114,8 +114,6 @@
     <table>
       <thead>
       <tr>
-        <th>Название</th>
-        <th>Общая сумма заказа</th>
         <th>Статус</th>
         <th>Прошло/было дней</th>
         <th>Дата выполнения заказа</th>
@@ -124,15 +122,13 @@
       </thead>
       <tbody>
       <tr th:each="order : ${orders}">
-        <td th:text="${order.title}"></td>
-        <td th:text="${order.totalOrderAmount}"></td>
         <td th:text="${order.status}"></td>
         <td th:text="${order.timeUtilizationRatio}"></td>
         <td th:text="${order.dueDate}"></td>
         <td class="action-links">
           <a href="/orders/more/{order.id}" th:href="@{/orders/more/{id}(id=${order.id})}">Подробнее</a>
           <!-- Форма для удаления -->
-          <form th:action="@{/orders/delete/{id}(id=${order.id})}" method="post" style="display:inline;">
+            <form th:action="@{/client/order/delete/orderId={orderId}_clientId={clientId}(orderId=${order.id}, clientId=${client.id})}" method="post" style="display:inline;">
             <button type="submit">Удалить</button>
           </form>
         </td>

@@ -126,17 +126,17 @@
         <table>
             <thead>
             <tr>
-                <th>Общая сумма заказа</th>
+                <th>ID</th>
                 <th>Статус</th>
                 <th>Прошло/было дней</th>
-                <th>Дата выполнения заказа</th>
+                <th>Срок выполнения заказа</th>
                 <th>Действия</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="order : ${orders}">
-                <td th:text="${order.totalOrderAmount}"></td>
-                <td th:text="${order.status}"></td>
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.status.getDescription()}"></td>
                 <td th:text="${order.timeUtilizationRatio}"></td>
                 <td th:text="${order.dueDate}"></td>
                 <td class="action-links">

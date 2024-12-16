@@ -1,5 +1,6 @@
 package com.kazimirov.financemanagement.controller;
 
+import com.kazimirov.financemanagement.dto.OrderDetailsResponse;
 import com.kazimirov.financemanagement.dto.OrderResponse;
 import com.kazimirov.financemanagement.dto.ProductResponse;
 import com.kazimirov.financemanagement.entity.ClientEntity;
@@ -63,36 +64,22 @@ public class OrderController {
                               @RequestParam("products[]") List<String> productNames,
                               @RequestParam("quantities[]") List<Integer> quantities) {
 
-        int totalProductPrice = orderTotalCalculator.calculateTotal(productNames, quantities);
+        int totalProductPrice = orderTotalCalculator.calculateTotalNewOrder(productNames, quantities);
         ClientEntity clientEntity = clientService.getClientById(clientId);
 
         orderEntity.setClient(clientEntity);
         orderEntity.setTotalProductPrice(totalProductPrice);
         orderService.createOrder(orderEntity);
+        productService.addNewProductInOrder(orderEntity, productNames, quantities);
 
-        List<ProductEntity> products = new ArrayList<>();
-
-        for (int i = 0; i < productNames.size(); i++) {
-            ProductEntity product = productService.getByName(productNames.get(i));
-            ProductEntity newProduct = new ProductEntity();
-
-            newProduct.setProductName(productNames.get(i));
-            newProduct.setQuantity(quantities.get(i));
-            newProduct.setPrice(product.getPrice());
-            newProduct.setOrderEntity(orderEntity);
-            products.add(newProduct);
-            productService.addProduct(newProduct);
-        }
-
-        orderEntity.setProductEntities(products);
         return "redirect:/";
     }
 
     @GetMapping("/orders/more/{id}")
     public String getOrderDetails(@PathVariable Long id, Model model) {
-        OrderEntity orderEntity = orderService.getOrderById(id).get();
+        OrderDetailsResponse orderEntity = orderService.getOrderDetailsById(id);
         model.addAttribute("order", orderEntity);
-        model.addAttribute("client", orderEntity.getClient());
+        model.addAttribute("client", orderEntity.getClientEntity());
         return "order-details";
     }
 
@@ -100,6 +87,12 @@ public class OrderController {
     public String deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
         return "redirect:/";
+    }
+
+    @PostMapping("/client/order/delete/orderId={orderId}_clientId={clientId}")
+    public String deleteOrderAtClient(@PathVariable Long orderId, @PathVariable Long clientId) {
+        orderService.deleteOrder(orderId);
+        return "redirect:/client/orders/{clientId}";
     }
 
     @GetMapping("/client/orders/{id}")
@@ -127,11 +120,84 @@ public class OrderController {
         existingOrder.setOrderDate(orderEntity.getOrderDate());
         existingOrder.setDueDate(orderEntity.getDueDate());
         existingOrder.setCity(orderEntity.getCity());
-        existingOrder.setTotalProductPrice(orderEntity.getTotalProductPrice());
         existingOrder.setStatus(orderEntity.getStatus());
 
         orderService.createOrder(existingOrder);
 
         return "redirect:/orders/more/{id}";
+    }
+
+    @GetMapping("/orders/edit/composition/{id}")
+    public String editCompositionOfOrder(@PathVariable Long id, Model model) {
+        List<ProductEntity> productEntityList = orderService.findAllProductsByOrderId(id);
+        List<ProductResponse> availableProducts = productService.getProducts(); // Все товары
+        model.addAttribute("productEntityList", productEntityList);
+        model.addAttribute("availableProducts", availableProducts);
+        model.addAttribute("orderId", id); // передаем id заказа в модель
+        return "сompositionOfOrder-editing";
+    }
+
+
+
+    @PostMapping("/orders/update/composition")
+    public String updateCompositionOfOrder(
+            @RequestParam(value = "existingProducts[]", required = false) List<Long> existingProductIds,
+            @RequestParam(value = "existingQuantities[]", required = false) List<Integer> existingQuantities,
+            @RequestParam(value = "existingPrices[]", required = false) List<Integer> existingPrices,
+            @RequestParam(value = "products[]", required = false) List<Long> newProductIds,
+            @RequestParam(value = "quantities[]", required = false) List<Integer> newQuantities,
+            @RequestParam(value = "deleteProducts", required = false) List<Long> deleteProductIds,
+            @RequestParam Long orderId) {
+
+        // Получаем заказ по ID
+        OrderEntity orderEntity = orderService.getOrderById(orderId).get();
+
+        // === Обработка изменения продуктов ===
+        if (existingProductIds != null && existingQuantities != null) {
+            for (int i = 0; i < existingProductIds.size(); i++) {
+                Long productId = existingProductIds.get(i);
+                Integer quantity = existingQuantities.get(i);
+                Integer price = existingPrices.get(i);
+
+                // Получаем информацию о продукте
+                ProductEntity productEntity = productService.getProductById(productId);
+
+                // Обновляем количество
+                productEntity.setQuantity(quantity);
+                productEntity.setPrice(price);
+                productService.addProduct(productEntity);
+            }
+
+            orderEntity.setTotalProductPrice(productService.calculateTotalOldOrder(existingProductIds));
+        }
+
+        // === Добавление новых товаров ===
+        if (newProductIds != null && newQuantities != null) {
+            List<String> newProductNames = new ArrayList<>();
+
+            for (Long id : newProductIds) {
+                newProductNames.add(productService.getProductById(id).getProductName());
+            }
+
+            productService.addNewProductInOrder(orderEntity, newProductNames, newQuantities);
+        }
+
+        // === Обработка удаления продуктов ===
+        if (deleteProductIds != null && !deleteProductIds.isEmpty()) {
+
+            int oldOrderAmount = orderEntity.getTotalProductPrice();
+            int deductionAmount = productService.calculateTotalOldOrder(deleteProductIds);
+            int totalProductPrice = oldOrderAmount - deductionAmount;
+
+            orderEntity.setTotalProductPrice(totalProductPrice);
+
+            for (Long productId : deleteProductIds) {
+                productService.deleteProduct(productId);
+            }
+        }
+
+        orderService.createOrder(orderEntity);
+
+        return "redirect:/orders/more/" + orderId;
     }
 }
