@@ -15,12 +15,15 @@ public class OrderDetailsResponseFactory {
 
     OrderRepository orderRepository;
     OrderResponseFactory orderResponseFactory;
+    CompositionOfOrder compositionOfOrder;
 
     @Autowired
     public OrderDetailsResponseFactory(OrderRepository orderRepository,
-                                       OrderResponseFactory orderResponseFactory) {
+                                       OrderResponseFactory orderResponseFactory,
+                                       CompositionOfOrder compositionOfOrder) {
         this.orderRepository = orderRepository;
         this.orderResponseFactory = orderResponseFactory;
+        this.compositionOfOrder = compositionOfOrder;
     }
 
     public OrderDetailsResponse mapToOrderDetailsResponse(OrderEntity orderEntity) {
@@ -35,30 +38,8 @@ public class OrderDetailsResponseFactory {
                 orderEntity.getCity(),
                 orderResponse.getTimeUtilizationRatio(),
                 orderEntity.getTotalProductPrice(),
-                creatCompositionOfOrder(orderEntity),
+                compositionOfOrder.creatCompositionOfOrder(orderEntity),
                 orderEntity.getClient()
         );
-    }
-
-    private String creatCompositionOfOrder(OrderEntity orderEntity){
-        List<ProductEntity> productEntities = orderRepository.findAllProductsByOrderId(orderEntity.getId());
-
-        StringBuilder сompositionOfOrder = new StringBuilder();
-
-        for (int i = 0; i < productEntities.size(); i++) {
-            сompositionOfOrder
-                    .append(i+1 + ". ")
-                    .append(productEntities.get(i).getProductName())
-                    .append(" - ")
-                    .append(productEntities.get(i).getPrice())
-                    .append(" р/шт. - ")
-                    .append(productEntities.get(i).getQuantity())
-                    .append(" шт. - Итого: ")
-                    .append(productEntities.get(i).getPrice()*productEntities.get(i).getQuantity())
-                    .append(" р")
-                    .append("\n");
-        }
-
-        return сompositionOfOrder.toString();
     }
 }
