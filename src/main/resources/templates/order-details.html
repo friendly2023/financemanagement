@@ -94,10 +94,7 @@
             <th>Коэффициент использования времени:</th>
             <td th:text="${order.timeUtilizationRatio}"></td>
         </tr>
-        <tr>
-            <th>Общая сумма, р:</th>
-            <td th:text="${order.totalProductPrice}"></td>
-        </tr>
+
     </table>
     <a th:href="@{/orders/edit/{id}(id=${order.id})}" class="button">Редактировать заказ</a>
 
@@ -107,6 +104,10 @@
         <tr>
             <th>Состав заказа:</th>
             <td th:text="${order.compositionOfOrder}" style="white-space: pre-line;"></td>
+        </tr>
+        <tr>
+            <th>Общая сумма, р:</th>
+            <td th:text="${order.totalProductPrice}"></td>
         </tr>
     </table>
     <a th:href="@{/orders/edit/composition/{id}(id=${order.id})}" class="button">Редактировать состав заказа</a>
