@@ -95,6 +95,7 @@
 					<excludes>
 						<exclude>src/main/java/com/kazimirov/financemanagement/dto/**</exclude>
 						<exclude>src/main/java/com/kazimirov/financemanagement/entity/**</exclude>
+						<exclude>src/main/java/com/kazimirov/financemanagement/service/ProductResponseFactory</exclude>
 					</excludes>
 				</configuration>
 			</plugin>

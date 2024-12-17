@@ -11,6 +11,10 @@ public class OrderResponse {
     private LocalDate dueDate;
     private String timeUtilizationRatio;
     private int totalProductPrice;
+
+    public OrderResponse() {
+    }
+
     public OrderResponse(Long id, OrderStatus status, LocalDate dueDate, String timeUtilizationRatio, int totalProductPrice) {
         this.id = id;
         this.status = status;
