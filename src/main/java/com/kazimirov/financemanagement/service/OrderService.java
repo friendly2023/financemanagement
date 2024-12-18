@@ -66,10 +66,6 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    public List<OrderEntity> getOrdersByStatus(OrderStatus status) {
-        return orderRepository.findByStatus(status);
-    }
-
     public Optional<OrderEntity> getOrderById(Long id) {
         return orderRepository.findById(id);
     }
