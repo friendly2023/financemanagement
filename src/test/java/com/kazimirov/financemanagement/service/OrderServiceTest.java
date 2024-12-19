@@ -1,7 +1,10 @@
 package com.kazimirov.financemanagement.service;
 
+import com.kazimirov.financemanagement.dto.OrderDetailsResponse;
 import com.kazimirov.financemanagement.dto.OrderResponse;
 import com.kazimirov.financemanagement.entity.OrderEntity;
+import com.kazimirov.financemanagement.entity.OrderStatus;
+import com.kazimirov.financemanagement.entity.ProductEntity;
 import com.kazimirov.financemanagement.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +40,7 @@ class OrderServiceTest {
 
     private OrderEntity orderEntity;
     private OrderEntity orderEntity1;
+    private ProductEntity productEntity;
 
     @Test
     void createOrder_save() {
@@ -115,7 +119,7 @@ class OrderServiceTest {
         when(orderRepository.findById(1L)).thenReturn(Optional.empty());
 
         // Проверка, что выбрасывается исключение
-        assertThrows(NoSuchElementException.class, () -> orderService.searchOrderById(1L));
+        assertThrows(IllegalArgumentException.class, () -> orderService.searchOrderById(1L));
 
         // Проверка взаимодействия с mock
         verify(orderRepository).findById(1L);
@@ -157,28 +161,89 @@ class OrderServiceTest {
     }
 
     @Test
-    void getOrderById() {
+    void getOrderDetailsByIdTest() throws NoSuchFieldException, IllegalAccessException {
+        Long clientId = 1L;
 
+        OrderRepository orderRepository = mock(OrderRepository.class);
+        ValidatorForOverdueOrders validatorForOverdueOrders = mock(ValidatorForOverdueOrders.class);
+        ValidatorForVerifyNote validatorForVerifyNote = mock(ValidatorForVerifyNote.class);
+        OrderResponseFactory orderResponseFactory = mock(OrderResponseFactory.class);
+        OrderDetailsResponseFactory orderDetailsResponseFactory = mock(OrderDetailsResponseFactory.class);
+
+        OrderEntity orderEntity = new OrderEntity();
+        Field field = OrderEntity.class.getDeclaredField("id");
+        field.setAccessible(true);
+        field.set(orderEntity, 1L);
+        orderEntity.setNote("Note");
+
+        when(orderRepository.findById(clientId)).thenReturn(Optional.of(orderEntity));
+
+        OrderDetailsResponse mockResponse = new OrderDetailsResponse(
+                clientId,
+                "Note",
+                OrderStatus.ONGOING,
+                null,
+                null,
+                "City",
+                "Utilization Ratio",
+                1000,
+                "Composition",
+                null
+        );
+        when(orderDetailsResponseFactory.mapToOrderDetailsResponse(orderEntity)).thenReturn(mockResponse);
+
+        OrderService orderService = new OrderService(orderRepository, validatorForOverdueOrders, validatorForVerifyNote, orderResponseFactory, orderDetailsResponseFactory);
+
+        OrderDetailsResponse result = orderService.getOrderDetailsById(clientId);
+
+        verify(orderDetailsResponseFactory).mapToOrderDetailsResponse(orderEntity);
+
+        assertNotNull(result);
+        assertEquals(clientId, result.getId());
+        assertEquals(orderEntity.getNote(), result.getNote());
     }
-
-
-
-
-
-
-
-
-
 
     @Test
-    void getOrderDetailsById() {
+    void findAllProductsByOrderIdTest() {
+        Long orderId = 1L;
+
+        productEntity = new ProductEntity();
+        productEntity.setPrice(100);
+
+        List<ProductEntity> productEntities = List.of(productEntity);
+
+        when(orderRepository.findAllProductsByOrderId(orderId)).thenReturn(productEntities);
+
+        List<ProductEntity> productsEntitiesFromDB = orderService.findAllProductsByOrderId(orderId);
+
+        assertEquals(productEntity.getPrice(), productsEntitiesFromDB.get(0).getPrice());
+
+        verify(orderRepository).findAllProductsByOrderId(orderId);
     }
 
     @Test
-    void findAllProductsByOrderId() {
+    void deleteOrderTest_delete() {
+        Long orderId = 1L;
+        when(orderRepository.existsById(orderId)).thenReturn(true);
+
+        orderService.deleteOrder(orderId);
+
+        verify(orderRepository).deleteById(orderId);
     }
 
     @Test
-    void deleteOrder() {
+    void deleteOrderTest_Exception() {
+        Long orderId = 1L;
+        when(orderRepository.existsById(orderId)).thenReturn(false);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            orderService.deleteOrder(orderId);
+        });
+
+        assertEquals("Задача с ID " + orderId + " не найдена.", exception.getMessage());
+
+        // Убедимся, что метод deleteById не был вызван
+        verify(orderRepository, never()).deleteById(orderId);
     }
+
 }
