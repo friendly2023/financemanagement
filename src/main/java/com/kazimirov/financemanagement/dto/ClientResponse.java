@@ -9,6 +9,9 @@ public class ClientResponse {
     private int numberOfOrders;
     private int amountOrders;
 
+    public ClientResponse() {
+    }
+
     public ClientResponse(Long id,
                           String name,
                           String linkToProfile,
