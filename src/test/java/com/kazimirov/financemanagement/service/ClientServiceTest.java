@@ -108,7 +108,7 @@ class ClientServiceTest {
     }
 
     @Test
-    void deleteClient() {
+    void deleteClientTest() {
         Long clientId = 1L;
 
         doNothing().when(validatorClientById).checkClientExists(clientId);

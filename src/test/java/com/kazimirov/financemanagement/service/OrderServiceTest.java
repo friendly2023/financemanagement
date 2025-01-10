@@ -115,13 +115,11 @@ class OrderServiceTest {
     }
 
     @Test
-    void searchOrderById_NotReturnsOrderAndException() throws NoSuchFieldException, IllegalAccessException{
+    void searchOrderById_NotReturnsOrderAndException() {
         when(orderRepository.findById(1L)).thenReturn(Optional.empty());
 
-        // Проверка, что выбрасывается исключение
         assertThrows(IllegalArgumentException.class, () -> orderService.searchOrderById(1L));
 
-        // Проверка взаимодействия с mock
         verify(orderRepository).findById(1L);
     }
 
