@@ -143,11 +143,11 @@ public class ProductService {
                 .filter(product -> product.getProductName().equals(productName))
                 .filter(product -> product.getOrderEntity() == null)
                 .findFirst()
-                .get();
+                .orElse(null);
     }
 
     public ProductEntity getProductById(Long productId) {
         return productRepository.findById(productId)
-                .get();
+                .orElseThrow(() -> new IllegalArgumentException("Продукт с указанным id не найден: " + productId));
     }
 }

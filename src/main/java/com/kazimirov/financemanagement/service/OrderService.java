@@ -46,7 +46,8 @@ public class OrderService {
     }
 
     public OrderEntity searchOrderById(Long id) {
-        return orderRepository.findById(id).get();
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + id));
     }
 
 
@@ -66,16 +67,8 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    public List<OrderEntity> getOrdersByStatus(OrderStatus status) {
-        return orderRepository.findByStatus(status);
-    }
-
-    public Optional<OrderEntity> getOrderById(Long id) {
-        return orderRepository.findById(id);
-    }
-
     public OrderDetailsResponse getOrderDetailsById(Long id) {
-        return orderDetailsResponseFactory.mapToOrderDetailsResponse(orderRepository.findById(id).get());
+        return orderDetailsResponseFactory.mapToOrderDetailsResponse(searchOrderById(id));
     }
 
     public List<ProductEntity> findAllProductsByOrderId(Long orderId) {

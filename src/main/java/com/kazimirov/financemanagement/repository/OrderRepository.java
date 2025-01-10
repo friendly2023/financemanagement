@@ -13,8 +13,6 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
-    List<OrderEntity> findByStatus(OrderStatus status);
-
     List<OrderEntity> findAllByOrderByDueDate();
 
     List<OrderEntity> findByClientEntity_Id(Long clientId);

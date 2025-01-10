@@ -150,7 +150,7 @@ public class OrderController {
             @RequestParam Long orderId) {
 
         // Получаем заказ по ID
-        OrderEntity orderEntity = orderService.getOrderById(orderId).get();
+        OrderEntity orderEntity = orderService.searchOrderById(orderId);
 
         // === Обработка изменения продуктов ===
         if (existingProductIds != null && existingQuantities != null) {
