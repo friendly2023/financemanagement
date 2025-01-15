@@ -20,7 +20,18 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     @Query("SELECT p FROM ProductEntity p WHERE p.orderEntity.id = :orderId")
     List<ProductEntity> findAllProductsByOrderId(@Param("orderId") Long orderId);
 
-//todo удалить за ненадобностью
-//    ClientEntity findClientById(Long clientId);
+    @Query("SELECT COUNT(o) FROM OrderEntity o")
+    Integer countAllOrders();
+
+    @Query("SELECT COUNT(o) FROM OrderEntity o where o.status='COMPLETED'")
+    Integer countAllCompletedOrders();
+
+    @Query("select SUM(o.totalProductPrice) from OrderEntity o where o.status='COMPLETED'")
+    Integer getTotalEarnings();
+
+    @Query("SELECT SUM(p.quantity) FROM OrderEntity o " +
+            "JOIN o.productEntities p " +
+            "WHERE o.status = 'COMPLETED'")
+    Integer getTotalProductSold();
 
 }
