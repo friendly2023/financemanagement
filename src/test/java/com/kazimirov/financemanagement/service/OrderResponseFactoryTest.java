@@ -2,7 +2,7 @@ package com.kazimirov.financemanagement.service;
 
 import com.kazimirov.financemanagement.dto.OrderResponse;
 import com.kazimirov.financemanagement.entity.OrderEntity;
-import com.kazimirov.financemanagement.entity.OrderStatus;
+import com.kazimirov.financemanagement.enums.OrderStatus;
 import com.kazimirov.financemanagement.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

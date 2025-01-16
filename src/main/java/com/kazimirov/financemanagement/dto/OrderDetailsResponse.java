@@ -1,7 +1,7 @@
 package com.kazimirov.financemanagement.dto;
 
 import com.kazimirov.financemanagement.entity.ClientEntity;
-import com.kazimirov.financemanagement.entity.OrderStatus;
+import com.kazimirov.financemanagement.enums.OrderStatus;
 
 import java.time.LocalDate;
 

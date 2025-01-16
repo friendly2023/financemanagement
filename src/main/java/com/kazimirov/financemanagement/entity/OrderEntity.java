@@ -1,6 +1,7 @@
 package com.kazimirov.financemanagement.entity;
 
 
+import com.kazimirov.financemanagement.enums.OrderStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;

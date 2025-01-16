@@ -1,7 +1,6 @@
 package com.kazimirov.financemanagement.repository;
 
 import com.kazimirov.financemanagement.entity.OrderEntity;
-import com.kazimirov.financemanagement.entity.OrderStatus;
 import com.kazimirov.financemanagement.entity.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -41,4 +40,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
             "WHERE o.status = 'COMPLETED'")
     Integer getTotalProductSold();
 
+
+    @Query("SELECT o FROM OrderEntity o where o.status='COMPLETED'")
+    List<OrderEntity> getAllCompletedOrders();
 }
