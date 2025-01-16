@@ -16,10 +16,12 @@ import static com.kazimirov.financemanagement.enums.OrderStatus.ONGOING;
 public class OrderResponseFactory {
 
     OrderRepository orderRepository;
+    CompositionOfOrder compositionOfOrder;
 
     @Autowired
-    public OrderResponseFactory(OrderRepository orderRepository) {
+    public OrderResponseFactory(OrderRepository orderRepository, CompositionOfOrder compositionOfOrder) {
         this.orderRepository = orderRepository;
+        this.compositionOfOrder = compositionOfOrder;
     }
 
     public OrderResponse mapToOrderResponse(OrderEntity orderEntity) {
@@ -43,7 +45,8 @@ public class OrderResponseFactory {
                 orderEntity.getStatus(),
                 orderEntity.getDueDate(),
                 timeUtilizationRatio,
-                orderEntity.getTotalProductPrice()
+                orderEntity.getTotalProductPrice(),
+                compositionOfOrder.creatSimplifiedCompositionOfOrder(orderEntity)
         );
     }
 }

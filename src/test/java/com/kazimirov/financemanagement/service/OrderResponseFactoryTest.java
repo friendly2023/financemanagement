@@ -14,14 +14,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class OrderResponseFactoryTest {
 
     @Mock
     private OrderRepository orderRepository;
+    @Mock
+    CompositionOfOrder compositionOfOrder;
 
     @InjectMocks
     private OrderResponseFactory orderResponseFactory;
@@ -39,6 +40,8 @@ class OrderResponseFactoryTest {
     @Test
     void mapToOrderResponse_WhenNotOverdue_RecordTimeUtilizationRatio() {
 
+        when(compositionOfOrder.creatSimplifiedCompositionOfOrder(orderEntity)).thenReturn("1. Эбонитовый кинжал из игры Скайрим/Skyrim - 1 шт.");
+
         OrderResponse orderResponse = orderResponseFactory.mapToOrderResponse(orderEntity);
 
         assertEquals("5/15", orderResponse.getTimeUtilizationRatio());
@@ -50,6 +53,8 @@ class OrderResponseFactoryTest {
     void mapToOrderResponse_WhenOverdue_OverdueStatusAndSave() {
         orderEntity.setOrderDate(LocalDate.now());
         orderEntity.setDueDate(LocalDate.now().minusDays(5));
+
+        when(compositionOfOrder.creatSimplifiedCompositionOfOrder(orderEntity)).thenReturn("1. Эбонитовый кинжал из игры Скайрим/Skyrim - 1 шт.");
 
         OrderResponse orderResponse = orderResponseFactory.mapToOrderResponse(orderEntity);
 
@@ -63,6 +68,8 @@ class OrderResponseFactoryTest {
         orderEntity.setOrderDate(LocalDate.now());
         orderEntity.setDueDate(LocalDate.now().minusDays(5));
         orderEntity.setStatus(OrderStatus.CANCELLED);
+
+        when(compositionOfOrder.creatSimplifiedCompositionOfOrder(orderEntity)).thenReturn("1. Эбонитовый кинжал из игры Скайрим/Skyrim - 1 шт.");
 
         OrderResponse orderResponse = orderResponseFactory.mapToOrderResponse(orderEntity);
 

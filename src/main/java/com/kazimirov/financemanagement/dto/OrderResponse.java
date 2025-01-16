@@ -11,16 +11,18 @@ public class OrderResponse {
     private LocalDate dueDate;
     private String timeUtilizationRatio;
     private int totalProductPrice;
+    private String compositionOfOrder;
 
     public OrderResponse() {
     }
 
-    public OrderResponse(Long id, OrderStatus status, LocalDate dueDate, String timeUtilizationRatio, int totalProductPrice) {
+    public OrderResponse(Long id, OrderStatus status, LocalDate dueDate, String timeUtilizationRatio, int totalProductPrice, String compositionOfOrder) {
         this.id = id;
         this.status = status;
         this.dueDate = dueDate;
         this.timeUtilizationRatio = timeUtilizationRatio;
         this.totalProductPrice = totalProductPrice;
+        this.compositionOfOrder = compositionOfOrder;
     }
 
     public Long getId() {
@@ -53,5 +55,13 @@ public class OrderResponse {
 
     public int getTotalProductPrice() {
         return totalProductPrice;
+    }
+
+    public String getCompositionOfOrder() {
+        return compositionOfOrder;
+    }
+
+    public void setCompositionOfOrder(String compositionOfOrder) {
+        this.compositionOfOrder = compositionOfOrder;
     }
 }
