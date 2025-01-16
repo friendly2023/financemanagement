@@ -86,10 +86,29 @@
     </div>
   </header>
   <div class="container">
+    <label>По статусу заказа:</label>
     <div class="stat-item">
-      <span>Количество заказов:</span>
+      <span>Все заказы:</span>
+      <span th:text="${statistics.orderCount}">0</span>
+    </div>
+    <div class="stat-item">
+      <span>Выполнено:</span>
       <span th:text="${statistics.orderCompletedCount}">0</span>
     </div>
+    <div class="stat-item">
+      <span>В работе:</span>
+      <span th:text="${statistics.orderOngoingCount}">0</span>
+    </div>
+    <div class="stat-item">
+      <span>Отмененно:</span>
+      <span th:text="${statistics.orderCancelledCount}">0</span>
+    </div>
+    <div class="stat-item">
+      <span>Просрочено:</span>
+      <span th:text="${statistics.orderOverdueCount}">0</span>
+    </div>
+
+    <label>По сумме заказа:</label>
     <div class="stat-item">
       <span>Средняя цена заказа:</span>
       <span th:text="${statistics.averageOrderPrice} + ' ₽'">0 ₽</span>

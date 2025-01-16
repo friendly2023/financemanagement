@@ -23,8 +23,15 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     @Query("SELECT COUNT(o) FROM OrderEntity o")
     Integer countAllOrders();
 
+
     @Query("SELECT COUNT(o) FROM OrderEntity o where o.status='COMPLETED'")
     Integer countAllCompletedOrders();
+    @Query("SELECT COUNT(o) FROM OrderEntity o where o.status='ONGOING'")
+    Integer countAllOngoingOrders();
+    @Query("SELECT COUNT(o) FROM OrderEntity o where o.status='CANCELLED'")
+    Integer countAllCancelledOrders();
+    @Query("SELECT COUNT(o) FROM OrderEntity o where o.status='OVERDUE'")
+    Integer countAllOverdueOrders();
 
     @Query("select SUM(o.totalProductPrice) from OrderEntity o where o.status='COMPLETED'")
     Integer getTotalEarnings();
