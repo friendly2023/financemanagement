@@ -129,9 +129,9 @@
                 <th>ID</th>
                 <th>Статус</th>
                 <th>Прошло/было дней</th>
-                <th>Срок выполнения заказа</th>
+                <th>Дата оформления</th>
                 <th>Состав</th>
-                <th>Сумма заказа</th>
+                <th>Сумма</th>
                 <th>Действия</th>
             </tr>
             </thead>
@@ -140,7 +140,7 @@
                 <td th:text="${order.id}"></td>
                 <td th:text="${order.status.getDescription()}"></td>
                 <td th:text="${order.timeUtilizationRatio}"></td>
-                <td th:text="${order.dueDate}"></td>
+                <td th:text="${order.orderDate}"></td>
                 <td th:text="${order.compositionOfOrder}"></td>
                 <td th:text="${order.totalProductPrice}"></td>
                 <td class="action-links">

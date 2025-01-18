@@ -30,7 +30,7 @@ public class OrderDetailsResponseFactory {
                 orderResponse.getId(),
                 orderEntity.getNote(),
                 orderResponse.getStatus(),
-                orderResponse.getDueDate(),
+                orderEntity.getDueDate(),
                 orderEntity.getOrderDate(),
                 orderEntity.getCity(),
                 orderResponse.getTimeUtilizationRatio(),

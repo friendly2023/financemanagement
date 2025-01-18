@@ -43,7 +43,7 @@ public class OrderResponseFactory {
         return new OrderResponse(
                 orderEntity.getId(),
                 orderEntity.getStatus(),
-                orderEntity.getDueDate(),
+                orderEntity.getOrderDate(),
                 timeUtilizationRatio,
                 orderEntity.getTotalProductPrice(),
                 compositionOfOrder.creatSimplifiedCompositionOfOrder(orderEntity)
