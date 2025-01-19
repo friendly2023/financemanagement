@@ -157,22 +157,7 @@
         <!-- Добавление новых товаров -->
         <h2>Добавить товары</h2>
         <div id="productsContainer">
-            <div class="product-field">
-                <label for="product-1">Товар:</label>
-                <select id="product-1" name="products[]">
-                    <option value="" disabled selected>Выберите товар</option>
-                    <!-- Генерация списка товаров с помощью Thymeleaf -->
-                    <th:block th:each="product : ${availableProducts}">
-                        <option th:value="${product.id}" th:text="${product.productName}"></option>
-                    </th:block>
-                </select>
 
-                <label for="quantity-1">Количество:</label>
-                <input type="number" id="quantity-1" name="quantities[]" value="1" min="1">
-
-                <!-- Кнопка для удаления товара -->
-                <button type="button" class="remove-product" onclick="removeProductField(this)">Удалить</button>
-            </div>
         </div>
 
         <button type="button" onclick="addProductField()">Добавить еще товар</button>
