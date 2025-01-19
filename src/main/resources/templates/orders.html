@@ -106,7 +106,7 @@
             <a href="/products">Товары</a>
             <a href="/clients">Клиенты</a>
             <a href="/stats">Статистика</a>
-
+            <a href="/">Показать все</a>
         </div>
 
         <!-- Блок с фильтрацией -->
@@ -120,6 +120,12 @@
             </select>
             <button type="submit">Фильтровать</button>
         </form>
+
+        <form th:action="@{/orders/search}" method="get">
+            <input type="text" name="query" placeholder="Поиск по заказам..." value="" style="padding: 5px; width: 300px; font-size: 16px;">
+            <button type="submit" style="padding: 5px 10px; font-size: 16px;">Найти</button>
+        </form>
+
     </header>
 
     <div class="container">
