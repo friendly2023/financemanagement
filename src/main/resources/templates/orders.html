@@ -141,7 +141,7 @@
                 <td th:text="${order.status.getDescription()}"></td>
                 <td th:text="${order.timeUtilizationRatio}"></td>
                 <td th:text="${order.orderDate}"></td>
-                <td th:text="${order.compositionOfOrder}"></td>
+                <td th:text="${order.compositionOfOrder}" style="white-space: pre-line;"></td>
                 <td th:text="${order.totalProductPrice}"></td>
                 <td class="action-links">
                     <a href="/orders/more/{order.id}" th:href="@{/orders/more/{id}(id=${order.id})}">Подробнее</a>
