@@ -12,10 +12,7 @@ import com.kazimirov.financemanagement.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,13 +56,21 @@ public class OrderController {
     }
 
     @PostMapping("/orders/new")
-    public String createOrder(OrderEntity orderEntity,
-                              @RequestParam("clientId") Long clientId,
+    public String createOrder(@ModelAttribute("orderEntity") OrderEntity orderEntity,
+                              @RequestParam String clientName,
+                              @RequestParam(required = false) String linkToProfile,
+                              @RequestParam(required = false) String clientNote,
                               @RequestParam("products[]") List<String> productNames,
                               @RequestParam("quantities[]") List<Integer> quantities) {
 
         int totalProductPrice = orderTotalCalculator.calculateTotalNewOrder(productNames, quantities);
-        ClientEntity clientEntity = clientService.getClientById(clientId);
+
+        ClientEntity clientEntity = new ClientEntity();
+        clientEntity.setName(clientName);
+        clientEntity.setLinkToProfile(linkToProfile);
+        clientEntity.setNote(clientNote);
+
+        clientService.createClient(clientEntity);
 
         orderEntity.setClient(clientEntity);
         orderEntity.setTotalProductPrice(totalProductPrice);

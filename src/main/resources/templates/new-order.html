@@ -80,6 +80,7 @@
 <div class="container">
     <h1>Добавить новый заказ</h1>
     <form id="orderForm" th:action="@{/orders/new}" method="post">
+
         <div id="productsContainer">
             <div class="product-field">
                 <label for="product-1">Товар:</label>
@@ -95,9 +96,6 @@
             </div>
         </div>
         <button type="button" onclick="addProductField()">Добавить еще товар</button>
-
-        <label for="clientId">Клиент:</label>
-        <input type="text" id="clientId" name="clientId" required placeholder="Введите ID клиента">
 
         <label for="city">Город:</label>
         <input type="text" id="city" name="city" placeholder="Введите город оформления заказа">
@@ -125,6 +123,15 @@
 
         <label for="note">Примечание:</label>
         <textarea id="note" name="note" placeholder="Введите примечание (необязательно)" rows="6" cols="50"></textarea>
+
+        <label for="name">Имя клиента:</label>
+        <input type="text" id="name" name="clientName" placeholder="Введите имя клиента" required>
+
+        <label for="linkToProfile">Ссылка на профиль:</label>
+        <input type="text" id="linkToProfile" name="linkToProfile" placeholder="Введите ссылку на профиль клиента (необязательно)">
+
+        <label for="note">Примечание:</label>
+        <textarea id="client-note" name="clientNote" rows="6" cols="50" placeholder="Введите примечание (необязательно)"></textarea>
 
         <button type="submit">Создать</button>
     </form>
