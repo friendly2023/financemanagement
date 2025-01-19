@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -44,6 +45,13 @@ public class ClientController {
     public String deleteClient(@PathVariable Long id) {
         clientService.deleteClient(id);
         return "redirect:/clients";
+    }
+
+    @GetMapping("/clients/search")
+    public String searchClients(@RequestParam("query") String query, Model model) {
+        List<ClientResponse> clientResponses = clientService.searchClients(query);
+        model.addAttribute("clients", clientResponses);
+        return "clients";
     }
 
     @GetMapping("/clients/edit/{clientId}/order/{orderId}")

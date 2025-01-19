@@ -57,4 +57,12 @@ public class ClientService {
     public Optional<ClientEntity> findClientByNameAndLinkToProfile(String name, String linkToProfile) {
         return clientRepository.findByNameAndLinkToProfile(name, linkToProfile);
     }
+
+    public List<ClientResponse> searchClients(String query) {
+        List<ClientEntity> clientEntity = clientRepository.searchByNameOrLinkOrNote(query);
+
+        return clientEntity.stream()
+                .map(clientResponseFactory::mapClientDTO)
+                .collect(Collectors.toList());
+    }
 }
