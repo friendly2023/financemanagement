@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
-    List<ProductEntity> findByOrderEntityIsNull();
+    List<ProductEntity> findByOrderEntityIsNullOrderByProductName();
 
     Optional<ProductEntity> findByProductName(String productName);
 

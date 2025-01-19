@@ -30,13 +30,13 @@ class ValidatorForAddProductAnOrderTest {
         ProductEntity existingProduct = new ProductEntity();
         existingProduct.setProductName("Test Product");
 
-        when(productRepository.findByOrderEntityIsNull()).thenReturn(List.of(existingProduct));
+        when(productRepository.findByOrderEntityIsNullOrderByProductName()).thenReturn(List.of(existingProduct));
 
         boolean result = validatorForAddProductAnOrder.validate(productEntityToValidate);
 
         assertTrue(result);
 
-        verify(productRepository).findByOrderEntityIsNull();
+        verify(productRepository).findByOrderEntityIsNullOrderByProductName();
     }
 
     @Test
@@ -44,12 +44,12 @@ class ValidatorForAddProductAnOrderTest {
         ProductEntity productEntityToValidate = new ProductEntity();
         productEntityToValidate.setProductName("Non-existent Product");
 
-        when(productRepository.findByOrderEntityIsNull()).thenReturn(List.of());
+        when(productRepository.findByOrderEntityIsNullOrderByProductName()).thenReturn(List.of());
 
         boolean result = validatorForAddProductAnOrder.validate(productEntityToValidate);
 
         assertFalse(result);
 
-        verify(productRepository).findByOrderEntityIsNull();
+        verify(productRepository).findByOrderEntityIsNullOrderByProductName();
     }
 }
