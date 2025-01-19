@@ -8,7 +8,7 @@
             margin: 0;
             font-family: Arial, sans-serif;
             text-align: center;
-            height: 100%; /* Убираем 100vh */
+            height: 100%;
         }
 
         .wrapper {
@@ -21,32 +21,32 @@
             background-color: #fff;
             padding: 20px;
             position: sticky;
-            top: 0; /* Закрепляем заголовок и фильтр при прокрутке */
+            top: 0;
             z-index: 10;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Добавляем тень для выделения */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .container {
             flex-grow: 1;
             overflow-y: auto;
-            padding: 0 20px 20px 20px; /* Убираем верхний отступ и снизу добавляем отступ */
+            padding: 0 20px 20px 20px;
         }
 
         h1 {
             font-size: 24px;
-            margin-bottom: 10px; /* Немного увеличиваем промежуток */
+            margin-bottom: 10px;
         }
 
         a {
-            margin-top: 10px; /* Добавляем небольшой отступ между ссылкой и фильтром */
+            margin-top: 10px;
         }
 
         table {
             width: 100%;
-            max-width: 1000px; /* Максимальная ширина таблицы */
+            max-width: 1000px;
             margin-top: 20px;
             border-collapse: collapse;
-            margin: 0 auto; /* Центрируем таблицу */
+            margin: 0 auto;
         }
 
         th, td {
@@ -59,42 +59,65 @@
         }
 
         td {
-            max-width: 300px; /* Ограничиваем максимальную ширину для ячеек */
-            word-wrap: break-word; /* Разбиваем длинные слова */
+            max-width: 300px;
+            word-wrap: break-word;
         }
 
         form {
+            margin-top: 20px;
+        }
+
+        /* Для первой строки с выбором статуса и поиска */
+        .filter-row {
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-top: 20px; /* Добавляем отступ сверху */
+        }
+
+        /* Для второй строки с датами */
+        .date-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
         }
 
         .spaced-links {
-            display: flex; /* Включаем Flexbox */
-            gap: 20px; /* Устанавливаем отступ между элементами */
+            display: flex;
+            gap: 20px;
             justify-content: center;
         }
 
-        /* Новый стиль только для ссылок "Подробнее" и "Удалить" */
         .action-links a,
         .action-links button {
-            text-decoration: none; /* Убираем подчеркивание */
-            color: #007bff; /* Цвет текста для ссылок */
-            font-size: 16px; /* Размер шрифта */
+            text-decoration: none;
+            color: #007bff;
+            font-size: 16px;
         }
 
         .action-links a:hover,
         .action-links button:hover {
-            text-decoration: underline; /* Подчеркивание при наведении */
+            text-decoration: underline;
         }
 
         .action-links button {
-            background: none; /* Убираем фоновый цвет */
-            border: none; /* Убираем границу */
-            cursor: pointer; /* Указатель при наведении */
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Для кнопки */
+        form input, form select, form button {
+            padding: 8px;
+            font-size: 16px;
         }
     </style>
+    <script>
+        function submitAction(action) {
+            document.getElementById('action').value = action;
+            document.getElementById('filter-form').submit();
+        }
+    </script>
 </head>
 <body>
 <div class="wrapper">
@@ -106,20 +129,53 @@
             <a href="/products">Товары</a>
             <a href="/clients">Клиенты</a>
             <a href="/stats">Статистика</a>
-
+            <a href="/">Показать все</a>
         </div>
 
-        <!-- Блок с фильтрацией -->
-        <form action="/orders" method="get">
-            <label for="status">Выберите статус:</label>
-            <select id="status" name="status">
-                <option value="ONGOING">В работе</option>
-                <option value="COMPLETED">Завершено</option>
-                <option value="CANCELLED">Отменено</option>
-                <option value="OVERDUE">Просрочено</option>
-            </select>
-            <button type="submit">Фильтровать</button>
+        <!-- Форма для фильтрации и поиска -->
+        <form action="/orders/search" method="get" id="filter-form">
+            <!-- Первая строка с выбором статуса и поиска -->
+            <div class="filter-row" style="gap: 20px;">
+                <div class="form-group">
+                    <label for="status">Выберите статус:</label>
+                    <select id="status" name="status">
+                        <option value="" th:selected="${status == null || status.isEmpty()}">Все статусы</option>
+                        <option value="ONGOING" th:selected="${status == 'ONGOING'}">В работе</option>
+                        <option value="COMPLETED" th:selected="${status == 'COMPLETED'}">Завершено</option>
+                        <option value="CANCELLED" th:selected="${status == 'CANCELLED'}">Отменено</option>
+                        <option value="OVERDUE" th:selected="${status == 'OVERDUE'}">Просрочено</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="query">Поиск по заказам:</label>
+                    <input type="text" id="query" name="query" placeholder="Введите запрос" th:value="${query}" style="width: 300px;">
+                </div>
+            </div>
+
+            <!-- Вторая строка с датами -->
+            <div class="date-row" style="gap: 20px;">
+                <div class="form-group">
+                    <label for="startDate">Начальная дата:</label>
+                    <input type="date" id="startDate" name="startDate" th:value="${startDate}">
+                </div>
+
+                <div class="form-group">
+                    <label for="endDate">Конечная дата:</label>
+                    <input type="date" id="endDate" name="endDate" th:value="${endDate}">
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 20px;">
+                <button type="submit" style="padding: 10px 20px; font-size: 16px;">Применить фильтры и поиск</button>
+            </div>
         </form>
+
+        <!-- Строка с количеством заказов в выборке -->
+        <div style="margin-top: 20px;">
+            <p>Заказов в выборке: <span th:text="${orderCount}"></span></p>
+        </div>
+
     </header>
 
     <div class="container">
@@ -145,7 +201,6 @@
                 <td th:text="${order.totalProductPrice}"></td>
                 <td class="action-links">
                     <a href="/orders/more/{order.id}" th:href="@{/orders/more/{id}(id=${order.id})}">Подробнее</a>
-                    <!-- Форма для удаления -->
                     <form th:action="@{/orders/delete/{id}(id=${order.id})}" method="post" style="display:inline;">
                         <button type="submit">Удалить</button>
                     </form>

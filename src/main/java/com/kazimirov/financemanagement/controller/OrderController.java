@@ -1,12 +1,15 @@
 package com.kazimirov.financemanagement.controller;
 
+import com.kazimirov.financemanagement.dto.ClientResponse;
 import com.kazimirov.financemanagement.dto.OrderDetailsResponse;
 import com.kazimirov.financemanagement.dto.OrderResponse;
 import com.kazimirov.financemanagement.dto.ProductResponse;
 import com.kazimirov.financemanagement.entity.ClientEntity;
 import com.kazimirov.financemanagement.entity.OrderEntity;
 import com.kazimirov.financemanagement.entity.ProductEntity;
+import com.kazimirov.financemanagement.enums.OrderStatus;
 import com.kazimirov.financemanagement.service.ClientService;
+import com.kazimirov.financemanagement.service.OrderSearchService;
 import com.kazimirov.financemanagement.service.OrderService;
 import com.kazimirov.financemanagement.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +17,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class OrderController {
@@ -25,22 +30,26 @@ public class OrderController {
     private final ClientService clientService;
     private final ProductService productService;
     private OrderTotalCalculator orderTotalCalculator;
+    private OrderSearchService orderSearchService;
 
     @Autowired
     public OrderController(OrderService orderService,
                            ClientService clientService,
                            ProductService productService,
-                           OrderTotalCalculator orderTotalCalculator) {
+                           OrderTotalCalculator orderTotalCalculator,
+                           OrderSearchService orderSearchService) {
         this.orderService = orderService;
         this.clientService = clientService;
         this.productService = productService;
         this.orderTotalCalculator = orderTotalCalculator;
+        this.orderSearchService = orderSearchService;
     }
 
     @GetMapping("/")
     public String showOrdersList(Model model) {
         List<OrderResponse> orders = orderService.getAllOrdersSortedByDueDate();
         model.addAttribute("orders", orders);
+        model.addAttribute("orderCount", orders.size());
         return "orders"; // имя шаблона HTML
     }
 
@@ -217,5 +226,24 @@ public class OrderController {
         orderService.createOrder(orderEntity);
 
         return "redirect:/orders/more/" + orderId;
+    }
+
+    @GetMapping("/orders/search")
+    public String searchOrders(@RequestParam(required = false) String status,
+                               @RequestParam(required = false) String query,
+                               @RequestParam(required = false) LocalDate startDate,
+                               @RequestParam(required = false) LocalDate endDate,
+                               Model model) {
+
+        List<OrderResponse> filteredOrders = orderSearchService.searchByOrders(status, query, startDate, endDate);
+
+        model.addAttribute("orders", filteredOrders);
+        model.addAttribute("status", status);
+        model.addAttribute("query", query);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+        model.addAttribute("orderCount", filteredOrders.size());
+
+        return "orders";
     }
 }
