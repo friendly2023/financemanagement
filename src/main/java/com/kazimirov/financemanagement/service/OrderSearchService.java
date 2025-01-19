@@ -5,6 +5,7 @@ import com.kazimirov.financemanagement.enums.OrderStatus;
 import com.kazimirov.financemanagement.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,10 @@ public class OrderSearchService {
         this.orderService = orderService;
     }
 
-    public List<OrderResponse> searchByOrders(String status, String query) {
+    public List<OrderResponse> searchByOrders(String status,
+                                              String query,
+                                              LocalDate startDate,
+                                              LocalDate endDate) {
 
         List<OrderResponse> allOrders = orderService.getAllOrdersSortedByDueDate();
 
@@ -32,6 +36,18 @@ public class OrderSearchService {
             String lowerCaseQuery = query.toLowerCase();
             allOrders = allOrders.stream()
                     .filter(order -> order.getCompositionOfOrder().toLowerCase().contains(lowerCaseQuery))
+                    .collect(Collectors.toList());
+        }
+
+        if (startDate != null) {
+            allOrders = allOrders.stream()
+                    .filter(order -> !order.getOrderDate().isBefore(startDate))
+                    .collect(Collectors.toList());
+        }
+
+        if (endDate != null) {
+            allOrders = allOrders.stream()
+                    .filter(order -> !order.getOrderDate().isAfter(endDate))
                     .collect(Collectors.toList());
         }
 

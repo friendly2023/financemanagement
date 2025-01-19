@@ -64,10 +64,22 @@
         }
 
         form {
+            margin-top: 20px;
+        }
+
+        /* Для первой строки с выбором статуса и поиска */
+        .filter-row {
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-top: 20px;
+        }
+
+        /* Для второй строки с датами */
+        .date-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
         }
 
         .spaced-links {
@@ -93,6 +105,12 @@
             border: none;
             cursor: pointer;
         }
+
+        /* Для кнопки */
+        form input, form select, form button {
+            padding: 8px;
+            font-size: 16px;
+        }
     </style>
     <script>
         function submitAction(action) {
@@ -116,18 +134,45 @@
 
         <!-- Форма для фильтрации и поиска -->
         <form action="/orders/search" method="get" id="filter-form">
-            <label for="status">Выберите статус:</label>
-            <select id="status" name="status">
-                <option value="" th:selected="${status == null || status.isEmpty()}">Все статусы</option>
-                <option value="ONGOING" th:selected="${status == 'ONGOING'}">В работе</option>
-                <option value="COMPLETED" th:selected="${status == 'COMPLETED'}">Завершено</option>
-                <option value="CANCELLED" th:selected="${status == 'CANCELLED'}">Отменено</option>
-                <option value="OVERDUE" th:selected="${status == 'OVERDUE'}">Просрочено</option>
-            </select>
+            <!-- Первая строка с выбором статуса и поиска -->
+            <div class="filter-row" style="gap: 20px;">
+                <div class="form-group">
+                    <label for="status">Выберите статус:</label>
+                    <select id="status" name="status">
+                        <option value="" th:selected="${status == null || status.isEmpty()}">Все статусы</option>
+                        <option value="ONGOING" th:selected="${status == 'ONGOING'}">В работе</option>
+                        <option value="COMPLETED" th:selected="${status == 'COMPLETED'}">Завершено</option>
+                        <option value="CANCELLED" th:selected="${status == 'CANCELLED'}">Отменено</option>
+                        <option value="OVERDUE" th:selected="${status == 'OVERDUE'}">Просрочено</option>
+                    </select>
+                </div>
 
-            <input type="text" name="query" placeholder="Поиск по заказам..." th:value="${query}" style="padding: 5px; width: 300px; font-size: 16px;">
-            <button type="submit" style="padding: 5px 10px; font-size: 16px;">Применить фильтры и поиск</button>
+                <div class="form-group">
+                    <label for="query">Поиск по заказам:</label>
+                    <input type="text" id="query" name="query" placeholder="Введите запрос" th:value="${query}" style="width: 300px;">
+                </div>
+            </div>
+
+            <!-- Вторая строка с датами -->
+            <div class="date-row" style="gap: 20px;">
+                <div class="form-group">
+                    <label for="startDate">Начальная дата:</label>
+                    <input type="date" id="startDate" name="startDate" th:value="${startDate}">
+                </div>
+
+                <div class="form-group">
+                    <label for="endDate">Конечная дата:</label>
+                    <input type="date" id="endDate" name="endDate" th:value="${endDate}">
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 20px;">
+                <button type="submit" style="padding: 10px 20px; font-size: 16px;">Применить фильтры и поиск</button>
+            </div>
         </form>
+
+
+
 
     </header>
 

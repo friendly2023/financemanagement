@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -229,13 +230,17 @@ public class OrderController {
     @GetMapping("/orders/search")
     public String searchOrders(@RequestParam(required = false) String status,
                                @RequestParam(required = false) String query,
+                               @RequestParam(required = false) LocalDate startDate,
+                               @RequestParam(required = false) LocalDate endDate,
                                Model model) {
 
-        List<OrderResponse> filteredOrders = orderSearchService.searchByOrders(status, query);
+        List<OrderResponse> filteredOrders = orderSearchService.searchByOrders(status, query, startDate, endDate);
 
         model.addAttribute("orders", filteredOrders);
         model.addAttribute("status", status);
         model.addAttribute("query", query);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
 
         return "orders";
     }
