@@ -86,11 +86,11 @@
 
         <div>
             <label for="status">Статус:</label>
-            <select id="status" name="status">
-                <option value="ONGOING">В работе</option>
-                <option value="COMPLETED">Завершено</option>
-                <option value="CANCELLED">Отменено</option>
-                <option value="OVERDUE">Просрочено</option>
+            <select id="status" th:field="*{status}">
+                <option value="ONGOING" th:selected="${order.status == 'ONGOING'}">В работе</option>
+                <option value="COMPLETED" th:selected="${order.status == 'COMPLETED'}">Завершено</option>
+                <option value="CANCELLED" th:selected="${order.status == 'CANCELLED'}">Отменено</option>
+                <option value="OVERDUE" th:selected="${order.status == 'OVERDUE'}">Просрочено</option>
             </select>
         </div>
 
