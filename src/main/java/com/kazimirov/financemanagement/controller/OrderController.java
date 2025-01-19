@@ -58,6 +58,7 @@ public class OrderController {
     @PostMapping("/orders/new")
     public String createOrder(@ModelAttribute("orderEntity") OrderEntity orderEntity,
                               @RequestParam String clientName,
+                              @RequestParam(required = false) Long clientId,
                               @RequestParam(required = false) String linkToProfile,
                               @RequestParam(required = false) String clientNote,
                               @RequestParam("products[]") List<String> productNames,
@@ -65,10 +66,15 @@ public class OrderController {
 
         int totalProductPrice = orderTotalCalculator.calculateTotalNewOrder(productNames, quantities);
 
-        ClientEntity clientEntity = new ClientEntity();
-        clientEntity.setName(clientName);
-        clientEntity.setLinkToProfile(linkToProfile);
-        clientEntity.setNote(clientNote);
+        ClientEntity clientEntity;
+        if (clientId == null) {
+            clientEntity = new ClientEntity();
+            clientEntity.setName(clientName);
+            clientEntity.setLinkToProfile(linkToProfile);
+            clientEntity.setNote(clientNote);
+        } else {
+            clientEntity = clientService.getClientById(clientId);
+        }
 
         clientService.createClient(clientEntity);
 
