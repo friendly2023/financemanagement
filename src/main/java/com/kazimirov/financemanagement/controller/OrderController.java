@@ -49,6 +49,7 @@ public class OrderController {
     public String showOrdersList(Model model) {
         List<OrderResponse> orders = orderService.getAllOrdersSortedByDueDate();
         model.addAttribute("orders", orders);
+        model.addAttribute("orderCount", orders.size());
         return "orders"; // имя шаблона HTML
     }
 
@@ -241,6 +242,7 @@ public class OrderController {
         model.addAttribute("query", query);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
+        model.addAttribute("orderCount", filteredOrders.size());
 
         return "orders";
     }
