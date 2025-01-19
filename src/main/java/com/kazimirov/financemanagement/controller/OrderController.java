@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class OrderController {
@@ -58,6 +59,7 @@ public class OrderController {
     @PostMapping("/orders/new")
     public String createOrder(@ModelAttribute("orderEntity") OrderEntity orderEntity,
                               @RequestParam String clientName,
+                              @RequestParam(required = false) Long clientId,
                               @RequestParam(required = false) String linkToProfile,
                               @RequestParam(required = false) String clientNote,
                               @RequestParam("products[]") List<String> productNames,
@@ -65,10 +67,21 @@ public class OrderController {
 
         int totalProductPrice = orderTotalCalculator.calculateTotalNewOrder(productNames, quantities);
 
-        ClientEntity clientEntity = new ClientEntity();
-        clientEntity.setName(clientName);
-        clientEntity.setLinkToProfile(linkToProfile);
-        clientEntity.setNote(clientNote);
+        ClientEntity clientEntity;
+        if (clientId == null) {
+            Optional<ClientEntity> optionalClient = clientService.findClientByLinkOrNameAndNote(linkToProfile, clientName, clientNote);
+
+            clientEntity = optionalClient.orElseGet(() -> {
+                ClientEntity newClient = new ClientEntity();
+                newClient.setName(clientName);
+                newClient.setLinkToProfile(linkToProfile);
+                newClient.setNote(clientNote);
+                clientService.createClient(newClient);
+                return newClient;
+            });
+        } else {
+            clientEntity = clientService.getClientById(clientId); // Берем клиента по ID
+        }
 
         clientService.createClient(clientEntity);
 
