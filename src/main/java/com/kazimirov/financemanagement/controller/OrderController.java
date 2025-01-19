@@ -7,6 +7,7 @@ import com.kazimirov.financemanagement.dto.ProductResponse;
 import com.kazimirov.financemanagement.entity.ClientEntity;
 import com.kazimirov.financemanagement.entity.OrderEntity;
 import com.kazimirov.financemanagement.entity.ProductEntity;
+import com.kazimirov.financemanagement.enums.OrderStatus;
 import com.kazimirov.financemanagement.service.ClientService;
 import com.kazimirov.financemanagement.service.OrderSearchService;
 import com.kazimirov.financemanagement.service.OrderService;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class OrderController {
@@ -225,9 +227,16 @@ public class OrderController {
     }
 
     @GetMapping("/orders/search")
-    public String searchOrders(@RequestParam("query") String query, Model model) {
-        List<OrderResponse> orders = orderSearchService.searchByOrders(query);
-        model.addAttribute("orders", orders);
+    public String searchOrders(@RequestParam(required = false) String status,
+                               @RequestParam(required = false) String query,
+                               Model model) {
+
+        List<OrderResponse> filteredOrders = orderSearchService.searchByOrders(status, query);
+
+        model.addAttribute("orders", filteredOrders);
+        model.addAttribute("status", status);
+        model.addAttribute("query", query);
+
         return "orders";
     }
 }

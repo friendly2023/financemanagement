@@ -1,6 +1,7 @@
 package com.kazimirov.financemanagement.service;
 
 import com.kazimirov.financemanagement.dto.OrderResponse;
+import com.kazimirov.financemanagement.enums.OrderStatus;
 import com.kazimirov.financemanagement.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,24 @@ public class OrderSearchService {
         this.orderService = orderService;
     }
 
-    public List<OrderResponse> searchByOrders(String request) {
-        List<OrderResponse> orders = orderService.getAllOrdersSortedByDueDate();
-        String lowerCaseQuery = request.toLowerCase();
+    public List<OrderResponse> searchByOrders(String status, String query) {
 
-        return orders.stream()
-                .filter(order -> order.getCompositionOfOrder().toLowerCase().contains(lowerCaseQuery))
-                .collect(Collectors.toList());
+        List<OrderResponse> allOrders = orderService.getAllOrdersSortedByDueDate();
+
+        if (status != null && !status.isEmpty()) {
+            OrderStatus filterStatus = OrderStatus.valueOf(status);
+            allOrders = allOrders.stream()
+                    .filter(order -> order.getStatus().equals(filterStatus))
+                    .collect(Collectors.toList());
+        }
+
+        if (query != null && !query.isEmpty()) {
+            String lowerCaseQuery = query.toLowerCase();
+            allOrders = allOrders.stream()
+                    .filter(order -> order.getCompositionOfOrder().toLowerCase().contains(lowerCaseQuery))
+                    .collect(Collectors.toList());
+        }
+
+        return allOrders;
     }
 }
