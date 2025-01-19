@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class OrderController {
@@ -68,12 +69,18 @@ public class OrderController {
 
         ClientEntity clientEntity;
         if (clientId == null) {
-            clientEntity = new ClientEntity();
-            clientEntity.setName(clientName);
-            clientEntity.setLinkToProfile(linkToProfile);
-            clientEntity.setNote(clientNote);
+            Optional<ClientEntity> optionalClient = clientService.findClientByNameAndLinkToProfile(clientName, linkToProfile);
+
+            clientEntity = optionalClient.orElseGet(() -> {
+                ClientEntity newClient = new ClientEntity();
+                newClient.setName(clientName);
+                newClient.setLinkToProfile(linkToProfile);
+                newClient.setNote(clientNote);
+                clientService.createClient(newClient);
+                return newClient;
+            });
         } else {
-            clientEntity = clientService.getClientById(clientId);
+            clientEntity = clientService.getClientById(clientId); // Берем клиента по ID
         }
 
         clientService.createClient(clientEntity);
