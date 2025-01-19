@@ -69,7 +69,7 @@ public class OrderController {
 
         ClientEntity clientEntity;
         if (clientId == null) {
-            Optional<ClientEntity> optionalClient = clientService.findClientByNameAndLinkToProfile(clientName, linkToProfile);
+            Optional<ClientEntity> optionalClient = clientService.findClientByLinkOrNameAndNote(linkToProfile, clientName, clientNote);
 
             clientEntity = optionalClient.orElseGet(() -> {
                 ClientEntity newClient = new ClientEntity();

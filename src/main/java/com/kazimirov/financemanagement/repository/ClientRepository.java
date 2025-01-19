@@ -15,7 +15,14 @@ public interface ClientRepository extends JpaRepository<ClientEntity, Long> {
     List<ClientEntity> findAll();
     List<ClientEntity> findAllByOrderByIdDesc();
 
-    Optional<ClientEntity> findByNameAndLinkToProfile(String name, String linkToProfile);
+    @Query("SELECT c FROM ClientEntity c WHERE LOWER(c.linkToProfile) = LOWER(:linkToProfile)")
+    Optional<ClientEntity> findByLinkToProfileIgnoreCase(@Param("linkToProfile") String linkToProfile);
+
+    @Query("SELECT c FROM ClientEntity c WHERE LOWER(c.name) = LOWER(:name) AND LOWER(c.note) = LOWER(:note)")
+    Optional<ClientEntity> findByNameAndNoteIgnoreCase(@Param("name") String name, @Param("note") String note);
+
+    @Query("SELECT c FROM ClientEntity c WHERE LOWER(c.name) = LOWER(:name)")
+    Optional<ClientEntity> findByNameIgnoreCase(@Param("name") String name);
 
     @Query("SELECT c FROM ClientEntity c " +
             "WHERE LOWER(c.name) LIKE %:query% " +

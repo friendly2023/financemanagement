@@ -54,9 +54,23 @@ public class ClientService {
         clientRepository.deleteById(clientId);
     }
 
-    public Optional<ClientEntity> findClientByNameAndLinkToProfile(String name, String linkToProfile) {
-        return clientRepository.findByNameAndLinkToProfile(name, linkToProfile);
+    public Optional<ClientEntity> findClientByLinkOrNameAndNote(String linkToProfile, String name, String note) {
+
+        if (linkToProfile != null && !linkToProfile.trim().isEmpty()) {
+            return clientRepository.findByLinkToProfileIgnoreCase(linkToProfile);
+        }
+
+        if (name != null && !name.isEmpty() && note != null && !note.isEmpty()) {
+            return clientRepository.findByNameAndNoteIgnoreCase(name, note);
+        }
+
+        if (name != null && !name.isEmpty()) {
+            return clientRepository.findByNameIgnoreCase(name);
+        }
+
+        return Optional.empty();
     }
+
 
     public List<ClientResponse> searchClients(String query) {
         List<ClientEntity> clientEntity = clientRepository.searchByNameOrLinkOrNote(query);
