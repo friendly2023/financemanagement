@@ -2,15 +2,14 @@ package com.kazimirov.financemanagement.service;
 
 import com.kazimirov.financemanagement.dto.GeneralStatisticsResponse;
 import com.kazimirov.financemanagement.dto.StatisticsOnDatesResponse;
+import com.kazimirov.financemanagement.dto.YearSummary;
 import com.kazimirov.financemanagement.entity.OrderEntity;
 import com.kazimirov.financemanagement.enums.MonthName;
 import com.kazimirov.financemanagement.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,5 +47,33 @@ public class StatisticsOnDatesService {
                                 (StatisticsOnDatesResponse response) -> MonthName.getMonthNumberByName(response.getMonth()),
                                 Comparator.naturalOrder()))
                 .collect(Collectors.toList());
+    }
+
+    public Map<Integer, List<StatisticsOnDatesResponse>> groupingOrdersByYear(){
+        List<StatisticsOnDatesResponse> statistics = this.collectingStatisticsOnDates();
+
+        Map<Integer, List<StatisticsOnDatesResponse>> groupedByYear = statistics.stream()
+                .collect(Collectors.groupingBy(StatisticsOnDatesResponse::getYear));
+
+        return groupedByYear.entrySet().stream()
+                .sorted((entry1, entry2) -> entry2.getKey().compareTo(entry1.getKey()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+    }
+
+    public Map<Integer, YearSummary> calculatingStatisticsByYear(Map<Integer, List<StatisticsOnDatesResponse>> groupedByYear) {
+        Map<Integer, YearSummary> yearSummaries = new HashMap<>();
+
+        groupedByYear.forEach((year, reports) -> {
+            int totalOrders = reports.stream().mapToInt(StatisticsOnDatesResponse::getTotalOrdersSold).sum();
+            double totalEarnings = reports.stream().mapToDouble(StatisticsOnDatesResponse::getTotalEarnings).sum();
+            yearSummaries.put(year, new YearSummary(totalOrders, totalEarnings));
+        });
+
+        return yearSummaries;
     }
 }

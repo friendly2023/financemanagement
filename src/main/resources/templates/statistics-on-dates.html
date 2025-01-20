@@ -64,12 +64,23 @@
             gap: 20px;
             justify-content: center;
         }
+
+        .year-group {
+            margin-top: 30px;
+        }
+
+        .year-header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
     </style>
 </head>
 <body>
 <div class="wrapper">
     <header>
-        <h1>Статистика заказов по датам</h1>
+        <h1>Статистика заказов по годам</h1>
 
         <div class="spaced-links">
             <a href="/">На главную</a>
@@ -78,24 +89,36 @@
     </header>
 
     <div class="container">
-        <table>
-            <thead>
-            <tr>
-                <th>Год</th>
-                <th>Месяц</th>
-                <th>Количество заказов</th>
-                <th>Общая сумма</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="report : ${monthlyReports}">
-                <td th:text="${report.year}"></td>
-                <td th:text="${report.month}"></td>
-                <td th:text="${report.totalOrdersSold}"></td>
-                <td th:text="${report.totalEarnings}"></td>
-            </tr>
-            </tbody>
-        </table>
+        <!-- Для каждого года создается отдельная таблица -->
+        <div th:each="entry : ${monthlyReports}">
+            <div class="year-group">
+                <div class="year-header" th:text="'Статистика за ' + ${entry.key}"></div>
+
+                <!-- Общая статистика по году -->
+                <div class="year-summary">
+                    <p>Общее количество заказов: <span th:text="${statisticsByYear[entry.key].totalOrders}"></span></p>
+                    <p>Общая сумма: <span th:text="${statisticsByYear[entry.key].totalEarnings}"></span></p>
+                </div>
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Месяц</th>
+                        <th>Количество заказов</th>
+                        <th>Общая сумма</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Отображение статистики по месяцам для каждого года -->
+                    <tr th:each="report : ${entry.value}">
+                        <td th:text="${report.month}"></td>
+                        <td th:text="${report.totalOrdersSold}"></td>
+                        <td th:text="${report.totalEarnings}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 </body>
