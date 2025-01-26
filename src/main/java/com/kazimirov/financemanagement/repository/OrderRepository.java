@@ -40,6 +40,10 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
             "WHERE o.status = 'COMPLETED'")
     Integer getTotalProductSold();
 
+    @Query("SELECT p FROM OrderEntity o " +
+            "JOIN o.productEntities p " +
+            "WHERE o.status = 'COMPLETED'")
+    List<ProductEntity> getAllCompletedProduct();
 
     @Query("SELECT o FROM OrderEntity o where o.status='COMPLETED'")
     List<OrderEntity> getAllCompletedOrders();
