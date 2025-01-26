@@ -50,7 +50,7 @@ public class OrderService {
 
 
     public List<OrderResponse> getAllOrdersSortedByDueDate() {
-        List<OrderEntity> orderEntities = orderRepository.findAllByOrderByDueDate();
+        List<OrderEntity> orderEntities = orderRepository.findAllByOrderByDueDateDesc();
 
         return orderEntities.stream()
                 .map(orderResponseFactory::mapToOrderResponse)
