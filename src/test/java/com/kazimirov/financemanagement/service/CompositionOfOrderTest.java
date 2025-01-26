@@ -40,7 +40,7 @@ class CompositionOfOrderTest {
 
         when(orderRepository.findAllProductsByOrderId(orderEntity.getId())).thenReturn(productEntities);
 
-        String compositionOfOrderText = compositionOfOrder.creatCompositionOfOrder(orderEntity);
+        String compositionOfOrderText = compositionOfOrder.creatDetailedCompositionOfOrder(orderEntity);
 
         String compositionOfOrderTextFromDB = "1. ProductName - 100 р/шт. - 2 шт. - Итого: 200 р\n";
 

@@ -1,21 +1,16 @@
 package com.kazimirov.financemanagement.service;
 
 import com.kazimirov.financemanagement.dto.ProductResponse;
-import com.kazimirov.financemanagement.entity.ClientEntity;
 import com.kazimirov.financemanagement.entity.OrderEntity;
 import com.kazimirov.financemanagement.entity.ProductEntity;
 import com.kazimirov.financemanagement.repository.OrderRepository;
 import com.kazimirov.financemanagement.repository.ProductRepository;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.powermock.api.mockito.PowerMockito;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -169,7 +164,7 @@ class ProductServiceTest {
 
         ProductResponse productResponse = new ProductResponse(1L, "prodName", 100, "note");
 
-        when(productRepository.findByOrderEntityIsNull()).thenReturn(List.of(productEntity));
+        when(productRepository.findByOrderEntityIsNullOrderByProductName()).thenReturn(List.of(productEntity));
 
         List<ProductResponse> responses = productService.getProducts();
 
@@ -187,11 +182,11 @@ class ProductServiceTest {
         productEntity = new ProductEntity();
         productEntity.setPrice(100);
 
-        when(productRepository.findByOrderEntityIsNull()).thenReturn(List.of(productEntity));
+        when(productRepository.findByOrderEntityIsNullOrderByProductName()).thenReturn(List.of(productEntity));
 
         List<ProductEntity> result = productService.getProductsWithoutOrder();
 
-        verify(productRepository).findByOrderEntityIsNull();
+        verify(productRepository).findByOrderEntityIsNullOrderByProductName();
 
         assertEquals(productEntity.getPrice(), result.get(0).getPrice());
     }
@@ -220,7 +215,7 @@ class ProductServiceTest {
         ProductEntity productEntity3 = new ProductEntity();
         productEntity3.setProductName("ProductName1");
 
-        when(productRepository.findByOrderEntityIsNull()).thenReturn(List.of(productEntity1, productEntity2, productEntity3));
+        when(productRepository.findByOrderEntityIsNullOrderByProductName()).thenReturn(List.of(productEntity1, productEntity2, productEntity3));
 
         ProductEntity result = productService.getByName("ProductName");
 

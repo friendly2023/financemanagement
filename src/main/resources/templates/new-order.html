@@ -63,18 +63,29 @@
         button:hover {
             background-color: #0056b3;
         }
+
+        .date-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .date-buttons button {
+            width: auto;
+            padding: 5px 10px;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>Добавить новый заказ</h1>
     <form id="orderForm" th:action="@{/orders/new}" method="post">
+
         <div id="productsContainer">
             <div class="product-field">
                 <label for="product-1">Товар:</label>
                 <select id="product-1" name="products[]">
                     <option value="" disabled selected>Выберите товар</option>
-                    <!-- Перебор списка товаров с использованием Thymeleaf -->
                     <th:block th:each="product : ${products}">
                         <option th:value="${product.productName}" th:text="${product.productName}"></option>
                     </th:block>
@@ -86,11 +97,18 @@
         </div>
         <button type="button" onclick="addProductField()">Добавить еще товар</button>
 
-        <label for="clientId">Клиент:</label>
-        <input type="text" id="clientId" name="clientId" required placeholder="Введите ID клиента">
-
         <label for="city">Город:</label>
         <input type="text" id="city" name="city" placeholder="Введите город оформления заказа">
+
+        <label for="orderDate">Дата оформления:</label>
+        <input type="date" id="orderDate" name="orderDate" required>
+
+        <div class="date-buttons">
+            <button type="button" onclick="setDueDate(7)">+1 неделя</button>
+            <button type="button" onclick="setDueDate(14)">+2 недели</button>
+            <button type="button" onclick="setDueDate(21)">+3 недели</button>
+            <button type="button" onclick="setDueDate(28)">+4 недели</button>
+        </div>
 
         <label for="dueDate">Дата выполнения:</label>
         <input type="date" id="dueDate" name="dueDate" required>
@@ -106,13 +124,24 @@
         <label for="note">Примечание:</label>
         <textarea id="note" name="note" placeholder="Введите примечание (необязательно)" rows="6" cols="50"></textarea>
 
+        <label for="clientId">ID клиента(при наличии):</label>
+        <input type="text" id="clientId" name="clientId" placeholder="Введите ID клиента(при наличии)">
+
+        <label for="name">Имя клиента:</label>
+        <input type="text" id="name" name="clientName" placeholder="Введите имя клиента" >
+
+        <label for="linkToProfile">Ссылка на профиль:</label>
+        <input type="text" id="linkToProfile" name="linkToProfile" placeholder="Введите ссылку на профиль клиента (необязательно)">
+
+        <label for="note">Примечание:</label>
+        <textarea id="client-note" name="clientNote" rows="6" cols="50" placeholder="Введите примечание (необязательно)"></textarea>
+
         <button type="submit">Создать</button>
     </form>
 
     <form th:action="@{/}" method="get" style="margin-top: -10px;">
         <button type="submit">На главную</button>
     </form>
-
 </div>
 
 <script th:inline="javascript">
@@ -142,6 +171,37 @@
         `;
         container.appendChild(fieldWrapper);
     }
+
+    function setDueDate(daysToAdd) {
+        const orderDateInput = document.getElementById('orderDate');
+        const dueDateInput = document.getElementById('dueDate');
+
+        const orderDateValue = orderDateInput.value;
+
+        if (!orderDateValue) {
+            alert("Пожалуйста, сначала выберите дату оформления!");
+            return;
+        }
+
+        const orderDate = new Date(orderDateValue);
+        orderDate.setDate(orderDate.getDate() + daysToAdd);
+
+        const formattedDate = orderDate.toISOString().split('T')[0];
+        dueDateInput.value = formattedDate;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const orderDateInput = document.getElementById("orderDate");
+        const today = new Date();
+
+        // Получаем локальную дату в формате YYYY-MM-DD
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Месяцы начинаются с 0
+        const day = String(today.getDate()).padStart(2, '0');
+
+        const formattedDate = `${year}-${month}-${day}`;
+        orderDateInput.value = formattedDate;
+    });
 </script>
 
 </body>

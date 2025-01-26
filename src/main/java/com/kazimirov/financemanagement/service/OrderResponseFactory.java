@@ -2,35 +2,39 @@ package com.kazimirov.financemanagement.service;
 
 import com.kazimirov.financemanagement.dto.OrderResponse;
 import com.kazimirov.financemanagement.entity.OrderEntity;
-import com.kazimirov.financemanagement.entity.OrderStatus;
+import com.kazimirov.financemanagement.enums.OrderStatus;
 import com.kazimirov.financemanagement.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.Period;
+import java.time.temporal.ChronoUnit;
+
+import static com.kazimirov.financemanagement.enums.OrderStatus.ONGOING;
 
 @Component
 public class OrderResponseFactory {
 
     OrderRepository orderRepository;
+    CompositionOfOrder compositionOfOrder;
 
     @Autowired
-    public OrderResponseFactory(OrderRepository orderRepository) {
+    public OrderResponseFactory(OrderRepository orderRepository, CompositionOfOrder compositionOfOrder) {
         this.orderRepository = orderRepository;
+        this.compositionOfOrder = compositionOfOrder;
     }
 
     public OrderResponse mapToOrderResponse(OrderEntity orderEntity) {
-        int daysLeftFromNow = Period.between(orderEntity.getOrderDate(), LocalDate.now()).getDays();
-        int daysLeftFromOrderDate = Period.between(orderEntity.getOrderDate(), orderEntity.getDueDate()).getDays();
+        long daysLeftFromNow = ChronoUnit.DAYS.between(orderEntity.getOrderDate(), LocalDate.now());
+        long daysLeftFromOrderDate = ChronoUnit.DAYS.between(orderEntity.getOrderDate(), orderEntity.getDueDate());
 
         String timeUtilizationRatio;
 
-        if (daysLeftFromNow <= daysLeftFromOrderDate) {
+        if (orderEntity.getDueDate().isAfter(LocalDate.now()) && orderEntity.getStatus()==ONGOING) {
             timeUtilizationRatio = daysLeftFromNow + "/" + daysLeftFromOrderDate;
         } else {
             timeUtilizationRatio = "*/*";
-            if (orderEntity.getStatus() == OrderStatus.ONGOING) {
+            if (orderEntity.getStatus() == ONGOING) {
                 orderEntity.setStatus(OrderStatus.OVERDUE);
                 orderRepository.save(orderEntity);
             }
@@ -39,9 +43,10 @@ public class OrderResponseFactory {
         return new OrderResponse(
                 orderEntity.getId(),
                 orderEntity.getStatus(),
-                orderEntity.getDueDate(),
+                orderEntity.getOrderDate(),
                 timeUtilizationRatio,
-                orderEntity.getTotalProductPrice()
+                orderEntity.getTotalProductPrice(),
+                compositionOfOrder.creatSimplifiedCompositionOfOrder(orderEntity)
         );
     }
 }

@@ -1,4 +1,4 @@
-package com.kazimirov.financemanagement.entity;
+package com.kazimirov.financemanagement.enums;
 
 public enum OrderStatus {
     ONGOING("В работе"),  // В работе

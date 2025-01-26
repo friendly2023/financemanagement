@@ -3,7 +3,7 @@ package com.kazimirov.financemanagement.service;
 import com.kazimirov.financemanagement.dto.OrderDetailsResponse;
 import com.kazimirov.financemanagement.dto.OrderResponse;
 import com.kazimirov.financemanagement.entity.OrderEntity;
-import com.kazimirov.financemanagement.entity.OrderStatus;
+import com.kazimirov.financemanagement.enums.OrderStatus;
 import com.kazimirov.financemanagement.entity.ProductEntity;
 import com.kazimirov.financemanagement.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
@@ -14,9 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

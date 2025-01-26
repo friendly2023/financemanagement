@@ -3,12 +3,9 @@ package com.kazimirov.financemanagement.service;
 import com.kazimirov.financemanagement.dto.OrderDetailsResponse;
 import com.kazimirov.financemanagement.dto.OrderResponse;
 import com.kazimirov.financemanagement.entity.OrderEntity;
-import com.kazimirov.financemanagement.entity.ProductEntity;
 import com.kazimirov.financemanagement.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class OrderDetailsResponseFactory {
@@ -33,12 +30,12 @@ public class OrderDetailsResponseFactory {
                 orderResponse.getId(),
                 orderEntity.getNote(),
                 orderResponse.getStatus(),
-                orderResponse.getDueDate(),
+                orderEntity.getDueDate(),
                 orderEntity.getOrderDate(),
                 orderEntity.getCity(),
                 orderResponse.getTimeUtilizationRatio(),
                 orderEntity.getTotalProductPrice(),
-                compositionOfOrder.creatCompositionOfOrder(orderEntity),
+                compositionOfOrder.creatDetailedCompositionOfOrder(orderEntity),
                 orderEntity.getClient()
         );
     }

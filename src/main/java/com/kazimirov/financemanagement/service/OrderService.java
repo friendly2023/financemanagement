@@ -3,14 +3,12 @@ package com.kazimirov.financemanagement.service;
 import com.kazimirov.financemanagement.dto.OrderDetailsResponse;
 import com.kazimirov.financemanagement.dto.OrderResponse;
 import com.kazimirov.financemanagement.entity.OrderEntity;
-import com.kazimirov.financemanagement.entity.OrderStatus;
 import com.kazimirov.financemanagement.entity.ProductEntity;
 import com.kazimirov.financemanagement.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

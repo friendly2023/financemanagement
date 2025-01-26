@@ -128,7 +128,7 @@ public class ProductService {
     }
 
     public List<ProductEntity> getProductsWithoutOrder() {
-        return productRepository.findByOrderEntityIsNull();
+        return productRepository.findByOrderEntityIsNullOrderByProductName();
     }
 
     public void deleteProduct(Long productId) {

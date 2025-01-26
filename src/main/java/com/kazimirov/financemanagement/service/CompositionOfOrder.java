@@ -18,7 +18,7 @@ public class CompositionOfOrder {
         this.orderRepository = orderRepository;
     }
 
-    public String creatCompositionOfOrder(OrderEntity orderEntity){
+    public String creatDetailedCompositionOfOrder(OrderEntity orderEntity){
         List<ProductEntity> productEntities = orderRepository.findAllProductsByOrderId(orderEntity.getId());
 
         StringBuilder сompositionOfOrder = new StringBuilder();
@@ -34,6 +34,24 @@ public class CompositionOfOrder {
                     .append(" шт. - Итого: ")
                     .append(productEntities.get(i).getPrice()*productEntities.get(i).getQuantity())
                     .append(" р")
+                    .append("\n");
+        }
+
+        return сompositionOfOrder.toString();
+    }
+
+    public String creatSimplifiedCompositionOfOrder(OrderEntity orderEntity) {
+        List<ProductEntity> productEntities = orderRepository.findAllProductsByOrderId(orderEntity.getId());
+
+        StringBuilder сompositionOfOrder = new StringBuilder();
+
+        for (int i = 0; i < productEntities.size(); i++) {
+            сompositionOfOrder
+                    .append(i+1 + ". ")
+                    .append(productEntities.get(i).getProductName())
+                    .append(" - ")
+                    .append(productEntities.get(i).getQuantity())
+                    .append(" шт.")
                     .append("\n");
         }
 

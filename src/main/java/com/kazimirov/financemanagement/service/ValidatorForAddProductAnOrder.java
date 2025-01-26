@@ -16,7 +16,7 @@ public class ValidatorForAddProductAnOrder {
     }
 
     public boolean validate(ProductEntity productEntity) {
-        return productRepository.findByOrderEntityIsNull().stream()
+        return productRepository.findByOrderEntityIsNullOrderByProductName().stream()
                 .anyMatch(product -> productEntity.getProductName().equalsIgnoreCase(product.getProductName()));
     }
 

@@ -1,6 +1,6 @@
 package com.kazimirov.financemanagement.dto;
 
-import com.kazimirov.financemanagement.entity.OrderStatus;
+import com.kazimirov.financemanagement.enums.OrderStatus;
 
 import java.time.LocalDate;
 
@@ -8,19 +8,21 @@ public class OrderResponse {
 
     private Long id;
     private OrderStatus status;
-    private LocalDate dueDate;
+    private LocalDate orderDate;
     private String timeUtilizationRatio;
     private int totalProductPrice;
+    private String compositionOfOrder;
 
     public OrderResponse() {
     }
 
-    public OrderResponse(Long id, OrderStatus status, LocalDate dueDate, String timeUtilizationRatio, int totalProductPrice) {
+    public OrderResponse(Long id, OrderStatus status, LocalDate orderDate, String timeUtilizationRatio, int totalProductPrice, String compositionOfOrder) {
         this.id = id;
         this.status = status;
-        this.dueDate = dueDate;
+        this.orderDate = orderDate;
         this.timeUtilizationRatio = timeUtilizationRatio;
         this.totalProductPrice = totalProductPrice;
+        this.compositionOfOrder = compositionOfOrder;
     }
 
     public Long getId() {
@@ -35,12 +37,12 @@ public class OrderResponse {
         this.status = status;
     }
 
-    public LocalDate getDueDate() {
-        return dueDate;
+    public LocalDate getOrderDate() {
+        return orderDate;
     }
 
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
+    public void setOrderDate(LocalDate orderDate) {
+        this.orderDate = orderDate;
     }
 
     public String getTimeUtilizationRatio() {
@@ -53,5 +55,13 @@ public class OrderResponse {
 
     public int getTotalProductPrice() {
         return totalProductPrice;
+    }
+
+    public String getCompositionOfOrder() {
+        return compositionOfOrder;
+    }
+
+    public void setCompositionOfOrder(String compositionOfOrder) {
+        this.compositionOfOrder = compositionOfOrder;
     }
 }

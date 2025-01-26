@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,4 +54,29 @@ public class ClientService {
         clientRepository.deleteById(clientId);
     }
 
+    public Optional<ClientEntity> findClientByLinkOrNameAndNote(String linkToProfile, String name, String note) {
+
+        if (linkToProfile != null && !linkToProfile.trim().isEmpty()) {
+            return clientRepository.findByLinkToProfileIgnoreCase(linkToProfile);
+        }
+
+        if (name != null && !name.isEmpty() && note != null && !note.isEmpty()) {
+            return clientRepository.findByNameAndNoteIgnoreCase(name, note);
+        }
+
+        if (name != null && !name.isEmpty()) {
+            return clientRepository.findByNameIgnoreCase(name);
+        }
+
+        return Optional.empty();
+    }
+
+
+    public List<ClientResponse> searchClients(String query) {
+        List<ClientEntity> clientEntity = clientRepository.searchByNameOrLinkOrNote(query);
+
+        return clientEntity.stream()
+                .map(clientResponseFactory::mapClientDTO)
+                .collect(Collectors.toList());
+    }
 }
