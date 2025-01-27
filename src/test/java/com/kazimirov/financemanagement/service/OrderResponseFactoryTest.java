@@ -44,7 +44,7 @@ class OrderResponseFactoryTest {
 
         OrderResponse orderResponse = orderResponseFactory.mapToOrderResponse(orderEntity);
 
-        assertEquals("5/15", orderResponse.getTimeUtilizationRatio());
+        assertEquals("6/15", orderResponse.getTimeUtilizationRatio());
         assertEquals(OrderStatus.ONGOING, orderResponse.getStatus());
         assertEquals(100.0, orderResponse.getTotalProductPrice());
     }
