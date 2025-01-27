@@ -38,4 +38,34 @@
    spring.datasource.username=yourusername
    spring.datasource.password=yourpassword
 
-3. 
+3. Запустите приложение:
+   ```bash
+   ./mvnw spring-boot:run
+   
+4. Откройте браузер и перейдите по адресу:
+   ```bash
+   http://localhost:8080
+
+## Используемые технологии
+- Java 17
+- Spring Boot 2.7
+- PostgreSQL
+- Thymeleaf для отображения данных на веб-страницах
+- Maven для управления зависимостями
+
+## Структура проекта
+   ```bash
+      src/
+      ├── main/
+      │   ├── java/
+      │   │   ├── com/
+      │   │   │   └── yourname/
+      │   │   │       ├── controller/
+      │   │   │       ├── model/
+      │   │   │       ├── repository/
+      │   │   │       └── service/
+      │   ├── resources/
+      │   │   ├── application.properties
+      │   │   └── templates/
+      │   └── test/
+      ├── pom.xml
