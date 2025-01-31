@@ -12,7 +12,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     List<ProductEntity> findByOrderEntityIsNullOrderByProductName();
 
-    Optional<ProductEntity> findByProductName(String productName);
+    List<ProductEntity> findByProductName(String productName);
 
     List<ProductEntity> findByOrderEntityId(Long orderId);
 
