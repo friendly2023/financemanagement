@@ -37,14 +37,24 @@ public class ProductService {
         return productRepository.save(productEntity);
     }
 
-    public ProductEntity editProduct(ProductEntity editProductEntity, Long productID) {
+    public void editProduct(ProductEntity editProductEntity, Long productID) {
         ProductEntity existingProduct = getProductById(productID);
+
+        String oldProductName = existingProduct.getProductName();
 
         existingProduct.setProductName(editProductEntity.getProductName());
         existingProduct.setPrice(editProductEntity.getPrice());
         existingProduct.setNote(editProductEntity.getNote());
 
-        return productRepository.save(existingProduct);
+        List<ProductEntity> productsWithSameName = productRepository.findByProductName(oldProductName);
+
+        for (ProductEntity product : productsWithSameName) {
+            product.setProductName(editProductEntity.getProductName());
+            System.out.println("1111111111111111111111111111111111111"+editProductEntity.getProductName());
+        }
+
+        productRepository.save(existingProduct);
+        productRepository.saveAll(productsWithSameName);
     }
 
     public void addNewProductInOrder(OrderEntity orderEntity,
