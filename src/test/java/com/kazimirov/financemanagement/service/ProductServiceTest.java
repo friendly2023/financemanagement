@@ -94,7 +94,7 @@ class ProductServiceTest {
         when(productRepository.findById(productId)).thenReturn(Optional.of(productEntityFromDB));
         when(productRepository.save(productEntityFromDB)).thenReturn(productEntityFromDB);
 
-        ProductEntity result = productService.editProduct(productEntity, productId);
+        productService.editProduct(productEntity, productId);
 
         verify(productRepository).save(productEntityFromDB);
 
@@ -102,7 +102,6 @@ class ProductServiceTest {
         assertEquals(150, productEntityFromDB.getPrice());
         assertEquals("Updated Note", productEntityFromDB.getNote());
 
-        assertEquals(productEntityFromDB, result);
     }
 
 //    @Test

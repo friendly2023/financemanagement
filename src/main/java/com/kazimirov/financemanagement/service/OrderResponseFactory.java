@@ -25,7 +25,7 @@ public class OrderResponseFactory {
     }
 
     public OrderResponse mapToOrderResponse(OrderEntity orderEntity) {
-        long daysLeftFromNow = ChronoUnit.DAYS.between(orderEntity.getOrderDate(), LocalDate.now());
+        long daysLeftFromNow = ChronoUnit.DAYS.between(orderEntity.getOrderDate(), LocalDate.now())+1;
         long daysLeftFromOrderDate = ChronoUnit.DAYS.between(orderEntity.getOrderDate(), orderEntity.getDueDate());
 
         String timeUtilizationRatio;

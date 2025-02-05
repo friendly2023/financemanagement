@@ -127,14 +127,14 @@ class OrderServiceTest {
         OrderResponse orderResponse = new OrderResponse();
 
         List<OrderEntity> orderEntities = List.of(orderEntity);
-        when(orderRepository.findAllByOrderByDueDate()).thenReturn(orderEntities);
+        when(orderRepository.findAllByOrderByDueDateDesc()).thenReturn(orderEntities);
         when(orderResponseFactory.mapToOrderResponse(orderEntity)).thenReturn(orderResponse);
 
         List<OrderResponse> responses = orderService.getAllOrdersSortedByDueDate();
 
         assertEquals(1, responses.size());
         assertEquals(orderResponse, responses.get(0));
-        verify(orderRepository).findAllByOrderByDueDate();
+        verify(orderRepository).findAllByOrderByDueDateDesc();
         verify(orderResponseFactory).mapToOrderResponse(orderEntity);
     }
 
