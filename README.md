@@ -23,7 +23,7 @@
 ### Требования:
 
 - Java 17 или выше
-- Spring Boot 3.3.5
+- Spring Boot 3.4.2
 - PostgreSQL
 
 ### Шаги для запуска:
@@ -31,24 +31,30 @@
 1. Клонируйте репозиторий:
    ```bash
    git clone https://github.com/yourusername/your-repository.git
-
+   ```
 2. Создайте базу данных в PostgreSQL и настройте подключение в application.properties:
    ```bash
    spring.datasource.url=jdbc:postgresql://localhost:5432/yourdbname
    spring.datasource.username=yourusername
    spring.datasource.password=yourpassword
-
+   ```
+   Пример создания DB:
+   ```bash
+   CREATE DATABASE yourdbname;
+   CREATE USER yourusername WITH PASSWORD 'yourpassword'; 
+   GRANT ALL PRIVILEGES ON DATABASE yourdbname TO yourusername;
+   ```
 3. Запустите приложение:
    ```bash
    ./mvnw spring-boot:run
-   
+   ```
 4. Откройте браузер и перейдите по адресу:
    ```bash
    http://localhost:8080
-
+   ```
 ## Используемые технологии
 - Java 17
-- Spring Boot 2.7
+- Spring Boot
 - PostgreSQL
 - Thymeleaf для отображения данных на веб-страницах
 - Maven для управления зависимостями
